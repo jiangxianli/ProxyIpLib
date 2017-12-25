@@ -253,6 +253,57 @@ class ProxyIpBusiness
     }
 
     /**
+     * 云代理
+     *
+     * @author jiangxianli
+     * @created_at 2017-12-25 18:01:44
+     */
+    public function grabYunDaiLi()
+    {
+        $urls = [
+            "http://www.yun-daili.com/free.asp?page=%d", //国内高匿代理
+        ];
+        foreach ($urls as $url) {
+            for ($page = 1; $page <= 15; $page++) {
+                $this->selfLogWriter($this->log_path, sprintf($url, $page), true);
+                $ql = QueryList::get(sprintf($url, $page), [], [
+                    'headers' => [
+                        "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
+                        'Referer'                   => "http://www.yun-daili.com/",
+                        'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                        'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                        'Upgrade-Insecure-Requests' => "1",
+                        'Host'                      => "www.yun-daili.com",
+                        'DNT'                       => "1",
+                    ],
+                    'timeout' => $this->time_out
+                ]);
+
+                $table = $ql->find('#main table tbody tr');
+
+                $table->map(function ($tr) {
+                    try {
+
+                        $ip = $tr->find('td:eq(0)')->text();
+                        $port = $tr->find('td:eq(1)')->text();
+                        $anonymity = 2;
+                        $protocol = $tr->find('td:eq(3)')->text() == "HTTP代理" ? "http" : "https";
+
+                        $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $this->selfLogWriter($this->log_path, $log, true);
+                        $this->addProxyIp($ip, $port, $protocol, $anonymity);
+                    } catch (\Exception $e) {
+                        var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
+                        var_dump($e->getTraceAsString());
+                    }
+                });
+
+                sleep(10);
+            }
+        }
+    }
+
+    /**
      * 定时清理
      *
      * @throws JsonException

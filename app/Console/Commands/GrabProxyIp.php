@@ -59,6 +59,9 @@ class GrabProxyIp extends Command
             case 'sixsixip':
                 $this->proxy_ip_business->grabSixSixIp();
                 return ;
+            case 'yundaili':
+                $this->proxy_ip_business->grabYunDaiLi();
+                return ;
         }
     }
 }

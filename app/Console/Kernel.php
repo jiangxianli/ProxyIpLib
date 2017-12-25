@@ -35,5 +35,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip xicidaili')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip goubanjia')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip sixsixip')->everyTenMinutes();
+        $schedule->command('command:grab-proxy-ip yundaili')->everyTenMinutes();
     }
 }

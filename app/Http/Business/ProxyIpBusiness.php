@@ -355,7 +355,7 @@ class ProxyIpBusiness
         //IP地址定位
         $ip_location = $this->ipLocation($ip);
         //IP 物理定位地址
-        $ip_address = $ip_location['region'] . ' ' . $ip_location['city'];
+        $ip_address = $ip_location['country'] .$ip_location['region'] . ' ' . $ip_location['city'];
         //ISP
         $isp = $ip_location['isp'];
         //响应速度

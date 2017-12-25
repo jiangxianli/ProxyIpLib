@@ -261,7 +261,10 @@ class ProxyIpBusiness
     public function grabYunDaiLi()
     {
         $urls = [
-            "http://www.yun-daili.com/free.asp?page=%d", //国内高匿代理
+            "http://www.yun-daili.com/free.asp?stype=1&page=%d",
+            "http://www.yun-daili.com/free.asp?stype=2&page=%d",
+            "http://www.yun-daili.com/free.asp?stype=3&page=%d",
+            "http://www.yun-daili.com/free.asp?stype=4&page=%d",
         ];
         foreach ($urls as $url) {
             for ($page = 1; $page <= 15; $page++) {

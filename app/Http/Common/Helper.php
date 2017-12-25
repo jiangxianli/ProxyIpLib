@@ -29,4 +29,42 @@ class Helper
         return md5(uniqid());
     }
 
+    /**
+     * 格式化显示
+     *
+     * @param $anonymity
+     * @return string
+     * @author jiangxianli
+     * @created_at 2017-12-25 14:09:43
+     */
+    public static function formatAnonymity($anonymity)
+    {
+        switch ($anonymity) {
+            case 0:
+                return '普通';
+            case 1:
+                return '透明';
+            case 2:
+                return '高匿';
+            default:
+                return '未知';
+        }
+    }
+
+    /**
+     * 格式化显示响应速度
+     *
+     * @param $speed
+     * @return string
+     * @author jiangxianli
+     * @created_at 2017-12-25 14:16:48
+     */
+    public static function formatSpeed($speed)
+    {
+        if ($speed <= 500) {
+            return $speed . '毫秒';
+        }
+        return printf("%.2f", ($speed / 1000)) . '秒';
+    }
+
 }

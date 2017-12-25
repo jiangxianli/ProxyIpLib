@@ -169,6 +169,8 @@ class ProxyIpBusiness
                     'validated_at' => Carbon::now(),
                 ]);
             } catch (\Exception $exception) {
+                var_dump($exception->getMessage());
+                var_dump($exception->getTraceAsString());
                 $this->proxy_ip_dao->deleteProxyIp($proxy_ip->unique_id);
             }
         }
@@ -280,6 +282,21 @@ class ProxyIpBusiness
         $end_seconds = Helper::mSecondTime();
 
         return intval($end_seconds - $begin_seconds);
+    }
+
+    /**
+     * 代理IP列表
+     *
+     * @param array $condition
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2017-12-25 13:42:39
+     */
+    public function getProxyIpList(array $condition = [])
+    {
+        $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
+
+        return $proxy_ips;
     }
 
     /**

@@ -19,6 +19,20 @@ class ProxyIpBusiness
     private $proxy_ip_dao;
 
     /**
+     * 请求超时时间
+     *
+     * @var
+     */
+    private $time_out = 8;
+
+    /**
+     * 日志路径
+     *
+     * @var string
+     */
+    private $log_path = 'proxy_ip';
+
+    /**
      * 构造函数
      *
      * ProxyIpBusiness constructor.
@@ -44,8 +58,7 @@ class ProxyIpBusiness
             for ($page = 1; $page <= 100; $page++) {
                 //URL
                 $url = sprintf($url, $page);
-                echo $url . "\n";
-                //抓取页面
+                $this->selfLogWriter($this->log_path, $url, true);
                 $ql = QueryList::get($url, [], [
                     'headers' => [
                         'Referer'                   => "http://www.kuaidaili.com/free/inha/1982/",
@@ -54,9 +67,8 @@ class ProxyIpBusiness
                         'Upgrade-Insecure-Requests' => "1",
                         'Host'                      => "www.kuaidaili.com",
                         'DNT'                       => "1",
-                        'Cookie'                    => "_gat=1; channelid=0; sid=1513932309043947; _ga=GA1.2.660797916.1513928579; _gid=GA1.2.1943992233.1513928579; Hm_lvt_7ed65b1cc4b810e9fd37959c9bb51b31=1513928580; Hm_lpvt_7ed65b1cc4b810e9fd37959c9bb51b31=1513932985"
                     ],
-                    'timeout' => 8
+                    'timeout' => $this->time_out
                 ]);
 
                 $table = $ql->find('#list table tbody tr');
@@ -68,7 +80,8 @@ class ProxyIpBusiness
                         $anonymity = $tr->find('td:eq(2)')->text();
                         $protocol = strtolower($tr->find('td:eq(3)')->text());
 
-                        echo sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $this->selfLogWriter($this->log_path, $log, true);
                         $this->addProxyIp($ip, $port, $protocol, $anonymity);
                     } catch (\Exception $e) {
                         var_dump($e->getMessage());
@@ -95,8 +108,9 @@ class ProxyIpBusiness
         ];
         foreach ($urls as $url) {
             for ($page = 1; $page <= 100; $page++) {
-                echo sprintf($url, $page) . "\n";
-                $ql = QueryList::get(sprintf($url, $page), [], [
+                $url = sprintf($url, $page);
+                $this->selfLogWriter($this->log_path, $url, true);
+                $ql = QueryList::get($url, [], [
                     'headers' => [
                         "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
                         'Referer'                   => "http://www.xicidaili.com/",
@@ -106,7 +120,7 @@ class ProxyIpBusiness
                         'Host'                      => "www.xicidaili.com",
                         'DNT'                       => "1",
                     ],
-                    'timeout' => 8
+                    'timeout' => $this->time_out
                 ]);
 
                 $table = $ql->find('table#ip_list tbody tr');
@@ -118,10 +132,12 @@ class ProxyIpBusiness
                         $anonymity = $tr->find('td:eq(4)')->text() == "高匿" ? 2 : 1;
                         $protocol = strtolower($tr->find('td:eq(5)')->text());
 
-                        echo sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $this->selfLogWriter($this->log_path, $log, true);
                         $this->addProxyIp($ip, $port, $protocol, $anonymity);
                     } catch (\Exception $e) {
                         var_dump($e->getMessage());
+                        var_dump($e->getTraceAsString());
                     }
                 });
 
@@ -198,7 +214,8 @@ class ProxyIpBusiness
             'validated_at' => Carbon::now(),
         ];
         $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);
-        var_dump($proxy_ip->toArray());
+        $log = json_encode($proxy_ip->toArray());
+        $this->selfLogWriter($this->log_path, $log, true);
     }
 
     /**
@@ -257,11 +274,52 @@ class ProxyIpBusiness
             'proxy'   => [
                 $protocol => "$protocol://$ip:$port"
             ],
-            'timeout' => 5
+            'timeout' => $this->time_out
         ]);
 
         $end_seconds = Helper::mSecondTime();
 
         return intval($end_seconds - $begin_seconds);
+    }
+
+    /**
+     * 自定义日志记录
+     *
+     * @param $dir_name
+     * @param $log
+     * @param bool $console
+     * @param int $days
+     * @author jiangxianli
+     * @created_at 2017-11-10 17:13:01
+     */
+    public function selfLogWriter($dir_name, $log, $console = false, $days = 1)
+    {
+        //总目录
+        $root_dir = storage_path("logs/" . $dir_name . "/");
+        //按日存放
+        $day_dir = str_replace("//", "/", $root_dir . "/" . date('Y-m-d'));
+        //日志路径
+        $hour_log_path = str_replace("//", "/", $day_dir . '.log');
+        //目录路径
+        $hour_dir = dirname($hour_log_path);
+        //检测目录，创建目录
+        if (!file_exists($hour_dir)) {
+            mkdir($hour_dir, 0755, true);
+        }
+
+        //写入日志
+        $log = '[' . date('Y-m-d H:i:s') . '] - ' . $log . "\n";
+        $log = str_replace("\n\n", "\n", $log);
+        file_put_contents($hour_log_path, $log, FILE_APPEND);
+
+        if ($console) {
+            echo $log;
+        }
+
+        try {
+            exec('find ' . $root_dir . ' -mtime ' . $days . ' | xargs rm -rf ');
+        } catch (\Exception $e) {
+
+        }
     }
 }

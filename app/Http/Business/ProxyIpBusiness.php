@@ -176,8 +176,8 @@ class ProxyIpBusiness
                 $table->map(function ($tr) {
                     try {
                         $ip_port = "";
-                        $tr->find('td:eq(0)')->children()->map(function($item) use (&$ip_port){
-                            if(!str_contains($item->attr('style'),["none"]) && !$item->hasClass('port')){
+                        $tr->find('td:eq(0)')->children()->map(function ($item) use (&$ip_port) {
+                            if (!str_contains($item->attr('style'), ["none"]) && !$item->hasClass('port')) {
                                 $ip_port .= $item->text();
                             }
                         });
@@ -185,6 +185,58 @@ class ProxyIpBusiness
                         $port = $tr->find('td:eq(0) .port:eq(0)')->text();
                         $anonymity = $tr->find('td:eq(1) a:eq(0)')->text() == "高匿" ? 2 : 1;
                         $protocol = strtolower($tr->find('td:eq(2) a:eq(0)')->text());
+
+                        $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                        $this->selfLogWriter($this->log_path, $log, true);
+                        $this->addProxyIp($ip, $port, $protocol, $anonymity);
+                    } catch (\Exception $e) {
+                        var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
+                        var_dump($e->getTraceAsString());
+                    }
+                });
+
+                sleep(10);
+            }
+        }
+    }
+
+
+    /**
+     * SixSixIp
+     *
+     * @author jiangxianli
+     * @created_at 2017-12-25 16:34:02
+     */
+    public function grabSixSixIp()
+    {
+        $urls = [
+            "http://www.66ip.cn/%d.html", //国内高匿代理
+        ];
+        foreach ($urls as $url) {
+            for ($page = 1; $page <= 20; $page++) {
+                $this->selfLogWriter($this->log_path, sprintf($url, $page), true);
+                $ql = QueryList::get(sprintf($url, $page), [], [
+                    'headers' => [
+                        "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
+                        'Referer'                   => "http://www.66ip.cn/",
+                        'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                        'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                        'Upgrade-Insecure-Requests' => "1",
+                        'Host'                      => "www.66ip.cn",
+                        'DNT'                       => "1",
+                    ],
+                    'timeout' => $this->time_out
+                ]);
+
+                $table = $ql->find('#main table tbody tr');
+
+                $table->map(function ($tr) {
+                    try {
+
+                        $ip = $tr->find('td:eq(0)')->text();
+                        $port = $tr->find('td:eq(1)')->text();
+                        $anonymity = 2;
+                        $protocol = 'http';
 
                         $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
                         $this->selfLogWriter($this->log_path, $log, true);

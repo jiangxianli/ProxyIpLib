@@ -336,4 +336,31 @@ class ProxyIpBusiness
 
         }
     }
+
+    /**
+     * 获取一个验证通过的IP
+     *
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2017-12-25 14:59:57
+     */
+    public function getNowValidateOneProxyIp()
+    {
+        $condition = [
+            'limit'      => 100,
+            'order_by'   => 'validated_at',
+            'order_rule' => 'desc'
+        ];
+        $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
+        foreach ($proxy_ips as $proxy_ip) {
+            try {
+                $this->ipSpeedCheck($proxy_ip->ip, $proxy_ip->port, $proxy_ip->protocol);
+
+                return $proxy_ip;
+
+            } catch (\Exception $exception) {
+
+            }
+        }
+    }
 }

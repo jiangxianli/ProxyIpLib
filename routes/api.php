@@ -11,4 +11,5 @@
 |
 */
 
-$router->get('/', 'ProxyIpController@index');
+$router->get('proxy_ip', 'ProxyIpController@getNowValidateOneIp');
+$router->get('proxy_ips', 'ProxyIpController@getProxyIpList');

@@ -56,10 +56,8 @@ class ProxyIpBusiness
         ];
         foreach ($urls as $url) {
             for ($page = 1; $page <= 100; $page++) {
-                //URL
-                $url = sprintf($url, $page);
-                $this->selfLogWriter($this->log_path, $url, true);
-                $ql = QueryList::get($url, [], [
+                $this->selfLogWriter($this->log_path, sprintf($url, $page), true);
+                $ql = QueryList::get(sprintf($url, $page), [], [
                     'headers' => [
                         'Referer'                   => "http://www.kuaidaili.com/free/inha/1982/",
                         'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
@@ -104,13 +102,12 @@ class ProxyIpBusiness
     public function grabXiCiDaiLi()
     {
         $urls = [
-            'http://www.xicidaili.com/nn/%s', //国内高匿代理
+            "http://www.xicidaili.com/nn/%d", //国内高匿代理
         ];
         foreach ($urls as $url) {
             for ($page = 1; $page <= 100; $page++) {
-                $url = sprintf($url, $page);
-                $this->selfLogWriter($this->log_path, $url, true);
-                $ql = QueryList::get($url, [], [
+                $this->selfLogWriter($this->log_path, sprintf($url, $page), true);
+                $ql = QueryList::get(sprintf($url, $page), [], [
                     'headers' => [
                         "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
                         'Referer'                   => "http://www.xicidaili.com/",

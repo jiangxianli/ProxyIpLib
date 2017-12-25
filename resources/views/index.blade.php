@@ -21,6 +21,7 @@
                             <th>运营商</th>
                             <th>响应速度</th>
                             <th>最后验证时间</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,6 +36,12 @@
                                 <td>{{ $proxy_ip->isp }}</td>
                                 <td>{{ \App\Http\Common\Helper::formatSpeed($proxy_ip->speed) }}</td>
                                 <td>{{ $proxy_ip->validated_at }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-copy"
+                                            data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
+                                            data-unique-id="{{ $proxy_ip->unique_id }}">复制
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -55,6 +62,20 @@
             window.setInterval(function () {
                 window.location.reload()
             }, 10000)
+
+
+            var clipboard = new Clipboard(".btn-copy", {
+                text: function (_this) {
+                    return $(_this).attr('data-url');
+                }
+            });
+            clipboard.on("success", function (t) {
+                alert('复制成功!')
+            });
+            clipboard.on("error", function (t) {
+                alert('复制失败!')
+            });
         });
+
     </script>
 @endsection

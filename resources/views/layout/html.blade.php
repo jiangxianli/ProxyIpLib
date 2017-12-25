@@ -13,6 +13,7 @@
 
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 
 @yield('js')
 </body>

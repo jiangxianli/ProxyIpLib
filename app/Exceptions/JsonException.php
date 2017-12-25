@@ -37,7 +37,7 @@ class JsonException extends Exception
      *
      * @var string
      */
-    private $code;
+    protected $code;
 
     /**
      * 构造函数

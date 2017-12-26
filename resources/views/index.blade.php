@@ -41,6 +41,10 @@
                                             data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
                                             data-unique-id="{{ $proxy_ip->unique_id }}">复制
                                     </button>
+                                    <button class="btn btn-sm btn-speed "
+                                            data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
+                                            data-unique-id="{{ $proxy_ip->unique_id }}">测速
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -54,6 +58,38 @@
             <!-- /.box -->
         </div>
     </div>
+
+    <div class="modal fade" id="modal-speed" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog  modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">代理IP测速</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">代理地址</label>
+                            <input type="text" class="form-control" id="proxy-ip-address">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">访问地址</label>
+                            <input class="form-control" id="web-link" value="http://baidu.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">访问结果</label>
+                            <iframe class="form-control" id="proxy-iframe" style="min-height: 300px;" ></iframe>
+                        </div>
+                    </form>
+                </div>
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>--}}
+                    {{--<button type="button" class="btn btn-primary">Send message</button>--}}
+                {{--</div>--}}
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
@@ -75,6 +111,17 @@
             clipboard.on("error", function (t) {
                 alert('复制失败!')
             });
+
+            $('.btn-speed').click(function () {
+                $('#modal-speed').modal({
+                    'backdrop': false,
+                });
+                var ipAddress = $(this).attr('data-url')
+                var webLink = $('#web-link').val()
+                $('#proxy-ip-address').val(ipAddress);
+                var src = '/api/web-request-speed?ip_address=' + ipAddress + '&web_link=' + webLink;
+                $('#proxy-iframe').attr('src', src)
+            })
         });
 
     </script>

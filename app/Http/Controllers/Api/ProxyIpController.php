@@ -43,4 +43,26 @@ class ProxyIpController extends Controller
 
         return $this->jsonFormat($proxy_ips);
     }
+
+    /**
+     * 网页代理IP请求测速
+     *
+     * @param Request $request
+     * @param ProxyIpBusiness $proxy_ip_business
+     * @return array
+     * @author jiangxianli
+     * @created_at 2017-12-26 15:18:46
+     */
+    public function proxyIpRequestWebSiteCheck(Request $request, ProxyIpBusiness $proxy_ip_business)
+    {
+        $ip_address = $request->get('ip_address');
+
+        $web_link = $request->get('web_link');
+
+        $proxy_ips = $proxy_ip_business->proxyIpRequestWebSiteCheck($ip_address, $web_link);
+
+        return $this->jsonFormat($proxy_ips);
+    }
+
+
 }

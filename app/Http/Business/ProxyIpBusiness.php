@@ -526,4 +526,27 @@ class ProxyIpBusiness
             }
         }
     }
+
+    /**
+     * 代理IP 网页访问测试
+     *
+     * @param $proxy_ip_address
+     * @param $web_link
+     * @return string
+     * @author jiangxianli
+     * @created_at 2017-12-26 15:16:05
+     */
+    public function proxyIpRequestWebSiteCheck($proxy_ip_address, $web_link)
+    {
+        //代理请求
+        $client = new Client();
+        $response = $client->request('GET', $web_link, [
+            'proxy'   => [
+                parse_url($proxy_ip_address, PHP_URL_SCHEME) => $proxy_ip_address
+            ],
+            'timeout' => $this->time_out
+        ]);
+
+        return $response->getBody()->getContents();
+    }
 }

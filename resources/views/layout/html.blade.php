@@ -6,8 +6,10 @@
     <title>免费代理IP库</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="https://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://adminlte.io/themes/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet">
+
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body >
 
 @yield('body')
 

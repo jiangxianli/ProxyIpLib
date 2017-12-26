@@ -13,3 +13,4 @@
 
 $router->get('proxy_ip', 'ProxyIpController@getNowValidateOneIp');
 $router->get('proxy_ips', 'ProxyIpController@getProxyIpList');
+$router->get('web-request-speed', 'ProxyIpController@proxyIpRequestWebSiteCheck');

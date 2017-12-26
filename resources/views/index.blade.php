@@ -43,6 +43,9 @@
                                     </button>
                                     <button class="btn btn-sm btn-speed "
                                             data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
+                                            data-protocol="{{ $proxy_ip->protocol }}"
+                                            data-ip="{{ $proxy_ip->ip }}"
+                                            data-port="{{ $proxy_ip->port }}"
                                             data-unique-id="{{ $proxy_ip->unique_id }}">测速
                                     </button>
                                 </td>
@@ -123,10 +126,13 @@
                 $('#modal-speed').modal({
                     'backdrop': false,
                 });
+                var protocol = $(this).attr('data-protocol')
+                var ip = $(this).attr('data-ip')
+                var port = $(this).attr('data-port')
                 var ipAddress = $(this).attr('data-url')
                 var webLink = $('#web-link').val()
                 $('#proxy-ip-address').val(ipAddress);
-                var src = '/api/web-request-speed?ip_address=' + encodeURIComponent(ipAddress) + '&web_link=' + encodeURIComponent(webLink);
+                var src = '/api/web-request-speed?protocol=' + protocol + '&ip=' + ip + '&port=' + port + '&web_link=' + encodeURIComponent(webLink);
                 $('#proxy-iframe').attr('src', src)
 
             });

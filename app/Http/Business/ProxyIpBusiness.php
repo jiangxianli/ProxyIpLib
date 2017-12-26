@@ -358,7 +358,7 @@ class ProxyIpBusiness
         //IP地址定位
         $ip_location = $this->ipLocation($ip);
         //IP 物理定位地址
-        $ip_address = $ip_location['country'] .$ip_location['region'] . ' ' . $ip_location['city'];
+        $ip_address = $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city'];
         //ISP
         $isp = $ip_location['isp'];
         //响应速度
@@ -434,7 +434,7 @@ class ProxyIpBusiness
         $client = new Client();
         $client->request('GET', $urls[random_int(0, count($urls) - 1)], [
             'proxy'   => [
-                $protocol => "$protocol://$ip:$port"
+                $protocol => "tcp://$ip:$port"
             ],
             'timeout' => $this->time_out
         ]);
@@ -530,19 +530,21 @@ class ProxyIpBusiness
     /**
      * 代理IP 网页访问测试
      *
-     * @param $proxy_ip_address
+     * @param $protocol
+     * @param $ip
+     * @param $port
      * @param $web_link
      * @return string
      * @author jiangxianli
-     * @created_at 2017-12-26 15:16:05
+     * @created_at 2017-12-26 16:08:30
      */
-    public function proxyIpRequestWebSiteCheck($proxy_ip_address, $web_link)
+    public function proxyIpRequestWebSiteCheck($protocol, $ip, $port, $web_link)
     {
         //代理请求
         $client = new Client();
         $response = $client->request('GET', $web_link, [
             'proxy'   => [
-                parse_url($proxy_ip_address, PHP_URL_SCHEME) => $proxy_ip_address
+                $protocol => "tcp://$ip:$port"
             ],
             'timeout' => $this->time_out
         ]);

@@ -55,13 +55,17 @@ class ProxyIpController extends Controller
      */
     public function proxyIpRequestWebSiteCheck(Request $request, ProxyIpBusiness $proxy_ip_business)
     {
-        $ip_address = $request->get('ip_address');
+        $protocol = $request->get('protocol');
+
+        $ip = $request->get('ip');
+
+        $port = $request->get('port');
 
         $web_link = $request->get('web_link');
 
-        $proxy_ips = $proxy_ip_business->proxyIpRequestWebSiteCheck(urldecode($ip_address), urldecode($web_link));
+        $response = $proxy_ip_business->proxyIpRequestWebSiteCheck($protocol, $ip, $port, urldecode($web_link));
 
-        return $this->jsonFormat($proxy_ips);
+        return $response;
     }
 
 

@@ -318,6 +318,9 @@ class ProxyIpBusiness
         $urls = [
             "http://www.data5u.com/free/index.shtml",
             "http://www.data5u.com/free/gngn/index.shtml",
+            "http://www.data5u.com/free/gnpt/index.shtml",
+            "http://www.data5u.com/free/gwgn/index.shtml",
+            "http://www.data5u.com/free/gwpt/index.shtml"
         ];
         foreach ($urls as $url) {
             $this->selfLogWriter($this->log_path, $url, true);

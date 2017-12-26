@@ -95,7 +95,13 @@
 @section('js')
     <script>
         $(function () {
+
+            var loadModal = false;
+
             window.setInterval(function () {
+                if (loadModal) {
+                    return;
+                }
                 window.location.reload()
             }, 10000)
 
@@ -113,14 +119,20 @@
             });
 
             $('.btn-speed').click(function () {
+                loadModal = true;
                 $('#modal-speed').modal({
                     'backdrop': false,
                 });
                 var ipAddress = $(this).attr('data-url')
                 var webLink = $('#web-link').val()
                 $('#proxy-ip-address').val(ipAddress);
-                var src = '/api/web-request-speed?ip_address=' + encodeURI(ipAddress) + '&web_link=' + encodeURI(webLink);
+                var src = '/api/web-request-speed?ip_address=' + encodeURIComponent(ipAddress) + '&web_link=' + encodeURIComponent(webLink);
                 $('#proxy-iframe').attr('src', src)
+
+            });
+
+            $('#modal-speed').on('hidden.bs.modal', function (e) {
+                loadModal = false;
             })
         });
 

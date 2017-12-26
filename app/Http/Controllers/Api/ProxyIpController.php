@@ -59,7 +59,7 @@ class ProxyIpController extends Controller
 
         $web_link = $request->get('web_link');
 
-        $proxy_ips = $proxy_ip_business->proxyIpRequestWebSiteCheck($ip_address, $web_link);
+        $proxy_ips = $proxy_ip_business->proxyIpRequestWebSiteCheck(urldecode($ip_address), urldecode($web_link));
 
         return $this->jsonFormat($proxy_ips);
     }

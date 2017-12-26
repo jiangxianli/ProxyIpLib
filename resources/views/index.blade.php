@@ -119,7 +119,7 @@
                 var ipAddress = $(this).attr('data-url')
                 var webLink = $('#web-link').val()
                 $('#proxy-ip-address').val(ipAddress);
-                var src = '/api/web-request-speed?ip_address=' + ipAddress + '&web_link=' + webLink;
+                var src = '/api/web-request-speed?ip_address=' + encodeURI(ipAddress) + '&web_link=' + encodeURI(webLink);
                 $('#proxy-iframe').attr('src', src)
             })
         });

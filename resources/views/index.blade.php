@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问地址</label>
-                            <input class="form-control" id="web-link" value="http://baidu.com">
+                            <input class="form-control" id="web-link" value="http://www.jiangxianli.com">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问结果</label>

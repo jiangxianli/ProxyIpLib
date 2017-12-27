@@ -52,46 +52,45 @@ class ProxyIpBusiness
     public function grabKuaiDaiLi()
     {
         $urls = [
-            "http://www.kuaidaili.com/free/inha/%s/",
-            "http://www.kuaidaili.com/free/intr/%s/"
+            "http://www.kuaidaili.com/free/inha/",
+            "http://www.kuaidaili.com/free/inha/2/",
+            "http://www.kuaidaili.com/free/inha/3/",
+            "http://www.kuaidaili.com/free/intr/",
         ];
         foreach ($urls as $url) {
-            for ($page = 1; $page <= 100; $page++) {
-                $this->selfLogWriter($this->log_path, sprintf($url, $page), true);
-                $ql = QueryList::get(sprintf($url, $page), [], [
-                    'headers' => [
-                        'Referer'                   => "http://www.kuaidaili.com/free/inha/1982/",
-                        'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                        'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                        'Upgrade-Insecure-Requests' => "1",
-                        'Host'                      => "www.kuaidaili.com",
-                        'DNT'                       => "1",
-                    ],
-                    'timeout' => $this->time_out
-                ]);
+            $this->selfLogWriter($this->log_path, $url, true);
+            $ql = QueryList::get($url, [], [
+                'headers' => [
+                    'Referer'                   => "http://www.kuaidaili.com/",
+                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    'Upgrade-Insecure-Requests' => "1",
+                    'Host'                      => "www.kuaidaili.com",
+                    'DNT'                       => "1",
+                ],
+                'timeout' => $this->time_out
+            ]);
 
-                $table = $ql->find('#list table tbody tr');
+            $table = $ql->find('#list table tbody tr');
 
-                $table->map(function ($tr) {
-                    try {
-                        $ip = $tr->find('td:eq(0)')->text();
-                        $port = $tr->find('td:eq(1)')->text();
-                        $anonymity = $tr->find('td:eq(2)')->text();
-                        $protocol = strtolower($tr->find('td:eq(3)')->text());
+            $table->map(function ($tr) {
+                try {
+                    $ip = $tr->find('td:eq(0)')->text();
+                    $port = $tr->find('td:eq(1)')->text();
+                    $anonymity = $tr->find('td:eq(2)')->text();
+                    $protocol = strtolower($tr->find('td:eq(3)')->text());
 
-                        $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                        $this->selfLogWriter($this->log_path, $log, true);
-                        $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                    } catch (\Exception $e) {
-                        var_dump($e->getMessage());
-                        var_dump($e->getTraceAsString());
-                    }
-                });
+                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                    $this->selfLogWriter($this->log_path, $log, true);
+                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
+                } catch (\Exception $e) {
+                    var_dump($e->getMessage());
+                    var_dump($e->getTraceAsString());
+                }
+            });
 
-                sleep(10);
-            }
+            sleep(10);
         }
-
     }
 
     /**

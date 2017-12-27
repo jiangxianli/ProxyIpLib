@@ -34,12 +34,12 @@ class Kernel extends ConsoleKernel
     {
         //
         $schedule->command('command:timer-clear-proxy-ip')->everyTenMinutes();
-        $schedule->command('command:proxy-ip-location')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip xicidaili')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip goubanjia')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip sixsixip')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip yundaili')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');
-        $schedule->command('command:grab-proxy-ip data5u')->everyTenMinutes()->appendOutputTo('/tmp/proxy.log');;
+        $schedule->command('command:proxy-ip-location')->everyFiveMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip kuidaili')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip xicidaili')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip goubanjia')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip sixsixip')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip yundaili')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip data5u')->everyFifteenMinutes()->appendOutputTo('/tmp/proxy.log');;
     }
 }

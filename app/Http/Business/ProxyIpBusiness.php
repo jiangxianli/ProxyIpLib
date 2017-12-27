@@ -105,11 +105,10 @@ class ProxyIpBusiness
     public function grabXiCiDaiLi()
     {
         $urls = [
-            "http://www.xicidaili.com/nn/1",
-            "http://www.xicidaili.com/nn/2",
-            "http://www.xicidaili.com/nn/3",
-            "http://www.xicidaili.com/nn/4",
-            "http://www.xicidaili.com/nn/5",
+            "http://www.xicidaili.com/nn/",
+            "http://www.xicidaili.com/nt/",
+            "http://www.xicidaili.com/wn/",
+            "http://www.xicidaili.com/nt/",
         ];
         foreach ($urls as $url) {
 

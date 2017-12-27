@@ -483,9 +483,6 @@ class ProxyIpBusiness
         $urls = [
             "https://segmentfault.com/",
             "https://www.baidu.com/",
-            "http://ping.chinaz.com/",
-            "http://www.jb51.net",
-            "http://www.sina.com.cn/",
             "https://www.360.cn/",
             "https://im.qq.com/"
         ];

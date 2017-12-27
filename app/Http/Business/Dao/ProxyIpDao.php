@@ -74,7 +74,7 @@ class ProxyIpDao
             'anonymity'    => ['required'],
             'protocol'     => ['required'],
             'speed'        => ['required'],
-            'isp'          => ['required'],
+//            'isp'          => ['required'],
             'validated_at' => ['required'],
         ];
         $validator = app('validator')->make($ip_data, $rule);
@@ -102,8 +102,8 @@ class ProxyIpDao
     public function updateProxyIp($unique_id, array $ip_data = [])
     {
         $rule = [
-            'speed'        => ['required'],
-            'validated_at' => ['required'],
+            'speed'        => ['sometimes'],
+            'validated_at' => ['sometimes'],
         ];
         $validator = app('validator')->make($ip_data, $rule);
         if ($validator->fails()) {
@@ -152,5 +152,19 @@ class ProxyIpDao
             ->where('protocol', $protocol)
             ->first();
         return $proxy_ip;
+    }
+
+    /**
+     * 所有没有定位的IP里诶博爱
+     *
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2017-12-27 09:31:50
+     */
+    public function allNoIpAddressProxyIp()
+    {
+        $proxy_ips = app('ProxyIpModel')->where('ip_address', '')->orWhereNull('ip_address')->get();
+
+        return $proxy_ips;
     }
 }

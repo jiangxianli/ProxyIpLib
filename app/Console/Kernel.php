@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\GrabProxyIp;
+use App\Console\Commands\ProxyIpLocation;
 use App\Console\Commands\TimerClearProxyIp;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
@@ -19,6 +20,8 @@ class Kernel extends ConsoleKernel
         GrabProxyIp::class,
         //
         TimerClearProxyIp::class,
+        //
+        ProxyIpLocation::class,
     ];
 
     /**
@@ -31,11 +34,12 @@ class Kernel extends ConsoleKernel
     {
         //
         $schedule->command('command:timer-clear-proxy-ip')->everyMinute();
-        $schedule->command('command:grab-proxy-ip kuidaili')->everyMinute();
+        $schedule->command('command:proxy-ip-location')->everyMinute()->appendOutputTo('/tmp/proxy.log');
+        $schedule->command('command:grab-proxy-ip kuidaili')->everyMinute()->appendOutputTo('/tmp/proxy.log');
 //        $schedule->command('command:grab-proxy-ip xicidaili')->everyMinute();
 //        $schedule->command('command:grab-proxy-ip goubanjia')->everyFifteenMinutes();
 //        $schedule->command('command:grab-proxy-ip sixsixip')->everyFifteenMinutes();
 //        $schedule->command('command:grab-proxy-ip yundaili')->everyFifteenMinutes();
-        $schedule->command('command:grab-proxy-ip data5u')->everyMinute();
+        $schedule->command('command:grab-proxy-ip data5u')->everyMinute()->appendOutputTo('/tmp/proxy.log');;
     }
 }

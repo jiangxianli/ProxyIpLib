@@ -83,6 +83,9 @@ class ProxyIpBusiness
                     $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
                     $this->selfLogWriter($this->log_path, $log, true);
                     $this->addProxyIp($ip, $port, $protocol, $anonymity);
+                } catch (JsonException $e) {
+                    var_dump($e->formatError());
+                    var_dump($e->getTraceAsString());
                 } catch (\Exception $e) {
                     var_dump($e->getMessage());
                     var_dump($e->getTraceAsString());
@@ -408,12 +411,12 @@ class ProxyIpBusiness
             return;
         }
 
-        //IP地址定位
-        $ip_location = $this->ipLocation($ip);
-        //IP 物理定位地址
-        $ip_address = $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city'];
-        //ISP
-        $isp = $ip_location['isp'];
+//        //IP地址定位
+//        $ip_location = $this->ipLocation($ip);
+//        //IP 物理定位地址
+//        $ip_address = $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city'];
+//        //ISP
+//        $isp = $ip_location['isp'];
         //响应速度
         $speed = $this->ipSpeedCheck($ip, $port, $protocol);
 
@@ -424,8 +427,8 @@ class ProxyIpBusiness
             'anonymity'    => $anonymity,
             'protocol'     => $protocol,
             'speed'        => $speed,
-            'isp'          => $isp,
-            'ip_address'   => $ip_address,
+//            'isp'          => $isp,
+//            'ip_address'   => $ip_address,
             'validated_at' => Carbon::now(),
         ];
         $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);
@@ -603,5 +606,37 @@ class ProxyIpBusiness
         ]);
 
         return $response->getBody()->getContents();
+    }
+
+    /**
+     * IP 地址定位
+     *
+     * @author jiangxianli
+     * @created_at 2017-12-27 09:39:47
+     */
+    public function locationAllProxyIp()
+    {
+        $proxy_ips = $this->proxy_ip_dao->allNoIpAddressProxyIp();
+
+        foreach ($proxy_ips as $proxy_ip) {
+            try {
+                $ip_cache_key = "IP_" . $proxy_ip->ip;
+                $ip_location = \Cache::get($ip_cache_key);
+                if (!$ip_location) {
+                    $ip_location = $this->ipLocation($proxy_ip->ip);
+                }
+                $this->proxy_ip_dao->updateProxyIp($proxy_ip->unique_id, [
+                    'isp'        => $ip_location['isp'],
+                    'ip_address' => $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city']
+                ]);
+                \Cache::forever("IP_" . $proxy_ip->ip, $ip_location);
+            } catch (JsonException $e) {
+                var_dump($e->formatError());
+                var_dump($e->getTraceAsString());
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
+                var_dump($e->getTraceAsString());
+            }
+        }
     }
 }

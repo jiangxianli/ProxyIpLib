@@ -28,7 +28,7 @@ class CreateProxyIpsTable extends Migration
 
             $table->index('unique_id');
             $table->index('ip');
-            $table->unique(['ip', 'port', 'protocol']);
+            $table->primary(['ip', 'port', 'protocol']);
         });
     }
 

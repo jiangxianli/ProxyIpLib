@@ -21,7 +21,7 @@ class CreateProxyIpsTable extends Migration
             $table->tinyInteger('anonymity')->default(1)->comment('匿名度 1:透明 2:高匿');
             $table->enum('protocol', ['http', 'https'])->comment('协议');
             $table->string('isp', 20)->comment('ISP 运营商');
-            $table->integer('speed', 10)->comment('响应速度 毫秒');
+            $table->integer('speed')->comment('响应速度 毫秒');
             $table->timestamp('validated_at')->comment('最新校验时间');
 
             $table->timestamps();

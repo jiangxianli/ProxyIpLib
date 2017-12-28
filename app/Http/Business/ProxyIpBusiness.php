@@ -114,7 +114,13 @@ class ProxyIpBusiness
             "http://www.kuaidaili.com/free/inha/",
             "http://www.kuaidaili.com/free/inha/2/",
             "http://www.kuaidaili.com/free/inha/3/",
+            "http://www.kuaidaili.com/free/inha/4/",
+            "http://www.kuaidaili.com/free/inha/5/",
             "http://www.kuaidaili.com/free/intr/",
+            "http://www.kuaidaili.com/free/intr/2/",
+            "http://www.kuaidaili.com/free/intr/3/",
+            "http://www.kuaidaili.com/free/intr/4/",
+            "http://www.kuaidaili.com/free/intr/5/",
         ];
 
         $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
@@ -136,9 +142,17 @@ class ProxyIpBusiness
     {
         $urls = [
             "http://www.xicidaili.com/nn/",
+            "http://www.xicidaili.com/nn/2",
+            "http://www.xicidaili.com/nn/3",
             "http://www.xicidaili.com/nt/",
+            "http://www.xicidaili.com/nt/2",
+            "http://www.xicidaili.com/nt/3",
             "http://www.xicidaili.com/wn/",
+            "http://www.xicidaili.com/wn/2",
+            "http://www.xicidaili.com/wn/3",
             "http://www.xicidaili.com/nt/",
+            "http://www.xicidaili.com/nt/2",
+            "http://www.xicidaili.com/nt/3",
         ];
 
         $this->grabProcess($urls, "table#ip_list tbody tr", function ($tr) {
@@ -162,6 +176,9 @@ class ProxyIpBusiness
             "http://www.goubanjia.com/index1.shtml",
             "http://www.goubanjia.com/index2.shtml",
             "http://www.goubanjia.com/index3.shtml",
+            "http://www.goubanjia.com/index4.shtml",
+            "http://www.goubanjia.com/index5.shtml",
+            "http://www.goubanjia.com/index6.shtml",
         ];
 
         $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
@@ -192,6 +209,9 @@ class ProxyIpBusiness
             "http://www.66ip.cn/1.html",
             "http://www.66ip.cn/2.html",
             "http://www.66ip.cn/3.html",
+            "http://www.66ip.cn/4.html",
+            "http://www.66ip.cn/5.html",
+            "http://www.66ip.cn/6.html",
         ];
 
         $this->grabProcess($urls, "#main table tbody tr", function ($tr) {
@@ -214,9 +234,13 @@ class ProxyIpBusiness
     {
         $urls = [
             "http://www.yun-daili.com/free.asp?stype=1&page=1",
+            "http://www.yun-daili.com/free.asp?stype=1&page=2",
             "http://www.yun-daili.com/free.asp?stype=2&page=1",
+            "http://www.yun-daili.com/free.asp?stype=2&page=2",
             "http://www.yun-daili.com/free.asp?stype=3&page=1",
+            "http://www.yun-daili.com/free.asp?stype=3&page=2",
             "http://www.yun-daili.com/free.asp?stype=4&page=1",
+            "http://www.yun-daili.com/free.asp?stype=4&page=2",
         ];
 
         $this->grabProcess($urls, "#main table tbody tr", function ($tr) {

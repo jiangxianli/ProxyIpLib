@@ -480,10 +480,7 @@ class ProxyIpBusiness
         $begin_seconds = Helper::mSecondTime();
 
         $urls = [
-            "https://segmentfault.com/",
-            "https://www.baidu.com/",
-            "https://www.360.cn/",
-            "https://im.qq.com/"
+            "http://example.com/",
         ];
 
         //代理请求

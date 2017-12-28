@@ -44,6 +44,65 @@ class ProxyIpBusiness
     }
 
     /**
+     * 抓取过程处理
+     *
+     * @param $urls
+     * @param $table_selector
+     * @param $map_func
+     * @author jiangxianli
+     * @created_at 2017-12-28 14:42:03
+     */
+    protected function grabProcess($urls, $table_selector, $map_func)
+    {
+        //遍历URL
+        foreach ($urls as $url) {
+
+            //记录抓取的URL
+            $this->selfLogWriter($this->log_path, $url, true);
+            //获取URL 域名
+            $host = parse_url($url, PHP_URL_HOST);
+            //
+            $options = [
+                'headers' => [
+                    'Referer'                   => "http://$host/",
+                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    'Upgrade-Insecure-Requests' => "1",
+                    'Host'                      => $host,
+                    'DNT'                       => "1",
+                ],
+                'timeout' => $this->time_out
+            ];
+            //抓取网页内容
+            $ql = QueryList::get($url, [], $options);
+            //选中数据列表Table
+            $table = $ql->find($table_selector);
+            //遍历数据列
+            $table->map(function ($tr) use ($map_func) {
+                try {
+
+                    //获取IP、端口、透明度、协议
+                    list($ip, $port, $anonymity, $protocol) = call_user_func_array($map_func, [$tr]);
+                    //日志记录
+                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
+                    $this->selfLogWriter($this->log_path, $log, true);
+                    //添加 代理IP
+                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
+                } catch (JsonException $e) {
+                    var_dump($e->formatError());
+                    var_dump($e->getTraceAsString());
+                } catch (\Exception $e) {
+                    var_dump($e->getMessage());
+                    var_dump($e->getTraceAsString());
+                }
+            });
+
+            //延迟10秒抓取下一个网页
+            sleep(10);
+        }
+    }
+
+    /**
      * 抓取快代理IP
      *
      * @author jiangxianli
@@ -57,43 +116,14 @@ class ProxyIpBusiness
             "http://www.kuaidaili.com/free/inha/3/",
             "http://www.kuaidaili.com/free/intr/",
         ];
-        foreach ($urls as $url) {
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    'Referer'                   => "http://www.kuaidaili.com/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.kuaidaili.com",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
 
-            $table = $ql->find('#list table tbody tr');
-
-            $table->map(function ($tr) {
-                try {
-                    $ip = $tr->find('td:eq(0)')->text();
-                    $port = $tr->find('td:eq(1)')->text();
-                    $anonymity = $tr->find('td:eq(2)')->text();
-                    $protocol = strtolower($tr->find('td:eq(3)')->text());
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (JsonException $e) {
-                    var_dump($e->formatError());
-                    var_dump($e->getTraceAsString());
-                } catch (\Exception $e) {
-                    var_dump($e->getMessage());
-                    var_dump($e->getTraceAsString());
-                }
-            });
-
-            sleep(10);
-        }
+        $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $anonymity = $tr->find('td:eq(2)')->text();
+            $protocol = strtolower($tr->find('td:eq(3)')->text());
+            return [$ip, $port, $anonymity, $protocol];
+        });
     }
 
     /**
@@ -110,43 +140,14 @@ class ProxyIpBusiness
             "http://www.xicidaili.com/wn/",
             "http://www.xicidaili.com/nt/",
         ];
-        foreach ($urls as $url) {
 
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
-                    'Referer'                   => "http://www.xicidaili.com/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.xicidaili.com",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
-
-            $table = $ql->find('table#ip_list tbody tr');
-
-            $table->map(function ($tr) {
-                try {
-                    $ip = $tr->find('td:eq(1)')->text();
-                    $port = $tr->find('td:eq(2)')->text();
-                    $anonymity = $tr->find('td:eq(4)')->text() == "高匿" ? 2 : 1;
-                    $protocol = strtolower($tr->find('td:eq(5)')->text());
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (\Exception $e) {
-                    var_dump($e->getMessage());
-                    var_dump($e->getTraceAsString());
-                }
-            });
-
-            sleep(10);
-        }
-
+        $this->grabProcess($urls, "table#ip_list tbody tr", function ($tr) {
+            $ip = $tr->find('td:eq(1)')->text();
+            $port = $tr->find('td:eq(2)')->text();
+            $anonymity = $tr->find('td:eq(4)')->text() == "高匿" ? 2 : 1;
+            $protocol = strtolower($tr->find('td:eq(5)')->text());
+            return [$ip, $port, $anonymity, $protocol];
+        });
     }
 
     /**
@@ -162,47 +163,20 @@ class ProxyIpBusiness
             "http://www.goubanjia.com/index2.shtml",
             "http://www.goubanjia.com/index3.shtml",
         ];
-        foreach ($urls as $url) {
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
-                    'Referer'                   => "http://www.goubanjia.com/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.goubanjia.com",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
 
-            $table = $ql->find('#list table tbody tr');
-
-            $table->map(function ($tr) {
-                try {
-                    $ip_port = "";
-                    $tr->find('td:eq(0)')->children()->map(function ($item) use (&$ip_port) {
-                        if (!str_contains($item->attr('style'), ["none"]) && !$item->hasClass('port')) {
-                            $ip_port .= $item->text();
-                        }
-                    });
-                    $ip = str_replace("..", ".", $ip_port);
-                    $port = $tr->find('td:eq(0) .port:eq(0)')->text();
-                    $anonymity = $tr->find('td:eq(1) a:eq(0)')->text() == "高匿" ? 2 : 1;
-                    $protocol = strtolower($tr->find('td:eq(2) a:eq(0)')->text());
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (\Exception $e) {
-                    var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
-                    var_dump($e->getTraceAsString());
+        $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
+            $ip_port = "";
+            $tr->find('td:eq(0)')->children()->map(function ($item) use (&$ip_port) {
+                if (!str_contains($item->attr('style'), ["none"]) && !$item->hasClass('port')) {
+                    $ip_port .= $item->text();
                 }
             });
-
-            sleep(10);
-        }
+            $ip = str_replace("..", ".", $ip_port);
+            $port = $tr->find('td:eq(0) .port:eq(0)')->text();
+            $anonymity = $tr->find('td:eq(1) a:eq(0)')->text() == "高匿" ? 2 : 1;
+            $protocol = strtolower($tr->find('td:eq(2) a:eq(0)')->text());
+            return [$ip, $port, $anonymity, $protocol];
+        });
     }
 
 
@@ -219,42 +193,14 @@ class ProxyIpBusiness
             "http://www.66ip.cn/2.html",
             "http://www.66ip.cn/3.html",
         ];
-        foreach ($urls as $url) {
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
-                    'Referer'                   => "http://www.66ip.cn/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.66ip.cn",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
 
-            $table = $ql->find('#main table tbody tr');
-
-            $table->map(function ($tr) {
-                try {
-
-                    $ip = $tr->find('td:eq(0)')->text();
-                    $port = $tr->find('td:eq(1)')->text();
-                    $anonymity = 2;
-                    $protocol = 'http';
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (\Exception $e) {
-                    var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
-                    var_dump($e->getTraceAsString());
-                }
-            });
-
-            sleep(10);
-        }
+        $this->grabProcess($urls, "#main table tbody tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $anonymity = 2;
+            $protocol = 'http';
+            return [$ip, $port, $anonymity, $protocol];
+        });
 
     }
 
@@ -272,42 +218,14 @@ class ProxyIpBusiness
             "http://www.yun-daili.com/free.asp?stype=3&page=1",
             "http://www.yun-daili.com/free.asp?stype=4&page=1",
         ];
-        foreach ($urls as $url) {
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
-                    'Referer'                   => "http://www.yun-daili.com/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.yun-daili.com",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
 
-            $table = $ql->find('#main table tbody tr');
-
-            $table->map(function ($tr) {
-                try {
-
-                    $ip = $tr->find('td:eq(0)')->text();
-                    $port = $tr->find('td:eq(1)')->text();
-                    $anonymity = 2;
-                    $protocol = $tr->find('td:eq(3)')->text() == "HTTP代理" ? "http" : "https";
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (\Exception $e) {
-                    var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
-                    var_dump($e->getTraceAsString());
-                }
-            });
-
-            sleep(10);
-        }
+        $this->grabProcess($urls, "#main table tbody tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $anonymity = 2;
+            $protocol = $tr->find('td:eq(3)')->text() == "HTTP代理" ? "http" : "https";
+            return [$ip, $port, $anonymity, $protocol];
+        });
 
     }
 
@@ -327,42 +245,14 @@ class ProxyIpBusiness
             "http://www.data5u.com/free/gwgn/index.shtml",
             "http://www.data5u.com/free/gwpt/index.shtml"
         ];
-        foreach ($urls as $url) {
-            $this->selfLogWriter($this->log_path, $url, true);
-            $ql = QueryList::get($url, [], [
-                'headers' => [
-                    "If-None-Match"             => "W/\"6bcd47cf01c3cbee554285d35201bdd5\"",
-                    'Referer'                   => "http://www.data5u.com/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => "www.data5u.com",
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ]);
 
-            $table = $ql->find('ul.l2');
-
-            $table->map(function ($tr) {
-                try {
-
-                    $ip = $tr->find('li:eq(0)')->text();
-                    $port = $tr->find('li:eq(1)')->text();
-                    $anonymity = $tr->find('li:eq(2)')->text() == '高匿' ? 2 : 1;
-                    $protocol = $tr->find('li:eq(3)')->text();
-
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (\Exception $e) {
-                    var_dump($e instanceof JsonException ? $e->formatError() : $e->getMessage());
-                    var_dump($e->getTraceAsString());
-                }
-            });
-
-            sleep(10);
-        }
+        $this->grabProcess($urls, "ul.l2", function ($tr) {
+            $ip = $tr->find('li:eq(0)')->text();
+            $port = $tr->find('li:eq(1)')->text();
+            $anonymity = $tr->find('li:eq(2)')->text() == '高匿' ? 2 : 1;
+            $protocol = $tr->find('li:eq(3)')->text();
+            return [$ip, $port, $anonymity, $protocol];
+        });
     }
 
     /**
@@ -414,12 +304,6 @@ class ProxyIpBusiness
             return;
         }
 
-//        //IP地址定位
-//        $ip_location = $this->ipLocation($ip);
-//        //IP 物理定位地址
-//        $ip_address = $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city'];
-//        //ISP
-//        $isp = $ip_location['isp'];
         //响应速度
         $speed = $this->ipSpeedCheck($ip, $port, $protocol);
 
@@ -430,8 +314,6 @@ class ProxyIpBusiness
             'anonymity'    => $anonymity,
             'protocol'     => $protocol,
             'speed'        => $speed,
-//            'isp'          => $isp,
-//            'ip_address'   => $ip_address,
             'validated_at' => Carbon::now(),
         ];
         $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);

@@ -59,6 +59,10 @@
                 {{ $proxy_ips->render() }}
             </div>
             <!-- /.box -->
+
+            <div class="row">
+                <p class="text-danger">&nbsp;&nbsp;&nbsp;&nbsp;代理IP采集于网络，请勿用于非法途径，违者后果自负！</p>
+            </div>
         </div>
     </div>
 

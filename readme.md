@@ -1,5 +1,8 @@
 # 免费代理IP库
 
+### 警告
+代理IP采集于网络，请勿用于非法途径，违者后果自负！
+
 ### 获取一个验证通过的代理IP
 ```shell
 curl http://ip.jiangxianli.com/api/proxy_ip

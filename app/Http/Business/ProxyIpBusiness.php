@@ -479,9 +479,7 @@ class ProxyIpBusiness
         //开始请求毫秒
         $begin_seconds = Helper::mSecondTime();
 
-        $urls = [
-            "http://example.com/",
-        ];
+        $urls = $this->getWebUrls();
 
         //代理请求
         $client = new Client();
@@ -635,5 +633,67 @@ class ProxyIpBusiness
                 var_dump($e->getTraceAsString());
             }
         }
+    }
+
+    /**
+     * 站点列表
+     *
+     * @return array
+     * @author jiangxianli
+     * @created_at 2017-12-28 14:06:37
+     */
+    protected function getWebUrls()
+    {
+        return [
+            "http://www.sina.com.cn/",
+            "http://www.sohu.com/",
+            "http://www.ifeng.com/",
+            "https://mini.eastday.com/jrdftt/",
+            "http://www.qq.com/",
+            "http://news.2345.com/shouye/",
+            "https://www.baidu.com/",
+            "https://weibo.com/",
+            "http://tejia.aili.com/",
+            "http://www.163.com/",
+            "https://www.jd.com",
+            "https://www.taobao.com/",
+            "https://www.autohome.com.cn/",
+            "http://www.eastmoney.com/",
+            "https://www.yhd.com/",
+            "http://game.2345.com/",
+            "https://www.qunar.com/",
+            "http://email.163.com/",
+            "http://www.youku.com/",
+            "https://www.qidian.com/",
+            "http://www.xxsy.net/",
+            "http://www.sznews.com/",
+            "http://www.sun0769.com/",
+            "http://www.nandu.ai/",
+            "http://www.southcn.com/",
+            "http://www.foshannews.net/",
+            "http://www.21cn.com/",
+            "http://www.020.com/",
+            "http://www.dayoo.com/",
+            "http://www.meizhou.cn/",
+            "http://www.infzm.com/",
+            "http://www.southcn.com/",
+            "http://www.gdtv.cn/",
+            "https://www.douban.com/",
+            "https://www.tianyancha.com/",
+            "https://open.163.com/",
+            "http://lady.163.com/",
+            "http://www.10jqka.com.cn/",
+            "http://guangzhou.baixing.com/",
+            "http://www.xiaozhu.com/",
+            "http://www.jiayuan.com/",
+            "http://mobile.pconline.com.cn/",
+            "https://www.ithome.com/",
+            "https://www.mi.com/",
+            "http://www.tianya.cn/",
+            "http://www.xiaohongshu.com/",
+            "http://www.tiexue.net/",
+            "http://mil.huanqiu.com/",
+            "http://gz.fang.com/"
+        ];
     }
 }

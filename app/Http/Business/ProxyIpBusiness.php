@@ -73,6 +73,13 @@ class ProxyIpBusiness
                 ],
                 'timeout' => $this->time_out
             ];
+
+            //使用代理IP抓取
+            $proxy_ip = $this->getNowValidateOneProxyIp();
+            if ($proxy_ip) {
+                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+            }
+
             //抓取网页内容
             $ql = QueryList::get($url, [], $options);
             //选中数据列表Table

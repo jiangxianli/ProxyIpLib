@@ -75,10 +75,10 @@ class ProxyIpBusiness
             ];
 
             //使用代理IP抓取
-            $proxy_ip = $this->getNowValidateOneProxyIp();
-            if ($proxy_ip) {
-                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
-            }
+//            $proxy_ip = $this->getNowValidateOneProxyIp();
+//            if ($proxy_ip) {
+//                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+//            }
 
             //抓取网页内容
             $ql = QueryList::get($url, [], $options);
@@ -132,7 +132,7 @@ class ProxyIpBusiness
             "http://www.kuaidaili.com/free/intr/5/",
         ];
 
-        $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
+        $this->grabProcess($urls, "#list table tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
             $anonymity = $tr->find('td:eq(2)')->text();
@@ -164,7 +164,7 @@ class ProxyIpBusiness
             "http://www.xicidaili.com/nt/3",
         ];
 
-        $this->grabProcess($urls, "table#ip_list tbody tr", function ($tr) {
+        $this->grabProcess($urls, "table#ip_list tr", function ($tr) {
             $ip = $tr->find('td:eq(1)')->text();
             $port = $tr->find('td:eq(2)')->text();
             $anonymity = $tr->find('td:eq(4)')->text() == "高匿" ? 2 : 1;
@@ -190,7 +190,7 @@ class ProxyIpBusiness
             "http://www.goubanjia.com/index6.shtml",
         ];
 
-        $this->grabProcess($urls, "#list table tbody tr", function ($tr) {
+        $this->grabProcess($urls, "#list table tr", function ($tr) {
             $ip_port = "";
             $tr->find('td:eq(0)')->children()->map(function ($item) use (&$ip_port) {
                 if (!str_contains($item->attr('style'), ["none"]) && !$item->hasClass('port')) {
@@ -223,7 +223,7 @@ class ProxyIpBusiness
             "http://www.66ip.cn/6.html",
         ];
 
-        $this->grabProcess($urls, "#main table tbody tr", function ($tr) {
+        $this->grabProcess($urls, "#main table tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
             $anonymity = 2;
@@ -252,7 +252,7 @@ class ProxyIpBusiness
             "http://www.yun-daili.com/free.asp?stype=4&page=2",
         ];
 
-        $this->grabProcess($urls, "#main table tbody tr", function ($tr) {
+        $this->grabProcess($urls, "#main table tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
             $anonymity = 2;

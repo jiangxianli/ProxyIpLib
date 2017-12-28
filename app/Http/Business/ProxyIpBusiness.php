@@ -91,9 +91,11 @@ class ProxyIpBusiness
                 } catch (JsonException $e) {
                     var_dump($e->formatError());
                     var_dump($e->getTraceAsString());
+                    $this->selfLogWriter($this->log_path, var_export($e->formatError(), true), true);
                 } catch (\Exception $e) {
                     var_dump($e->getMessage());
                     var_dump($e->getTraceAsString());
+                    $this->selfLogWriter($this->log_path, $e->getMessage(), true);
                 }
             });
 
@@ -325,6 +327,7 @@ class ProxyIpBusiness
         //查询IP唯一性
         $proxy_ip = $this->proxy_ip_dao->findUniqueProxyIp($ip, $port, $protocol);
         if ($proxy_ip) {
+            $this->selfLogWriter($this->log_path, "----$ip---已经存在------------", true);
             return;
         }
 

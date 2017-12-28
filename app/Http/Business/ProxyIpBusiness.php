@@ -693,7 +693,18 @@ class ProxyIpBusiness
             "http://www.xiaohongshu.com/",
             "http://www.tiexue.net/",
             "http://mil.huanqiu.com/",
-            "http://gz.fang.com/"
+            "http://gz.fang.com/",
+            "http://www.dangdang.com/",
+            "http://www.elong.com/",
+            "https://www.kaola.com/",
+            "https://www.qidian.com/",
+            "http://www.zongheng.com/",
+            "https://www.hongxiu.com/",
+            "http://36kr.com/",
+            "https://www.duitang.com/",
+            "https://www.guokr.com/",
+            "https://www.huxiu.com/",
+            "https://www.iwjw.com/"
         ];
     }
 }

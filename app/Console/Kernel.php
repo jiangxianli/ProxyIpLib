@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
     {
         //
         $schedule->command('command:timer-clear-proxy-ip')->everyTenMinutes();
-        $schedule->command('command:proxy-ip-location')->everyFiveMinutes();
+        $schedule->command('command:proxy-ip-location')->everyMinute();
         $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip xicidaili')->everyFifteenMinutes();
         $schedule->command('command:grab-proxy-ip goubanjia')->everyTenMinutes();

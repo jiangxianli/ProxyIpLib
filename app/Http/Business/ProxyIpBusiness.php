@@ -401,7 +401,7 @@ class ProxyIpBusiness
         $client = new Client();
         $client->request('GET', $urls[random_int(0, count($urls) - 1)], [
             'proxy'   => [
-                $protocol => "tcp://$ip:$port"
+                $protocol => "$protocol://$ip:$port"
             ],
             'timeout' => $this->time_out
         ]);

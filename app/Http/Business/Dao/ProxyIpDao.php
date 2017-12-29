@@ -70,9 +70,9 @@ class ProxyIpDao
         $rule = [
             'unique_id'    => ['required'],
             'ip'           => ['required'],
-            'port'         => ['required'],
-            'anonymity'    => ['required'],
-            'protocol'     => ['required'],
+            'port'         => ['required', 'integer'],
+            'anonymity'    => ['required', 'integer'],
+            'protocol'     => ['required', 'in:http,https'],
             'speed'        => ['required'],
 //            'isp'          => ['required'],
             'validated_at' => ['required'],

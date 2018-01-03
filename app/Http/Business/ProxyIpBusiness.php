@@ -182,12 +182,25 @@ class ProxyIpBusiness
     public function grabGouBanJia()
     {
         $urls = [
-            "http://www.goubanjia.com/index1.shtml",
-            "http://www.goubanjia.com/index2.shtml",
-            "http://www.goubanjia.com/index3.shtml",
-            "http://www.goubanjia.com/index4.shtml",
-            "http://www.goubanjia.com/index5.shtml",
-            "http://www.goubanjia.com/index6.shtml",
+            "http://www.goubanjia.com/free/index1.shtml",
+            "http://www.goubanjia.com/free/index2.shtml",
+            "http://www.goubanjia.com/free/index3.shtml",
+            "http://www.goubanjia.com/free/index4.shtml",
+            "http://www.goubanjia.com/free/index5.shtml",
+            "http://www.goubanjia.com/free/index6.shtml",
+            "http://www.goubanjia.com/free/index7.shtml",
+            "http://www.goubanjia.com/free/index8.shtml",
+            "http://www.goubanjia.com/free/index9.shtml",
+            "http://www.goubanjia.com/free/index10.shtml",
+            "http://www.goubanjia.com/free/index11.shtml",
+            "http://www.goubanjia.com/free/index12.shtml",
+            "http://www.goubanjia.com/free/index13.shtml",
+            "http://www.goubanjia.com/free/index14.shtml",
+            "http://www.goubanjia.com/free/index15.shtml",
+            "http://www.goubanjia.com/free/gngn/index.shtml",
+            "http://www.goubanjia.com/free/gnpt/index.shtml",
+            "http://www.goubanjia.com/free/gwgn/index.shtml",
+            "http://www.goubanjia.com/free/gwpt/index.shtml"
         ];
 
         $this->grabProcess($urls, "#list table tr", function ($tr) {

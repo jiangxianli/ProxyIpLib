@@ -65,6 +65,9 @@ class GrabProxyIp extends Command
             case 'data5u':
                 $this->proxy_ip_business->grabData5U();
                 return ;
+            case 'ip3366':
+                $this->proxy_ip_business->grabIp3366();
+                return ;
         }
     }
 }

@@ -68,6 +68,9 @@ class GrabProxyIp extends Command
             case 'ip3366':
                 $this->proxy_ip_business->grabIp3366();
                 return ;
+            case 'pcdaili':
+                $this->proxy_ip_business->grabPCDaiLi();
+                return ;
         }
     }
 }

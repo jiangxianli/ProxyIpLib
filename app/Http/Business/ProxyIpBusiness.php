@@ -339,6 +339,38 @@ class ProxyIpBusiness
     }
 
     /**
+     * PCDaiLi
+     *
+     * @author jiangxianli
+     * @created_at 2017-12-25 16:34:02
+     */
+    public function grabPCDaiLi()
+    {
+        $urls = [
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=1",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=2",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=3",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=1",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=2",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=3",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=1",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=2",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=3",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=1",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=2",
+            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=3",
+        ];
+
+        $this->grabProcess($urls, "table tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $anonymity = str_contains($tr->find('td:eq(2)')->text(), ["高匿"]) ? 2 : 1;
+            $protocol = strtolower($tr->find('td:eq(3)')->text());
+            return [$ip, $port, $anonymity, $protocol];
+        });
+    }
+
+    /**
      * 定时清理
      *
      * @throws JsonException

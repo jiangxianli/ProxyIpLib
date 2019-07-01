@@ -33,15 +33,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        $schedule->command('command:timer-clear-proxy-ip')->everyTenMinutes();
-        $schedule->command('command:proxy-ip-location')->everyMinute();
-        $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip xicidaili')->everyFifteenMinutes();
-        $schedule->command('command:grab-proxy-ip goubanjia')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip sixsixip')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip yundaili')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip data5u')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip pcdaili')->everyTenMinutes();
+        $schedule->command('command:timer-clear-proxy-ip')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:proxy-ip-location')->everyMinute()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip kuidaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip xicidaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip goubanjia')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip sixsixip')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip yundaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip data5u')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip ip3366')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip pcdaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
     }
 }

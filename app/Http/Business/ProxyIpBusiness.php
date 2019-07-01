@@ -135,7 +135,7 @@ class ProxyIpBusiness
         $this->grabProcess($urls, "#list table tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
-            $anonymity = $tr->find('td:eq(2)')->text();
+            $anonymity = $tr->find('td:eq(2)')->text() == "高匿名" ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
         });

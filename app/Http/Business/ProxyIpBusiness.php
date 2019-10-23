@@ -5,6 +5,9 @@ namespace App\Http\Business;
 use App\Exceptions\JsonException;
 use App\Http\Business\Dao\ProxyIpDao;
 use App\Http\Common\Helper;
+use App\Jobs\ClearProxyIpJob;
+use App\Jobs\ProxyIpLocationJob;
+use App\Jobs\SaveProxyIpJob;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use QL\QueryList;
@@ -58,7 +61,7 @@ class ProxyIpBusiness
         foreach ($urls as $url) {
 
             //记录抓取的URL
-            $this->selfLogWriter($this->log_path, $url, true);
+            app("Logger")->info("抓取URL", [$url]);
             //获取URL 域名
             $host = parse_url($url, PHP_URL_HOST);
             //
@@ -86,24 +89,12 @@ class ProxyIpBusiness
             $table = $ql->find($table_selector);
             //遍历数据列
             $table->map(function ($tr) use ($map_func) {
-                try {
-
-                    //获取IP、端口、透明度、协议
-                    list($ip, $port, $anonymity, $protocol) = call_user_func_array($map_func, [$tr]);
-                    //日志记录
-                    $log = sprintf("----%s://%s:%s------\n", $protocol, $ip, $port);
-                    $this->selfLogWriter($this->log_path, $log, true);
-                    //添加 代理IP
-                    $this->addProxyIp($ip, $port, $protocol, $anonymity);
-                } catch (JsonException $e) {
-                    var_dump($e->formatError());
-                    var_dump($e->getTraceAsString());
-                    $this->selfLogWriter($this->log_path, var_export($e->formatError(), true), true);
-                } catch (\Exception $e) {
-                    var_dump($e->getMessage());
-                    var_dump($e->getTraceAsString());
-                    $this->selfLogWriter($this->log_path, $e->getMessage(), true);
-                }
+                //获取IP、端口、透明度、协议
+                list($ip, $port, $anonymity, $protocol) = call_user_func_array($map_func, [$tr]);
+                //日志记录
+                app("Logger")->info("提取到IP", [sprintf("%s://%s:%s", $protocol, $ip, $port)]);
+                //放入队列处理
+                dispatch(new SaveProxyIpJob($ip, $port, $protocol, $anonymity));
             });
 
             //延迟10秒抓取下一个网页
@@ -373,7 +364,6 @@ class ProxyIpBusiness
     /**
      * 定时清理
      *
-     * @throws JsonException
      * @author jiangxianli
      * @created_at 2017-12-25 10:38:13
      */
@@ -385,18 +375,7 @@ class ProxyIpBusiness
         $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
 
         foreach ($proxy_ips as $proxy_ip) {
-
-            try {
-                $speed = $this->ipSpeedCheck($proxy_ip->ip, $proxy_ip->port, $proxy_ip->protocol);
-                $this->proxy_ip_dao->updateProxyIp($proxy_ip->unique_id, [
-                    'speed'        => $speed,
-                    'validated_at' => Carbon::now(),
-                ]);
-            } catch (\Exception $exception) {
-                var_dump($exception->getMessage());
-                var_dump($exception->getTraceAsString());
-                $this->proxy_ip_dao->deleteProxyIp($proxy_ip->unique_id);
-            }
+            dispatch(new ClearProxyIpJob($proxy_ip->toArray()));
         }
     }
 
@@ -411,12 +390,12 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2017-12-22 16:52:09
      */
-    protected function addProxyIp($ip, $port, $protocol, $anonymity)
+    public function addProxyIp($ip, $port, $protocol, $anonymity)
     {
         //查询IP唯一性
         $proxy_ip = $this->proxy_ip_dao->findUniqueProxyIp($ip, $port, $protocol);
         if ($proxy_ip) {
-            $this->selfLogWriter($this->log_path, "----$ip---已经存在------------", true);
+            app("Logger")->error("数据库已存在该IP地址", [$ip, $port, $protocol]);
             return;
         }
 
@@ -432,9 +411,8 @@ class ProxyIpBusiness
             'speed'        => $speed,
             'validated_at' => Carbon::now(),
         ];
-        $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);
-        $log = json_encode($proxy_ip->toArray());
-        $this->selfLogWriter($this->log_path, $log, true);
+        $this->proxy_ip_dao->addProxyIp($ip_data);
+        app("Logger")->info("新IP入库成功", $ip_data);
     }
 
     /**
@@ -446,7 +424,7 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2017-12-22 16:39:58
      */
-    protected function ipLocation($ip)
+    public function ipLocation($ip)
     {
         //API 地址
         $api = "http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip;
@@ -472,7 +450,7 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2017-12-22 16:50:31
      */
-    protected function ipSpeedCheck($ip, $port, $protocol)
+    public function ipSpeedCheck($ip, $port, $protocol)
     {
         //开始请求毫秒
         $begin_seconds = Helper::mSecondTime();
@@ -509,44 +487,30 @@ class ProxyIpBusiness
     }
 
     /**
-     * 自定义日志记录
+     * 更新代理IP信息
      *
-     * @param $dir_name
-     * @param $log
-     * @param bool $console
-     * @param int $days
+     * @param $unique_id
+     * @param array $update_arr
+     * @throws JsonException
      * @author jiangxianli
-     * @created_at 2017-11-10 17:13:01
+     * @created_at 2019-10-23 16:02
      */
-    public function selfLogWriter($dir_name, $log, $console = false, $days = 1)
+    public function updateProxyIp($unique_id, array $update_arr)
     {
-        //总目录
-        $root_dir = storage_path("logs/" . $dir_name . "/");
-        //按日存放
-        $day_dir = str_replace("//", "/", $root_dir . "/" . date('Y-m-d'));
-        //日志路径
-        $hour_log_path = str_replace("//", "/", $day_dir . '.log');
-        //目录路径
-        $hour_dir = dirname($hour_log_path);
-        //检测目录，创建目录
-        if (!file_exists($hour_dir)) {
-            mkdir($hour_dir, 0755, true);
-        }
+        $this->proxy_ip_dao->updateProxyIp($unique_id, $update_arr);
+    }
 
-        //写入日志
-        $log = '[' . date('Y-m-d H:i:s') . '] - ' . $log . "\n";
-        $log = str_replace("\n\n", "\n", $log);
-        file_put_contents($hour_log_path, $log, FILE_APPEND);
-
-        if ($console) {
-            echo $log;
-        }
-
-        try {
-            exec('find ' . $root_dir . ' -mtime ' . $days . ' | xargs rm -rf ');
-        } catch (\Exception $e) {
-
-        }
+    /**
+     * 删除代理IP信息
+     *
+     * @param $unique_id
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2019-10-23 16:02
+     */
+    public function deleteProxyIp($unique_id)
+    {
+        $this->proxy_ip_dao->deleteProxyIp($unique_id);
     }
 
     /**
@@ -612,24 +576,7 @@ class ProxyIpBusiness
         $proxy_ips = $this->proxy_ip_dao->allNoIpAddressProxyIp();
 
         foreach ($proxy_ips as $proxy_ip) {
-            try {
-                $ip_cache_key = "IP_" . $proxy_ip->ip;
-                $ip_location = \Cache::get($ip_cache_key);
-                if (!$ip_location) {
-                    $ip_location = $this->ipLocation($proxy_ip->ip);
-                }
-                $this->proxy_ip_dao->updateProxyIp($proxy_ip->unique_id, [
-                    'isp'        => $ip_location['isp'],
-                    'ip_address' => $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city']
-                ]);
-                \Cache::forever("IP_" . $proxy_ip->ip, $ip_location);
-            } catch (JsonException $e) {
-                var_dump($e->formatError());
-                var_dump($e->getTraceAsString());
-            } catch (\Exception $e) {
-                var_dump($e->getMessage());
-                var_dump($e->getTraceAsString());
-            }
+            dispatch(new ProxyIpLocationJob($proxy_ip));
         }
     }
 

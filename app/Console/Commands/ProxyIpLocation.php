@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Business\ProxyIpBusiness;
+use App\Http\Common\Helper;
 use Illuminate\Console\Command;
 
 class ProxyIpLocation extends Command
@@ -46,6 +47,8 @@ class ProxyIpLocation extends Command
      */
     public function handle()
     {
+        Helper::logFlag($this->signature);
+
         $this->proxy_ip_business->locationAllProxyIp();
     }
 }

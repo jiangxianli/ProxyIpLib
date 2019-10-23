@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Business\ProxyIpBusiness;
+use App\Http\Common\Helper;
 use Illuminate\Console\Command;
 
 class GrabProxyIp extends Command
@@ -46,6 +47,8 @@ class GrabProxyIp extends Command
      */
     public function handle()
     {
+        Helper::logFlag(str_replace(" {origin}", "-" . $this->argument('origin'), $this->signature));
+
         switch ($this->argument('origin')) {
             case 'kuidaili':
                 $this->proxy_ip_business->grabKuaiDaiLi();
@@ -55,22 +58,22 @@ class GrabProxyIp extends Command
                 break;
             case 'goubanjia':
                 $this->proxy_ip_business->grabGouBanJia();
-                return ;
+                return;
             case 'sixsixip':
                 $this->proxy_ip_business->grabSixSixIp();
-                return ;
+                return;
             case 'yundaili':
                 $this->proxy_ip_business->grabYunDaiLi();
-                return ;
+                return;
             case 'data5u':
                 $this->proxy_ip_business->grabData5U();
-                return ;
+                return;
             case 'ip3366':
                 $this->proxy_ip_business->grabIp3366();
-                return ;
+                return;
             case 'pcdaili':
                 $this->proxy_ip_business->grabPCDaiLi();
-                return ;
+                return;
         }
     }
 }

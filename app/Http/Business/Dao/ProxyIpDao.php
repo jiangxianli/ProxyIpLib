@@ -165,6 +165,6 @@ class ProxyIpDao
     {
         $proxy_ips = app('ProxyIpModel')->where('ip_address', '')->orWhereNull('ip_address')->get();
 
-        return $proxy_ips;
+        return $proxy_ips->toArray();
     }
 }

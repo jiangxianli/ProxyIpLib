@@ -67,4 +67,23 @@ class Helper
         return printf("%.2f", ($speed / 1000)) . '秒';
     }
 
+    /**
+     * 日志标识
+     *
+     * @param $flag_name
+     * @return string
+     * @author jiangxianli
+     * @created_at 2019-10-23 16:20
+     */
+    public static function logFlag($flag_name = "")
+    {
+        static $flag = '';
+
+        if (!empty($flag_name)) {
+            $flag = $flag_name;
+        }
+
+        return $flag;
+    }
+
 }

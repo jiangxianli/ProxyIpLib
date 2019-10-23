@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Business\ProxyIpBusiness;
+use App\Http\Common\Helper;
 use Illuminate\Console\Command;
 
 class TimerClearProxyIp extends Command
@@ -42,10 +43,12 @@ class TimerClearProxyIp extends Command
 
     /**
      * @author jiangxianli
-     * @created_at 2017-12-25 08:56:47
+     * @created_at 2019-10-23 16:47
      */
     public function handle()
     {
+        Helper::logFlag($this->signature);
+
         $this->proxy_ip_business->timerClearProxyIp();
     }
 }

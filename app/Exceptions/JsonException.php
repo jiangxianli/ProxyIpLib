@@ -18,7 +18,6 @@ class JsonException extends Exception
         ],
 
 
-
         '90000' => [
             'msg' => '接口返回错误!'
         ]
@@ -70,7 +69,7 @@ class JsonException extends Exception
 
         return [
             'code' => $code,
-            'msg' => $msg,
+            'msg'  => $msg,
             'data' => $data
         ];
     }

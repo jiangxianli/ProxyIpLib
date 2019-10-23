@@ -11,12 +11,12 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Profiler.
@@ -30,14 +30,14 @@ class Profiler
     /**
      * @var DataCollectorInterface[]
      */
-    private $collectors = array();
+    private $collectors = [];
 
     private $logger;
     private $initiallyEnabled = true;
     private $enabled = true;
 
     /**
-     * @param bool $enable  The initial enabled state
+     * @param bool $enable The initial enabled state
      */
     public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, $enable = true)
     {
@@ -65,12 +65,12 @@ class Profiler
     /**
      * Loads the Profile for the given Response.
      *
-     * @return Profile|false A Profile instance
+     * @return Profile|null A Profile instance
      */
     public function loadProfileFromResponse(Response $response)
     {
         if (!$token = $response->headers->get('X-Debug-Token')) {
-            return false;
+            return null;
         }
 
         return $this->loadProfile($token);
@@ -81,7 +81,7 @@ class Profiler
      *
      * @param string $token A token
      *
-     * @return Profile A Profile instance
+     * @return Profile|null A Profile instance
      */
     public function loadProfile($token)
     {
@@ -103,7 +103,7 @@ class Profiler
         }
 
         if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => get_class($this->storage)));
+            $this->logger->warning('Unable to store the profiler information.', ['configured_storage' => \get_class($this->storage)]);
         }
 
         return $ret;
@@ -130,7 +130,7 @@ class Profiler
      *
      * @return array An array of tokens
      *
-     * @see http://php.net/manual/en/datetime.formats.php for the supported date/time formats
+     * @see https://php.net/datetime.formats for the supported date/time formats
      */
     public function find($ip, $url, $limit, $method, $start, $end, $statusCode = null)
     {
@@ -145,7 +145,7 @@ class Profiler
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         if (false === $this->enabled) {
-            return;
+            return null;
         }
 
         $profile = new Profile(substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
@@ -198,9 +198,9 @@ class Profiler
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
      */
-    public function set(array $collectors = array())
+    public function set(array $collectors = [])
     {
-        $this->collectors = array();
+        $this->collectors = [];
         foreach ($collectors as $collector) {
             $this->add($collector);
         }
@@ -212,7 +212,7 @@ class Profiler
     public function add(DataCollectorInterface $collector)
     {
         if (!method_exists($collector, 'reset')) {
-            @trigger_error(sprintf('Implementing "%s" without the "reset()" method is deprecated since version 3.4 and will be unsupported in 4.0 for class "%s".', DataCollectorInterface::class, \get_class($collector)), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Implementing "%s" without the "reset()" method is deprecated since Symfony 3.4 and will be unsupported in 4.0 for class "%s".', DataCollectorInterface::class, \get_class($collector)), E_USER_DEPRECATED);
         }
 
         $this->collectors[$collector->getName()] = $collector;
@@ -248,16 +248,19 @@ class Profiler
         return $this->collectors[$name];
     }
 
+    /**
+     * @return int|null
+     */
     private function getTimestamp($value)
     {
         if (null === $value || '' == $value) {
-            return;
+            return null;
         }
 
         try {
             $value = new \DateTime(is_numeric($value) ? '@'.$value : $value);
         } catch (\Exception $e) {
-            return;
+            return null;
         }
 
         return $value->getTimestamp();

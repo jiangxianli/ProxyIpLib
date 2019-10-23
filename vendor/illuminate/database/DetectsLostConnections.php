@@ -30,6 +30,11 @@ trait DetectsLostConnections
             'Resource deadlock avoided',
             'Transaction() on null',
             'child connection forced to terminate due to client_idle_limit',
+            'query_wait_timeout',
+            'reset by peer',
+            'Physical connection is not usable',
+            'TCP Provider: Error code 0x68',
+            'Name or service not known',
         ]);
     }
 }

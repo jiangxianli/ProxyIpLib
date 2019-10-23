@@ -18,16 +18,16 @@ use Psr\Cache\CacheItemPoolInterface;
  */
 class Psr6CacheClearer implements CacheClearerInterface
 {
-    private $pools = array();
+    private $pools = [];
 
-    public function __construct(array $pools = array())
+    public function __construct(array $pools = [])
     {
         $this->pools = $pools;
     }
 
     public function addPool(CacheItemPoolInterface $pool)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 3.3 and will be removed in 4.0. Pass an array of pools indexed by name to the constructor instead.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The %s() method is deprecated since Symfony 3.3 and will be removed in 4.0. Pass an array of pools indexed by name to the constructor instead.', __METHOD__), E_USER_DEPRECATED);
 
         $this->pools[] = $pool;
     }

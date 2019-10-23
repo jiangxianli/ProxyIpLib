@@ -11,10 +11,13 @@
 
 namespace Symfony\Component\HttpKernel\EventListener;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Sets the session in the request.
@@ -23,6 +26,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 abstract class AbstractSessionListener implements EventSubscriberInterface
 {
+    private $sessionUsageStack = [];
+
     public function onKernelRequest(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
@@ -31,6 +36,7 @@ abstract class AbstractSessionListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $session = $this->getSession();
+        $this->sessionUsageStack[] = $session instanceof Session ? $session->getUsageIndex() : null;
         if (null === $session || $request->hasSession()) {
             return;
         }
@@ -38,11 +44,43 @@ abstract class AbstractSessionListener implements EventSubscriberInterface
         $request->setSession($session);
     }
 
+    public function onKernelResponse(FilterResponseEvent $event)
+    {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
+        if (!$session = $event->getRequest()->getSession()) {
+            return;
+        }
+
+        if ($session instanceof Session ? $session->getUsageIndex() !== end($this->sessionUsageStack) : $session->isStarted()) {
+            $event->getResponse()
+                ->setExpires(new \DateTime())
+                ->setPrivate()
+                ->setMaxAge(0)
+                ->headers->addCacheControlDirective('must-revalidate');
+        }
+    }
+
+    /**
+     * @internal
+     */
+    public function onFinishRequest(FinishRequestEvent $event)
+    {
+        if ($event->isMasterRequest()) {
+            array_pop($this->sessionUsageStack);
+        }
+    }
+
     public static function getSubscribedEvents()
     {
-        return array(
-            KernelEvents::REQUEST => array('onKernelRequest', 128),
-        );
+        return [
+            KernelEvents::REQUEST => ['onKernelRequest', 128],
+            // low priority to come after regular response listeners, same as SaveSessionListener
+            KernelEvents::RESPONSE => ['onKernelResponse', -1000],
+            KernelEvents::FINISH_REQUEST => ['onFinishRequest'],
+        ];
     }
 
     /**

@@ -12,9 +12,9 @@
 namespace Symfony\Component\HttpFoundation\Tests\Session\Storage;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 /**
  * Test class for MockFileSessionStorage.
@@ -91,7 +91,7 @@ class MockFileSessionStorageTest extends TestCase
         $storage->start();
         $this->assertEquals('108', $storage->getBag('attributes')->get('new'));
         $this->assertTrue($storage->getBag('flashes')->has('newkey'));
-        $this->assertEquals(array('test'), $storage->getBag('flashes')->peek('newkey'));
+        $this->assertEquals(['test'], $storage->getBag('flashes')->peek('newkey'));
     }
 
     public function testMultipleInstances()
@@ -107,11 +107,9 @@ class MockFileSessionStorageTest extends TestCase
         $this->assertEquals('bar', $storage2->getBag('attributes')->get('foo'), 'values persist between instances');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testSaveWithoutStart()
     {
+        $this->expectException('RuntimeException');
         $storage1 = $this->getStorage();
         $storage1->save();
     }

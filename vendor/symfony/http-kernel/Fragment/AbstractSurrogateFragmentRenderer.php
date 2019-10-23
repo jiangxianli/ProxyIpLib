@@ -59,11 +59,11 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
      *
      * @see Symfony\Component\HttpKernel\HttpCache\SurrogateInterface
      */
-    public function render($uri, Request $request, array $options = array())
+    public function render($uri, Request $request, array $options = [])
     {
         if (!$this->surrogate || !$this->surrogate->hasSurrogateCapability($request)) {
             if ($uri instanceof ControllerReference && $this->containsNonScalars($uri->attributes)) {
-                @trigger_error('Passing non-scalar values as part of URI attributes to the ESI and SSI rendering strategies is deprecated since version 3.1, and will be removed in 4.0. Use a different rendering strategy or pass scalar values.', E_USER_DEPRECATED);
+                @trigger_error('Passing non-scalar values as part of URI attributes to the ESI and SSI rendering strategies is deprecated since Symfony 3.1, and will be removed in 4.0. Use a different rendering strategy or pass scalar values.', E_USER_DEPRECATED);
             }
 
             return $this->inlineStrategy->render($uri, $request, $options);
@@ -92,13 +92,13 @@ abstract class AbstractSurrogateFragmentRenderer extends RoutableFragmentRendere
         // we need to sign the absolute URI, but want to return the path only.
         $fragmentUri = $this->signer->sign($this->generateFragmentUri($uri, $request, true));
 
-        return substr($fragmentUri, strlen($request->getSchemeAndHttpHost()));
+        return substr($fragmentUri, \strlen($request->getSchemeAndHttpHost()));
     }
 
     private function containsNonScalars(array $values)
     {
         foreach ($values as $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 return $this->containsNonScalars($value);
             } elseif (!is_scalar($value) && null !== $value) {
                 return true;

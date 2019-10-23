@@ -192,9 +192,11 @@ class UploadedFile extends File
 
             $target = $this->getTargetFile($directory, $name);
 
-            if (!@move_uploaded_file($this->getPathname(), $target)) {
-                $error = error_get_last();
-                throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $this->getPathname(), $target, strip_tags($error['message'])));
+            set_error_handler(function ($type, $msg) use (&$error) { $error = $msg; });
+            $moved = move_uploaded_file($this->getPathname(), $target);
+            restore_error_handler();
+            if (!$moved) {
+                throw new FileException(sprintf('Could not move the file "%s" to "%s" (%s)', $this->getPathname(), $target, strip_tags($error)));
             }
 
             @chmod($target, 0666 & ~umask());
@@ -212,22 +214,35 @@ class UploadedFile extends File
      */
     public static function getMaxFilesize()
     {
-        $iniMax = strtolower(ini_get('upload_max_filesize'));
+        $sizePostMax = self::parseFilesize(ini_get('post_max_size'));
+        $sizeUploadMax = self::parseFilesize(ini_get('upload_max_filesize'));
 
-        if ('' === $iniMax) {
-            return PHP_INT_MAX;
+        return min($sizePostMax ?: PHP_INT_MAX, $sizeUploadMax ?: PHP_INT_MAX);
+    }
+
+    /**
+     * Returns the given size from an ini value in bytes.
+     *
+     * @return int The given size in bytes
+     */
+    private static function parseFilesize($size)
+    {
+        if ('' === $size) {
+            return 0;
         }
 
-        $max = ltrim($iniMax, '+');
+        $size = strtolower($size);
+
+        $max = ltrim($size, '+');
         if (0 === strpos($max, '0x')) {
-            $max = intval($max, 16);
+            $max = \intval($max, 16);
         } elseif (0 === strpos($max, '0')) {
-            $max = intval($max, 8);
+            $max = \intval($max, 8);
         } else {
             $max = (int) $max;
         }
 
-        switch (substr($iniMax, -1)) {
+        switch (substr($size, -1)) {
             case 't': $max *= 1024;
             // no break
             case 'g': $max *= 1024;
@@ -247,7 +262,7 @@ class UploadedFile extends File
      */
     public function getErrorMessage()
     {
-        static $errors = array(
+        static $errors = [
             UPLOAD_ERR_INI_SIZE => 'The file "%s" exceeds your upload_max_filesize ini directive (limit is %d KiB).',
             UPLOAD_ERR_FORM_SIZE => 'The file "%s" exceeds the upload limit defined in your form.',
             UPLOAD_ERR_PARTIAL => 'The file "%s" was only partially uploaded.',
@@ -255,7 +270,7 @@ class UploadedFile extends File
             UPLOAD_ERR_CANT_WRITE => 'The file "%s" could not be written on disk.',
             UPLOAD_ERR_NO_TMP_DIR => 'File could not be uploaded: missing temporary directory.',
             UPLOAD_ERR_EXTENSION => 'File upload was stopped by a PHP extension.',
-        );
+        ];
 
         $errorCode = $this->error;
         $maxFilesize = UPLOAD_ERR_INI_SIZE === $errorCode ? self::getMaxFilesize() / 1024 : 0;

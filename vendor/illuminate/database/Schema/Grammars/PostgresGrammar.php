@@ -2,7 +2,7 @@
 
 namespace Illuminate\Database\Schema\Grammars;
 
-use Exception;
+use RuntimeException;
 use Illuminate\Support\Fluent;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -128,6 +128,20 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+     * Compile a spatial index key command.
+     *
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
+     * @return string
+     */
+    public function compileSpatialIndex(Blueprint $blueprint, Fluent $command)
+    {
+        $command->algorithm = 'gist';
+
+        return $this->compileIndex($blueprint, $command);
+    }
+
+    /**
      * Compile a foreign key command.
      *
      * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
@@ -247,6 +261,18 @@ class PostgresGrammar extends Grammar
     public function compileDropIndex(Blueprint $blueprint, Fluent $command)
     {
         return "drop index {$this->wrap($command->index)}";
+    }
+
+    /**
+     * Compile a drop spatial index command.
+     *
+     * @param  \Illuminate\Database\Schema\Blueprint  $blueprint
+     * @param  \Illuminate\Support\Fluent  $command
+     * @return string
+     */
+    public function compileDropSpatialIndex(Blueprint $blueprint, Fluent $command)
+    {
+        return $this->compileDropIndex($blueprint, $command);
     }
 
     /**
@@ -522,7 +548,7 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for a date-time type.
+     * Create the column definition for a date-time (with time zone) type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
@@ -540,18 +566,18 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTime(Fluent $column)
     {
-        return 'time(0) without time zone';
+        return "time($column->precision) without time zone";
     }
 
     /**
-     * Create the column definition for a time type.
+     * Create the column definition for a time (with time zone) type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function typeTimeTz(Fluent $column)
     {
-        return 'time(0) with time zone';
+        return "time($column->precision) with time zone";
     }
 
     /**
@@ -562,26 +588,33 @@ class PostgresGrammar extends Grammar
      */
     protected function typeTimestamp(Fluent $column)
     {
-        if ($column->useCurrent) {
-            return "timestamp($column->precision) without time zone default CURRENT_TIMESTAMP($column->precision)";
-        }
+        $columnType = "timestamp($column->precision) without time zone";
 
-        return "timestamp($column->precision) without time zone";
+        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
     }
 
     /**
-     * Create the column definition for a timestamp type.
+     * Create the column definition for a timestamp (with time zone) type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
     protected function typeTimestampTz(Fluent $column)
     {
-        if ($column->useCurrent) {
-            return "timestamp($column->precision) with time zone default CURRENT_TIMESTAMP($column->precision)";
-        }
+        $columnType = "timestamp($column->precision) with time zone";
 
-        return "timestamp($column->precision) with time zone";
+        return $column->useCurrent ? "$columnType default CURRENT_TIMESTAMP" : $columnType;
+    }
+
+    /**
+     * Create the column definition for a year type.
+     *
+     * @param  \Illuminate\Support\Fluent  $column
+     * @return string
+     */
+    protected function typeYear(Fluent $column)
+    {
+        return $this->typeInteger($column);
     }
 
     /**
@@ -629,18 +662,18 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for a geometry type.
+     * Create the column definition for a spatial Geometry type.
      *
      * @param  \Illuminate\Support\Fluent  $column
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     protected function typeGeometry(Fluent $column)
     {
-        throw new Exception('Geometry data type not supported for current database engine.');
+        throw new RuntimeException('The database driver in use does not support the Geometry spatial column type.');
     }
 
     /**
-     * Create the column definition for a point type.
+     * Create the column definition for a spatial Point type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
@@ -651,18 +684,18 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for a linestring type.
+     * Create the column definition for a spatial LineString type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    protected function typeLinestring(Fluent $column)
+    protected function typeLineString(Fluent $column)
     {
         return $this->formatPostGisType('linestring');
     }
 
     /**
-     * Create the column definition for a polygon type.
+     * Create the column definition for a spatial Polygon type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
@@ -673,56 +706,58 @@ class PostgresGrammar extends Grammar
     }
 
     /**
-     * Create the column definition for a geometrycollection type.
+     * Create the column definition for a spatial GeometryCollection type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    protected function typeGeometrycollection(Fluent $column)
+    protected function typeGeometryCollection(Fluent $column)
     {
         return $this->formatPostGisType('geometrycollection');
     }
 
     /**
-     * Create the column definition for a multipoint type.
+     * Create the column definition for a spatial MultiPoint type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    protected function typeMultipoint(Fluent $column)
+    protected function typeMultiPoint(Fluent $column)
     {
         return $this->formatPostGisType('multipoint');
     }
 
     /**
-     * Create the column definition for a multilinestring type.
+     * Create the column definition for a spatial MultiLineString type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    public function typeMultilinestring(Fluent $column)
+    public function typeMultiLineString(Fluent $column)
     {
         return $this->formatPostGisType('multilinestring');
     }
 
     /**
-     * Create the column definition for a multipolygon type.
+     * Create the column definition for a spatial MultiPolygon type.
      *
      * @param  \Illuminate\Support\Fluent  $column
      * @return string
      */
-    protected function typeMultipolygon(Fluent $column)
+    protected function typeMultiPolygon(Fluent $column)
     {
         return $this->formatPostGisType('multipolygon');
     }
 
     /**
+     * Format the column definition for a PostGIS spatial type.
+     *
      * @param  string  $type
      * @return string
      */
     private function formatPostGisType(string $type)
     {
-        return "geography({$type}, 4326)";
+        return "geography($type, 4326)";
     }
 
     /**

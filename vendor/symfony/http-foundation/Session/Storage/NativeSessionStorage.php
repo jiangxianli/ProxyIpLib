@@ -26,7 +26,7 @@ class NativeSessionStorage implements SessionStorageInterface
     /**
      * @var SessionBagInterface[]
      */
-    protected $bags = array();
+    protected $bags = [];
 
     /**
      * @var bool
@@ -54,7 +54,7 @@ class NativeSessionStorage implements SessionStorageInterface
      *
      * List of options for $options array with their defaults.
      *
-     * @see http://php.net/session.configuration for options
+     * @see https://php.net/session.configuration for options
      * but we omit 'session.' from the beginning of the keys for convenience.
      *
      * ("auto_start", is not supported as it tells PHP to start a session before
@@ -98,14 +98,18 @@ class NativeSessionStorage implements SessionStorageInterface
      * @param \SessionHandlerInterface|null $handler
      * @param MetadataBag                   $metaBag MetadataBag
      */
-    public function __construct(array $options = array(), $handler = null, MetadataBag $metaBag = null)
+    public function __construct(array $options = [], $handler = null, MetadataBag $metaBag = null)
     {
-        $options += array(
+        if (!\extension_loaded('session')) {
+            throw new \LogicException('PHP extension "session" is required.');
+        }
+
+        $options += [
             'cache_limiter' => '',
             'cache_expire' => 0,
             'use_cookies' => 1,
             'lazy_write' => 1,
-        );
+        ];
 
         session_register_shutdown();
 
@@ -137,7 +141,7 @@ class NativeSessionStorage implements SessionStorageInterface
             throw new \RuntimeException('Failed to start the session: already started by PHP.');
         }
 
-        if (ini_get('session.use_cookies') && headers_sent($file, $line)) {
+        if (filter_var(ini_get('session.use_cookies'), FILTER_VALIDATE_BOOLEAN) && headers_sent($file, $line)) {
             throw new \RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
         }
 
@@ -208,7 +212,7 @@ class NativeSessionStorage implements SessionStorageInterface
         $isRegenerated = session_regenerate_id($destroy);
 
         // The reference to $_SESSION in session bags is lost in PHP7 and we need to re-create it.
-        // @see https://bugs.php.net/bug.php?id=70013
+        // @see https://bugs.php.net/70013
         $this->loadSession();
 
         return $isRegenerated;
@@ -226,32 +230,25 @@ class NativeSessionStorage implements SessionStorageInterface
                 unset($_SESSION[$key]);
             }
         }
-        if (array($key = $this->metadataBag->getStorageKey()) === array_keys($_SESSION)) {
+        if ([$key = $this->metadataBag->getStorageKey()] === array_keys($_SESSION)) {
             unset($_SESSION[$key]);
         }
 
-        // Register custom error handler to catch a possible failure warning during session write
-        set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-            throw new \ErrorException($errstr, $errno, E_WARNING, $errfile, $errline);
-        }, E_WARNING);
+        // Register error handler to add information about the current save handler
+        $previousHandler = set_error_handler(function ($type, $msg, $file, $line) use (&$previousHandler) {
+            if (E_WARNING === $type && 0 === strpos($msg, 'session_write_close():')) {
+                $handler = $this->saveHandler instanceof SessionHandlerProxy ? $this->saveHandler->getHandler() : $this->saveHandler;
+                $msg = sprintf('session_write_close(): Failed to write session data with "%s" handler', \get_class($handler));
+            }
+
+            return $previousHandler ? $previousHandler($type, $msg, $file, $line) : false;
+        });
 
         try {
-            $e = null;
             session_write_close();
-        } catch (\ErrorException $e) {
         } finally {
             restore_error_handler();
             $_SESSION = $session;
-        }
-        if (null !== $e) {
-            // The default PHP error message is not very helpful, as it does not give any information on the current save handler.
-            // Therefore, we catch this error and trigger a warning with a better error message
-            $handler = $this->getSaveHandler();
-            if ($handler instanceof SessionHandlerProxy) {
-                $handler = $handler->getHandler();
-            }
-
-            trigger_error(sprintf('session_write_close(): Failed to write session data with %s handler', get_class($handler)), E_USER_WARNING);
         }
 
         $this->closed = true;
@@ -269,7 +266,7 @@ class NativeSessionStorage implements SessionStorageInterface
         }
 
         // clear out the session
-        $_SESSION = array();
+        $_SESSION = [];
 
         // reconnect the bags to the session
         $this->loadSession();
@@ -338,9 +335,9 @@ class NativeSessionStorage implements SessionStorageInterface
      * For convenience we omit 'session.' from the beginning of the keys.
      * Explicitly ignores other ini keys.
      *
-     * @param array $options Session ini directives array(key => value)
+     * @param array $options Session ini directives [key => value]
      *
-     * @see http://php.net/session.configuration
+     * @see https://php.net/session.configuration
      */
     public function setOptions(array $options)
     {
@@ -348,8 +345,8 @@ class NativeSessionStorage implements SessionStorageInterface
             return;
         }
 
-        $validOptions = array_flip(array(
-            'cache_limiter', 'cache_expire', 'cookie_domain', 'cookie_httponly',
+        $validOptions = array_flip([
+            'cache_expire', 'cache_limiter', 'cookie_domain', 'cookie_httponly',
             'cookie_lifetime', 'cookie_path', 'cookie_secure',
             'entropy_file', 'entropy_length', 'gc_divisor',
             'gc_maxlifetime', 'gc_probability', 'hash_bits_per_character',
@@ -357,13 +354,13 @@ class NativeSessionStorage implements SessionStorageInterface
             'serialize_handler', 'use_strict_mode', 'use_cookies',
             'use_only_cookies', 'use_trans_sid', 'upload_progress.enabled',
             'upload_progress.cleanup', 'upload_progress.prefix', 'upload_progress.name',
-            'upload_progress.freq', 'upload_progress.min-freq', 'url_rewriter.tags',
+            'upload_progress.freq', 'upload_progress.min_freq', 'url_rewriter.tags',
             'sid_length', 'sid_bits_per_character', 'trans_sid_hosts', 'trans_sid_tags',
-        ));
+        ]);
 
         foreach ($options as $key => $value) {
             if (isset($validOptions[$key])) {
-                ini_set('session.'.$key, $value);
+                ini_set('url_rewriter.tags' !== $key ? 'session.'.$key : $key, $value);
             }
         }
     }
@@ -381,10 +378,10 @@ class NativeSessionStorage implements SessionStorageInterface
      * constructor, for a template see NativeFileSessionHandler or use handlers in
      * composer package drak/native-session
      *
-     * @see http://php.net/session-set-save-handler
-     * @see http://php.net/sessionhandlerinterface
-     * @see http://php.net/sessionhandler
-     * @see http://github.com/drak/NativeSession
+     * @see https://php.net/session-set-save-handler
+     * @see https://php.net/sessionhandlerinterface
+     * @see https://php.net/sessionhandler
+     * @see https://github.com/zikula/NativeSession
      *
      * @param \SessionHandlerInterface|null $saveHandler
      *
@@ -411,8 +408,6 @@ class NativeSessionStorage implements SessionStorageInterface
         }
 
         if ($this->saveHandler instanceof SessionHandlerProxy) {
-            session_set_save_handler($this->saveHandler->getHandler(), false);
-        } elseif ($this->saveHandler instanceof \SessionHandlerInterface) {
             session_set_save_handler($this->saveHandler, false);
         }
     }
@@ -431,11 +426,11 @@ class NativeSessionStorage implements SessionStorageInterface
             $session = &$_SESSION;
         }
 
-        $bags = array_merge($this->bags, array($this->metadataBag));
+        $bags = array_merge($this->bags, [$this->metadataBag]);
 
         foreach ($bags as $bag) {
             $key = $bag->getStorageKey();
-            $session[$key] = isset($session[$key]) ? $session[$key] : array();
+            $session[$key] = isset($session[$key]) && \is_array($session[$key]) ? $session[$key] : [];
             $bag->initialize($session[$key]);
         }
 

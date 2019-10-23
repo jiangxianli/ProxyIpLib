@@ -2,7 +2,6 @@
 
 namespace Dotenv;
 
-use Dotenv\Exception\InvalidFileException;
 use Dotenv\Exception\InvalidPathException;
 
 /**
@@ -29,6 +28,13 @@ class Loader
     protected $immutable;
 
     /**
+     * The list of environment variables declared inside the 'env' file.
+     *
+     * @var array
+     */
+    public $variableNames = array();
+
+    /**
      * Create a new loader instance.
      *
      * @param string $filePath
@@ -43,7 +49,32 @@ class Loader
     }
 
     /**
+     * Set immutable value.
+     *
+     * @param bool $immutable
+     * @return $this
+     */
+    public function setImmutable($immutable = false)
+    {
+        $this->immutable = $immutable;
+
+        return $this;
+    }
+
+    /**
+     * Get immutable value.
+     *
+     * @return bool
+     */
+    public function getImmutable()
+    {
+        return $this->immutable;
+    }
+
+    /**
      * Load `.env` file in given directory.
+     *
+     * @throws \Dotenv\Exception\InvalidPathException|\Dotenv\Exception\InvalidFileException
      *
      * @return array
      */
@@ -88,13 +119,13 @@ class Loader
      * @param string $name
      * @param string $value
      *
+     * @throws \Dotenv\Exception\InvalidFileException
+     *
      * @return array
      */
     protected function normaliseEnvironmentVariable($name, $value)
     {
-        list($name, $value) = $this->splitCompoundStringIntoParts($name, $value);
-        list($name, $value) = $this->sanitiseVariableName($name, $value);
-        list($name, $value) = $this->sanitiseVariableValue($name, $value);
+        list($name, $value) = $this->processFilters($name, $value);
 
         $value = $this->resolveNestedVariables($value);
 
@@ -104,10 +135,12 @@ class Loader
     /**
      * Process the runtime filters.
      *
-     * Called from the `VariableFactory`, passed as a callback in `$this->loadFromFile()`.
+     * Called from `normaliseEnvironmentVariable` and the `VariableFactory`, passed as a callback in `$this->loadFromFile()`.
      *
      * @param string $name
      * @param string $value
+     *
+     * @throws \Dotenv\Exception\InvalidFileException
      *
      * @return array
      */
@@ -147,7 +180,9 @@ class Loader
      */
     protected function isComment($line)
     {
-        return strpos(ltrim($line), '#') === 0;
+        $line = ltrim($line);
+
+        return isset($line[0]) && $line[0] === '#';
     }
 
     /**
@@ -199,43 +234,13 @@ class Loader
             return array($name, $value);
         }
 
-        if ($this->beginsWithAQuote($value)) { // value starts with a quote
-            $quote = $value[0];
-            $regexPattern = sprintf(
-                '/^
-                %1$s          # match a quote at the start of the value
-                (             # capturing sub-pattern used
-                 (?:          # we do not need to capture this
-                  [^%1$s\\\\] # any character other than a quote or backslash
-                  |\\\\\\\\   # or two backslashes together
-                  |\\\\%1$s   # or an escaped quote e.g \"
-                 )*           # as many characters that match the previous rules
-                )             # end of the capturing sub-pattern
-                %1$s          # and the closing quote
-                .*$           # and discard any string after the closing quote
-                /mx',
-                $quote
-            );
-            $value = preg_replace($regexPattern, '$1', $value);
-            $value = str_replace("\\$quote", $quote, $value);
-            $value = str_replace('\\\\', '\\', $value);
-        } else {
-            $parts = explode(' #', $value, 2);
-            $value = trim($parts[0]);
-
-            // Unquoted values cannot contain whitespace
-            if (preg_match('/\s+/', $value) > 0) {
-                throw new InvalidFileException('Dotenv values containing spaces must be surrounded by quotes.');
-            }
-        }
-
-        return array($name, trim($value));
+        return array($name, Parser::parseValue($value));
     }
 
     /**
      * Resolve the nested variables.
      *
-     * Look for {$varname} patterns in the variable value and replace with an
+     * Look for ${varname} patterns in the variable value and replace with an
      * existing environment variable.
      *
      * @param string $value
@@ -247,7 +252,7 @@ class Loader
         if (strpos($value, '$') !== false) {
             $loader = $this;
             $value = preg_replace_callback(
-                '/\${([a-zA-Z0-9_]+)}/',
+                '/\${([a-zA-Z0-9_.]+)}/',
                 function ($matchedPatterns) use ($loader) {
                     $nestedVariable = $loader->getEnvironmentVariable($matchedPatterns[1]);
                     if ($nestedVariable === null) {
@@ -273,21 +278,7 @@ class Loader
      */
     protected function sanitiseVariableName($name, $value)
     {
-        $name = trim(str_replace(array('export ', '\'', '"'), '', $name));
-
-        return array($name, $value);
-    }
-
-    /**
-     * Determine if the given string begins with a quote.
-     *
-     * @param string $value
-     *
-     * @return bool
-     */
-    protected function beginsWithAQuote($value)
-    {
-        return strpbrk($value[0], '"\'') !== false;
+        return array(Parser::parseName($name), $value);
     }
 
     /**
@@ -323,11 +314,15 @@ class Loader
      * @param string      $name
      * @param string|null $value
      *
+     * @throws \Dotenv\Exception\InvalidFileException
+     *
      * @return void
      */
     public function setEnvironmentVariable($name, $value = null)
     {
         list($name, $value) = $this->normaliseEnvironmentVariable($name, $value);
+
+        $this->variableNames[] = $name;
 
         // Don't overwrite existing environment variables if we're immutable
         // Ruby's dotenv does this with `ENV[key] ||= value`.
@@ -337,7 +332,7 @@ class Loader
 
         // If PHP is running as an Apache module and an existing
         // Apache environment variable exists, overwrite it
-        if (function_exists('apache_getenv') && function_exists('apache_setenv') && apache_getenv($name)) {
+        if (function_exists('apache_getenv') && function_exists('apache_setenv') && apache_getenv($name) !== false) {
             apache_setenv($name, $value);
         }
 

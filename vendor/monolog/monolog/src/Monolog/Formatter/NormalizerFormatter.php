@@ -12,6 +12,7 @@
 namespace Monolog\Formatter;
 
 use Exception;
+use Monolog\Utils;
 
 /**
  * Normalizes incoming records to remove objects/resources so it's easier to dump to various targets
@@ -55,8 +56,12 @@ class NormalizerFormatter implements FormatterInterface
         return $records;
     }
 
-    protected function normalize($data)
+    protected function normalize($data, $depth = 0)
     {
+        if ($depth > 9) {
+            return 'Over 9 levels deep, aborting normalization';
+        }
+
         if (null === $data || is_scalar($data)) {
             if (is_float($data)) {
                 if (is_infinite($data)) {
@@ -75,11 +80,12 @@ class NormalizerFormatter implements FormatterInterface
 
             $count = 1;
             foreach ($data as $key => $value) {
-                if ($count++ >= 1000) {
+                if ($count++ > 1000) {
                     $normalized['...'] = 'Over 1000 items ('.count($data).' total), aborting normalization';
                     break;
                 }
-                $normalized[$key] = $this->normalize($value);
+
+                $normalized[$key] = $this->normalize($value, $depth+1);
             }
 
             return $normalized;
@@ -103,7 +109,7 @@ class NormalizerFormatter implements FormatterInterface
                 $value = $this->toJson($data, true);
             }
 
-            return sprintf("[object] (%s: %s)", get_class($data), $value);
+            return sprintf("[object] (%s: %s)", Utils::getClass($data), $value);
         }
 
         if (is_resource($data)) {
@@ -117,11 +123,11 @@ class NormalizerFormatter implements FormatterInterface
     {
         // TODO 2.0 only check for Throwable
         if (!$e instanceof Exception && !$e instanceof \Throwable) {
-            throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.get_class($e));
+            throw new \InvalidArgumentException('Exception/Throwable expected, got '.gettype($e).' / '.Utils::getClass($e));
         }
 
         $data = array(
-            'class' => get_class($e),
+            'class' => Utils::getClass($e),
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'file' => $e->getFile().':'.$e->getLine(),
@@ -145,12 +151,6 @@ class NormalizerFormatter implements FormatterInterface
         foreach ($trace as $frame) {
             if (isset($frame['file'])) {
                 $data['trace'][] = $frame['file'].':'.$frame['line'];
-            } elseif (isset($frame['function']) && $frame['function'] === '{closure}') {
-                // We should again normalize the frames, because it might contain invalid items
-                $data['trace'][] = $frame['function'];
-            } else {
-                // We should again normalize the frames, because it might contain invalid items
-                $data['trace'][] = $this->toJson($this->normalize($frame), true);
             }
         }
 

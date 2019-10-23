@@ -28,6 +28,9 @@
         "symfony/process": "~3.3|~4.0",
         "psr/log": "~1.0"
     },
+    "provide": {
+        "psr/log-implementation": "1.0"
+    },
     "suggest": {
         "symfony/event-dispatcher": "",
         "symfony/lock": "",

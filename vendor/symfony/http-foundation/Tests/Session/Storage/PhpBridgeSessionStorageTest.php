@@ -12,8 +12,8 @@
 namespace Symfony\Component\HttpFoundation\Tests\Session\Storage;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 /**
  * Test class for PhpSessionStorage.
@@ -87,10 +87,10 @@ class PhpBridgeSessionStorageTest extends TestCase
         $_SESSION['drak'] = 'loves symfony';
         $storage->getBag('attributes')->set('symfony', 'greatness');
         $key = $storage->getBag('attributes')->getStorageKey();
-        $this->assertEquals($_SESSION[$key], array('symfony' => 'greatness'));
+        $this->assertEquals($_SESSION[$key], ['symfony' => 'greatness']);
         $this->assertEquals($_SESSION['drak'], 'loves symfony');
         $storage->clear();
-        $this->assertEquals($_SESSION[$key], array());
+        $this->assertEquals($_SESSION[$key], []);
         $this->assertEquals($_SESSION['drak'], 'loves symfony');
     }
 }

@@ -1,6 +1,38 @@
 CHANGELOG
 =========
 
+4.3.0
+-----
+
+ * Improved Xliff 1.2 loader to load the original file's metadata
+ * Added `TranslatorPathsPass`
+
+4.2.0
+-----
+
+ * Started using ICU parent locales as fallback locales.
+ * allow using the ICU message format using domains with the "+intl-icu" suffix
+ * deprecated `Translator::transChoice()` in favor of using `Translator::trans()` with a `%count%` parameter
+ * deprecated `TranslatorInterface` in favor of `Symfony\Contracts\Translation\TranslatorInterface`
+ * deprecated `MessageSelector`, `Interval` and `PluralizationRules`; use `IdentityTranslator` instead
+ * Added `IntlFormatter` and `IntlFormatterInterface`
+ * added support for multiple files and directories in `XliffLintCommand`
+ * Marked `Translator::getFallbackLocales()` and `TranslationDataCollector::getFallbackLocales()` as internal
+
+4.1.0
+-----
+
+ * The `FileDumper::setBackup()` method is deprecated.
+ * The `TranslationWriter::disableBackup()` method is deprecated.
+ * The `XliffFileDumper` will write "name" on the "unit" node when dumping XLIFF 2.0.
+
+4.0.0
+-----
+
+ * removed the backup feature of the `FileDumper` class
+ * removed `TranslationWriter::writeTranslations()` method
+ * removed support for passing `MessageSelector` instances to the constructor of the `Translator` class
+
 3.4.0
 -----
 

@@ -2,8 +2,12 @@
 
 namespace FastRoute;
 
-class RouteCollectorTest extends \PHPUnit_Framework_TestCase {
-    public function testShortcuts() {
+use PHPUnit\Framework\TestCase;
+
+class RouteCollectorTest extends TestCase
+{
+    public function testShortcuts()
+    {
         $r = new DummyRouteCollector();
 
         $r->delete('/delete', 'delete');
@@ -25,7 +29,8 @@ class RouteCollectorTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame($expected, $r->routes);
     }
 
-    public function testGroups() {
+    public function testGroups()
+    {
         $r = new DummyRouteCollector();
 
         $r->delete('/delete', 'delete');
@@ -87,10 +92,16 @@ class RouteCollectorTest extends \PHPUnit_Framework_TestCase {
     }
 }
 
-class DummyRouteCollector extends RouteCollector {
+class DummyRouteCollector extends RouteCollector
+{
     public $routes = [];
-    public function __construct() {}
-    public function addRoute($method, $route, $handler) {
+
+    public function __construct()
+    {
+    }
+
+    public function addRoute($method, $route, $handler)
+    {
         $route = $this->currentGroupPrefix . $route;
         $this->routes[] = [$method, $route, $handler];
     }

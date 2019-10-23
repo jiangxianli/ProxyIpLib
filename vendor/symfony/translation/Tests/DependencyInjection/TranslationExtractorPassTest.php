@@ -12,6 +12,7 @@
 namespace Symfony\Component\Translation\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Translation\DependencyInjection\TranslationExtractorPass;
 
@@ -19,79 +20,40 @@ class TranslationExtractorPassTest extends TestCase
 {
     public function testProcess()
     {
-        $definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')->disableOriginalConstructor()->getMock();
-        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->disableOriginalConstructor()->getMock();
-
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('translation.extractor')
-            ->will($this->returnValue(true));
-
-        $container->expects($this->once())
-            ->method('getDefinition')
-            ->with('translation.extractor')
-            ->will($this->returnValue($definition));
-
-        $valueTaggedServiceIdsFound = array(
-            'foo.id' => array(
-                array('alias' => 'bar.alias'),
-            ),
-        );
-        $container->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('translation.extractor', true)
-            ->will($this->returnValue($valueTaggedServiceIdsFound));
-
-        $definition->expects($this->once())->method('addMethodCall')->with('addExtractor', array('bar.alias', new Reference('foo.id')));
+        $container = new ContainerBuilder();
+        $extractorDefinition = $container->register('translation.extractor');
+        $container->register('foo.id')
+            ->addTag('translation.extractor', ['alias' => 'bar.alias']);
 
         $translationDumperPass = new TranslationExtractorPass();
         $translationDumperPass->process($container);
+
+        $this->assertEquals([['addExtractor', ['bar.alias', new Reference('foo.id')]]], $extractorDefinition->getMethodCalls());
     }
 
     public function testProcessNoDefinitionFound()
     {
-        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->disableOriginalConstructor()->getMock();
+        $container = new ContainerBuilder();
 
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('translation.extractor')
-            ->will($this->returnValue(false));
-
-        $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('findTaggedServiceIds');
+        $definitionsBefore = \count($container->getDefinitions());
+        $aliasesBefore = \count($container->getAliases());
 
         $translationDumperPass = new TranslationExtractorPass();
         $translationDumperPass->process($container);
+
+        // the container is untouched (i.e. no new definitions or aliases)
+        $this->assertCount($definitionsBefore, $container->getDefinitions());
+        $this->assertCount($aliasesBefore, $container->getAliases());
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     * @expectedExceptionMessage The alias for the tag "translation.extractor" of service "foo.id" must be set.
-     */
     public function testProcessMissingAlias()
     {
-        $definition = $this->getMockBuilder('Symfony\Component\DependencyInjection\Definition')->disableOriginalConstructor()->getMock();
-        $container = $this->getMockBuilder('Symfony\Component\DependencyInjection\ContainerBuilder')->disableOriginalConstructor()->getMock();
-
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('translation.extractor')
-            ->will($this->returnValue(true));
-
-        $container->expects($this->once())
-            ->method('getDefinition')
-            ->with('translation.extractor')
-            ->will($this->returnValue($definition));
-
-        $valueTaggedServiceIdsFound = array(
-            'foo.id' => array(),
-        );
-        $container->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('translation.extractor', true)
-            ->will($this->returnValue($valueTaggedServiceIdsFound));
-
-        $definition->expects($this->never())->method('addMethodCall');
+        $this->expectException('Symfony\Component\DependencyInjection\Exception\RuntimeException');
+        $this->expectExceptionMessage('The alias for the tag "translation.extractor" of service "foo.id" must be set.');
+        $container = new ContainerBuilder();
+        $container->register('translation.extractor');
+        $container->register('foo.id')
+            ->addTag('translation.extractor', []);
 
         $translationDumperPass = new TranslationExtractorPass();
         $translationDumperPass->process($container);

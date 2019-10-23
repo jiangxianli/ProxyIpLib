@@ -27,7 +27,7 @@ class ChainCacheClearer implements CacheClearerInterface
      *
      * @param array $clearers The initial clearers
      */
-    public function __construct($clearers = array())
+    public function __construct($clearers = [])
     {
         $this->clearers = $clearers;
     }
@@ -49,7 +49,7 @@ class ChainCacheClearer implements CacheClearerInterface
      */
     public function add(CacheClearerInterface $clearer)
     {
-        @trigger_error(sprintf('The "%s()" method is deprecated since version 3.4 and will be removed in 4.0, inject the list of clearers as a constructor argument instead.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The "%s()" method is deprecated since Symfony 3.4 and will be removed in 4.0, inject the list of clearers as a constructor argument instead.', __METHOD__), E_USER_DEPRECATED);
 
         $this->clearers[] = $clearer;
     }

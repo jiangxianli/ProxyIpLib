@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
         "guzzlehttp/guzzle": "^6.3",
-        "jaeger/querylist": "^4.0"
+        "jaeger/querylist": "^4.0",
+        "illuminate/redis": "5.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

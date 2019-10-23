@@ -26,13 +26,13 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandle
 class NativeSessionHandlerTest extends TestCase
 {
     /**
-     * @expectedDeprecation The Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandler class is deprecated since version 3.4 and will be removed in 4.0. Use the \SessionHandler class instead.
+     * @expectedDeprecation The Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeSessionHandler class is deprecated since Symfony 3.4 and will be removed in 4.0. Use the \SessionHandler class instead.
      */
     public function testConstruct()
     {
         $handler = new NativeSessionHandler();
 
-        $this->assertTrue($handler instanceof \SessionHandler);
+        $this->assertInstanceOf('SessionHandler', $handler);
         $this->assertTrue($handler instanceof NativeSessionHandler);
     }
 }

@@ -1082,11 +1082,11 @@ class Generator
             $typeDeclaration = '';
 
             if (!$forCall) {
-                if ($parameter->hasType() && (string) $parameter->getType() !== 'self') {
-                    if (PHP_VERSION_ID >= 70100 && $parameter->allowsNull()) {
-                        $nullable = '?';
-                    }
+                if (PHP_VERSION_ID >= 70100 && $parameter->hasType() && $parameter->allowsNull()) {
+                    $nullable = '?';
+                }
 
+                if ($parameter->hasType() && (string) $parameter->getType() !== 'self') {
                     $typeDeclaration = (string) $parameter->getType() . ' ';
                 } elseif ($parameter->isArray()) {
                     $typeDeclaration = 'array ';
@@ -1115,8 +1115,16 @@ class Generator
 
                 if (!$parameter->isVariadic()) {
                     if ($parameter->isDefaultValueAvailable()) {
-                        $value   = $parameter->getDefaultValue();
-                        $default = ' = ' . \var_export($value, true);
+                        $value = $parameter->getDefaultValueConstantName();
+
+                        if ($value === null) {
+                            $value = \var_export($parameter->getDefaultValue(), true);
+                        } elseif (!\defined($value)) {
+                            $rootValue = \preg_replace('/^.*\\\\/', '', $value);
+                            $value = \defined($rootValue) ? $rootValue : $value;
+                        }
+
+                        $default = ' = ' . $value;
                     } elseif ($parameter->isOptional()) {
                         $default = ' = null';
                     }

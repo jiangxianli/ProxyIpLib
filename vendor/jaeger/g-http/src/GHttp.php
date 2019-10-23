@@ -12,9 +12,28 @@ namespace Jaeger;
 
 use GuzzleHttp\Client;
 
+/**
+ * Class GHttp
+ * @package Jaeger
+ *
+ * @method static string get($url,$args = null,$otherArgs = [])
+ * @method static mixed  getJson($url, $args = null, $otherArgs = [])
+ * @method static string post($url,$args = null,$otherArgs = [])
+ * @method static string postRaw($url, $raw = null, $otherArgs = [])
+ * @method static string postJson($url, $args = null, $otherArgs = [])
+ */
 class GHttp
 {
     private static $client = null;
+
+    public static function __callStatic($name, $arguments)
+    {
+        $protectedName = '_'.$name;
+        if(method_exists(self::class,$protectedName)){
+            return Cache::remember($protectedName, $arguments);
+        }
+        throw new MethodNotFoundException('Call undefined method '.self::class.':'.$name.'()');
+    }
 
     public static function getClient(array $config = [])
     {
@@ -30,10 +49,11 @@ class GHttp
      * @param array $otherArgs
      * @return string
      */
-    public static function get($url,$args = null,$otherArgs = [])
+    protected static function _get($url,$args = null,$otherArgs = [])
     {
         is_string($args) && parse_str($args,$args);
         $args = array_merge([
+            'verify' => false,
             'query' => $args,
             'headers' => [
                 'referer' => $url,
@@ -45,7 +65,7 @@ class GHttp
         return (string)$response->getBody();
     }
 
-    public static function getJson($url, $args = null, $otherArgs = [])
+    protected static function _getJson($url, $args = null, $otherArgs = [])
     {
         $data = self::get($url, $args , $otherArgs);
         return json_decode($data,JSON_UNESCAPED_UNICODE);
@@ -57,10 +77,11 @@ class GHttp
      * @param array $otherArgs
      * @return string
      */
-    public static function post($url,$args = null,$otherArgs = [])
+    protected static function _post($url,$args = null,$otherArgs = [])
     {
         is_string($args) && parse_str($args,$args);
         $args = array_merge([
+            'verify' => false,
             'form_params' => $args,
             'headers' => [
                 'referer' => $url,
@@ -78,10 +99,11 @@ class GHttp
      * @param array $otherArgs
      * @return string
      */
-    public static function postRaw($url, $raw = null, $otherArgs = [])
+    protected static function _postRaw($url, $raw = null, $otherArgs = [])
     {
         is_array($raw) && $raw = json_encode($raw);
         $args = array_merge([
+            'verify' => false,
             'body' => $raw,
             'headers' => [
                 'referer' => $url,
@@ -99,10 +121,11 @@ class GHttp
      * @param array $otherArgs
      * @return string
      */
-    public static function postJson($url, $args = null, $otherArgs = [])
+    protected static function _postJson($url, $args = null, $otherArgs = [])
     {
         is_string($args) && parse_str($args,$args);
         $args = array_merge([
+            'verify' => false,
             'json' => $args,
             'headers' => [
                 'referer' => $url,
@@ -127,5 +150,15 @@ class GHttp
             'sink' => $filePath,
         ]);
         return self::get($url,$args,$otherArgs);
+    }
+
+    /**
+     * @param $urls
+     * @return MultiRequest
+     */
+    public static function multiRequest($urls)
+    {
+        $client = self::getClient();
+        return MultiRequest::newRequest($client)->urls($urls);
     }
 }

@@ -286,7 +286,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
                 }
             }
 
-            if (!$suiteMethod && !$testClass->isAbstract()) {
+            if (!$suiteMethod && !$testClass->isAbstract() && $testClass->isSubclassOf(TestCase::class)) {
                 $this->addTest(new self($testClass));
             }
         } else {
@@ -360,7 +360,7 @@ class TestSuite implements Test, SelfDescribing, IteratorAggregate
         foreach ($newClasses as $className) {
             $class = new ReflectionClass($className);
 
-            if (dirname($class->getFileName()) === __DIR__) {
+            if (\dirname($class->getFileName()) === __DIR__) {
                 continue;
             }
 

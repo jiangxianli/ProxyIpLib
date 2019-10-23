@@ -26,11 +26,11 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->once())
             ->method('has')
             ->with('foo')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
         $container->expects($this->once())
             ->method('get')
             ->with('foo')
-            ->will($this->returnValue($this))
+            ->willReturn($this)
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -39,7 +39,7 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
         $controller = $resolver->getController($request);
 
-        $this->assertInstanceOf(get_class($this), $controller[0]);
+        $this->assertInstanceOf(\get_class($this), $controller[0]);
         $this->assertSame('controllerMethod1', $controller[1]);
     }
 
@@ -51,12 +51,12 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->once())
             ->method('has')
             ->with('foo')
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
         $container->expects($this->once())
             ->method('get')
             ->with('foo')
-            ->will($this->returnValue($invokableController))
+            ->willReturn($invokableController)
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -77,12 +77,12 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->once())
             ->method('has')
             ->with($className)
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
         $container->expects($this->once())
             ->method('get')
             ->with($className)
-            ->will($this->returnValue($invokableController))
+            ->willReturn($invokableController)
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -100,46 +100,44 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->once())
             ->method('has')
             ->with(NonInstantiableController::class)
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', array(NonInstantiableController::class, 'action'));
+        $request->attributes->set('_controller', [NonInstantiableController::class, 'action']);
 
         $controller = $resolver->getController($request);
 
-        $this->assertSame(array(NonInstantiableController::class, 'action'), $controller);
+        $this->assertSame([NonInstantiableController::class, 'action'], $controller);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "Symfony\Component\HttpKernel\Tests\Controller\ImpossibleConstructController" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?
-     */
     public function testNonConstructController()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "Symfony\Component\HttpKernel\Tests\Controller\ImpossibleConstructController" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->at(0))
             ->method('has')
             ->with(ImpossibleConstructController::class)
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
 
         $container->expects($this->at(1))
             ->method('has')
             ->with(ImpossibleConstructController::class)
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
 
         $container->expects($this->atLeastOnce())
             ->method('getRemovedIds')
             ->with()
-            ->will($this->returnValue(array(ImpossibleConstructController::class => true)))
+            ->willReturn([ImpossibleConstructController::class => true])
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', array(ImpossibleConstructController::class, 'action'));
+        $request->attributes->set('_controller', [ImpossibleConstructController::class, 'action']);
 
         if (\PHP_VERSION_ID < 70100) {
             ErrorHandler::register();
@@ -162,40 +160,38 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->atLeastOnce())
             ->method('has')
             ->with(NonInstantiableController::class)
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
         $container->expects($this->atLeastOnce())
             ->method('get')
             ->with(NonInstantiableController::class)
-            ->will($this->returnValue($service))
+            ->willReturn($service)
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', array(NonInstantiableController::class, 'action'));
+        $request->attributes->set('_controller', [NonInstantiableController::class, 'action']);
 
         $controller = $resolver->getController($request);
 
-        $this->assertSame(array($service, 'action'), $controller);
+        $this->assertSame([$service, 'action'], $controller);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "app.my_controller" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?
-     */
     public function testExceptionWhenUsingRemovedControllerService()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "app.my_controller" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->at(0))
             ->method('has')
             ->with('app.my_controller')
-            ->will($this->returnValue(false))
+            ->willReturn(false)
         ;
 
         $container->expects($this->atLeastOnce())
             ->method('getRemovedIds')
             ->with()
-            ->will($this->returnValue(array('app.my_controller' => true)))
+            ->willReturn(['app.my_controller' => true])
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -205,22 +201,20 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $resolver->getController($request);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "app.my_controller" cannot be called without a method name. Did you forget an "__invoke" method?
-     */
     public function testExceptionWhenUsingControllerWithoutAnInvokeMethod()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "app.my_controller" cannot be called without a method name. Did you forget an "__invoke" method?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->once())
             ->method('has')
             ->with('app.my_controller')
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
         $container->expects($this->once())
             ->method('get')
             ->with('app.my_controller')
-            ->will($this->returnValue(new ImpossibleConstructController('toto', 'controller')))
+            ->willReturn(new ImpossibleConstructController('toto', 'controller'))
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -237,12 +231,8 @@ class ContainerControllerResolverTest extends ControllerResolverTest
     {
         // All this logic needs to be duplicated, since calling parent::testGetControllerOnNonUndefinedFunction will override the expected excetion and not use the regex
         $resolver = $this->createControllerResolver();
-        if (method_exists($this, 'expectException')) {
-            $this->expectException($exceptionName);
-            $this->expectExceptionMessageRegExp($exceptionMessage);
-        } else {
-            $this->setExpectedExceptionRegExp($exceptionName, $exceptionMessage);
-        }
+        $this->expectException($exceptionName);
+        $this->expectExceptionMessageRegExp($exceptionMessage);
 
         $request = Request::create('/');
         $request->attributes->set('_controller', $controller);
@@ -251,16 +241,16 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
     public function getUndefinedControllers()
     {
-        return array(
-            array('foo', \LogicException::class, '/Controller not found: service "foo" does not exist\./'),
-            array('oof::bar', \InvalidArgumentException::class, '/Class "oof" does not exist\./'),
-            array('stdClass', \LogicException::class, '/Controller not found: service "stdClass" does not exist\./'),
-            array(
+        return [
+            ['foo', \LogicException::class, '/Controller not found: service "foo" does not exist\./'],
+            ['oof::bar', \InvalidArgumentException::class, '/Class "oof" does not exist\./'],
+            ['stdClass', \LogicException::class, '/Controller not found: service "stdClass" does not exist\./'],
+            [
                 'Symfony\Component\HttpKernel\Tests\Controller\ControllerResolverTest::bar',
                 \InvalidArgumentException::class,
                 '/.?[cC]ontroller(.*?) for URI "\/" is not callable\.( Expected method(.*) Available methods)?/',
-            ),
-        );
+            ],
+        ];
     }
 
     protected function createControllerResolver(LoggerInterface $logger = null, ContainerInterface $container = null)

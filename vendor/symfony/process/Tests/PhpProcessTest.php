@@ -38,11 +38,11 @@ PHP
         $commandLine = $process->getCommandLine();
 
         $process->start();
-        $this->assertContains($commandLine, $process->getCommandLine(), '::getCommandLine() returns the command line of PHP after start');
+        $this->assertStringContainsString($commandLine, $process->getCommandLine(), '::getCommandLine() returns the command line of PHP after start');
 
         $process->wait();
-        $this->assertContains($commandLine, $process->getCommandLine(), '::getCommandLine() returns the command line of PHP after wait');
+        $this->assertStringContainsString($commandLine, $process->getCommandLine(), '::getCommandLine() returns the command line of PHP after wait');
 
-        $this->assertSame(PHP_VERSION.PHP_SAPI, $process->getOutput());
+        $this->assertSame(PHP_VERSION.\PHP_SAPI, $process->getOutput());
     }
 }

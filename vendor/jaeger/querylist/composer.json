@@ -5,7 +5,7 @@
     "homepage": "http://querylist.cc",
     "require": {
         "PHP":">=7.0",
-        "jaeger/phpquery-single": "^0.9",
+        "jaeger/phpquery-single": "^1",
         "tightenco/collect": "^5",
         "jaeger/g-http": "^1.1"
     },
@@ -24,7 +24,13 @@
             "QL\\":"src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require-dev": {
-        "symfony/var-dumper": "^3.3"
+        "symfony/var-dumper": "^3.3",
+        "phpunit/phpunit": "^7.5"
     }
 }

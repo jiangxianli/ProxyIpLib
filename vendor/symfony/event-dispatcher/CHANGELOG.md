@@ -1,6 +1,25 @@
 CHANGELOG
 =========
 
+4.3.0
+-----
+
+ * The signature of the `EventDispatcherInterface::dispatch()` method should be updated to `dispatch($event, string $eventName = null)`, not doing so is deprecated
+ * deprecated the `Event` class, use `Symfony\Contracts\EventDispatcher\Event` instead
+
+4.1.0
+-----
+
+ * added support for invokable event listeners tagged with `kernel.event_listener` by default 
+ * The `TraceableEventDispatcher::getOrphanedEvents()` method has been added.
+ * The `TraceableEventDispatcherInterface` has been deprecated.
+
+4.0.0
+-----
+
+ * removed the `ContainerAwareEventDispatcher` class
+ * added the `reset()` method to the `TraceableEventDispatcherInterface`
+
 3.4.0
 -----
 

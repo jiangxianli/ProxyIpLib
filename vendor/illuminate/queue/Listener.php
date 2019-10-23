@@ -3,8 +3,8 @@
 namespace Illuminate\Queue;
 
 use Closure;
+use Illuminate\Support\ProcessUtils;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessUtils;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 class Listener
@@ -222,7 +222,7 @@ class Listener
      */
     public function memoryExceeded($memoryLimit)
     {
-        return (memory_get_usage() / 1024 / 1024) >= $memoryLimit;
+        return (memory_get_usage(true) / 1024 / 1024) >= $memoryLimit;
     }
 
     /**

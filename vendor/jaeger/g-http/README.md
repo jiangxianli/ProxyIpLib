@@ -42,7 +42,7 @@ $rt = GHttp::getJson('https://xxxx.com/json');
 ```
 
 #### 2.post / postRaw / postJson
-```
+```php
 $rt = GHttp::post('https://www.posttestserver.com/post.php',[
     'name' => 'QueryList',
     'password' => 'ql'
@@ -61,6 +61,98 @@ $rt = GHttp::postJson('http://httpbin.org/post','aa=11&bb=22');
 ```
 #### 3.download
 
-```
+```php
 GHttp::download('http://sw.bos.baidu.com/setup.exe','./path/to/xx.exe');
+```
+### 4. concurrent requests
+```php
+use Jaeger\GHttp;
+
+$urls = [
+    'http://httpbin.org/get?name=php',
+    'http://httpbin.org/get?name=go',
+    'http://httpbin.org/get?name=c#',
+    'http://httpbin.org/get?name=java'
+];
+
+GHttp::multiRequest($urls)->withHeaders([
+    'X-Powered-By' => 'Jaeger'
+])->withOptions([
+    'timeout' => 10
+])->concurrency(2)->success(function($response,$index){
+    print_r((String)$response->getBody());
+    print_r($index);
+})->error(function($reason,$index){
+    print_r($reason);
+})->get();
+```
+
+```php
+use Jaeger\GHttp;
+use GuzzleHttp\Psr7\Request;
+
+$requests = [
+    new Request('POST','http://httpbin.org/post',[
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'g-http'
+    ],http_build_query([
+        'name' => 'php'
+    ])),
+    new Request('POST','http://httpbin.org/post',[
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'g-http'
+    ],http_build_query([
+        'name' => 'go'
+    ])),
+    new Request('POST','http://httpbin.org/post',[
+        'Content-Type' => 'application/x-www-form-urlencoded',
+        'User-Agent' => 'g-http'
+    ],http_build_query([
+        'name' => 'c#'
+    ]))
+];
+
+GHttp::multiRequest($requests)->success(function($response,$index){
+    print_r((String)$response->getBody());
+    print_r($index);
+})->post();
+```
+### 5. Request with cache
+
+Base on PHP-Cache: http://www.php-cache.com
+
+- Use filesystem cache
+```php
+use Jaeger\GHttp;
+
+$rt = GHttp::get('http://httpbin.org/get',[
+    'wd' => 'QueryList'
+],[
+    'cache' => __DIR__,
+    'cache_ttl' => 120 //seconds
+]);
+
+```
+
+- Use predis cache
+
+Install predis adapter:
+```
+composer require cache/predis-adapter
+```
+
+Usage:
+```php
+use Jaeger\GHttp;
+use Cache\Adapter\Predis\PredisCachePool;
+
+$client = new \Predis\Client('tcp:/127.0.0.1:6379');
+$pool = new PredisCachePool($client);
+
+$rt = GHttp::get('http://httpbin.org/get',[
+    'wd' => 'QueryList'
+],[
+    'cache' => $pool,
+    'cache_ttl' => 120 //seconds
+]);
 ```

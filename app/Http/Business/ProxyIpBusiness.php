@@ -133,166 +133,6 @@ class ProxyIpBusiness
     }
 
     /**
-     * 西刺免费代理
-     *
-     * @author jiangxianli
-     * @created_at
-     */
-    public function grabXiCiDaiLi()
-    {
-        $urls = [
-            "http://www.xicidaili.com/nn/",
-            "http://www.xicidaili.com/nn/2",
-            "http://www.xicidaili.com/nn/3",
-            "http://www.xicidaili.com/nt/",
-            "http://www.xicidaili.com/nt/2",
-            "http://www.xicidaili.com/nt/3",
-            "http://www.xicidaili.com/wn/",
-            "http://www.xicidaili.com/wn/2",
-            "http://www.xicidaili.com/wn/3",
-            "http://www.xicidaili.com/nt/",
-            "http://www.xicidaili.com/nt/2",
-            "http://www.xicidaili.com/nt/3",
-        ];
-
-        $this->grabProcess($urls, "table#ip_list tr", function ($tr) {
-            $ip = $tr->find('td:eq(1)')->text();
-            $port = $tr->find('td:eq(2)')->text();
-            $anonymity = $tr->find('td:eq(4)')->text() == "高匿" ? 2 : 1;
-            $protocol = strtolower($tr->find('td:eq(5)')->text());
-            return [$ip, $port, $anonymity, $protocol];
-        });
-    }
-
-    /**
-     * GouBanJia
-     *
-     * @author jiangxianli
-     * @created_at 2017-12-25 16:34:02
-     */
-    public function grabGouBanJia()
-    {
-        $urls = [
-            "http://www.goubanjia.com/free/index1.shtml",
-            "http://www.goubanjia.com/free/index2.shtml",
-            "http://www.goubanjia.com/free/index3.shtml",
-            "http://www.goubanjia.com/free/index4.shtml",
-            "http://www.goubanjia.com/free/index5.shtml",
-            "http://www.goubanjia.com/free/index6.shtml",
-            "http://www.goubanjia.com/free/index7.shtml",
-            "http://www.goubanjia.com/free/index8.shtml",
-            "http://www.goubanjia.com/free/index9.shtml",
-            "http://www.goubanjia.com/free/index10.shtml",
-            "http://www.goubanjia.com/free/index11.shtml",
-            "http://www.goubanjia.com/free/index12.shtml",
-            "http://www.goubanjia.com/free/index13.shtml",
-            "http://www.goubanjia.com/free/index14.shtml",
-            "http://www.goubanjia.com/free/index15.shtml",
-            "http://www.goubanjia.com/free/gngn/index.shtml",
-            "http://www.goubanjia.com/free/gnpt/index.shtml",
-            "http://www.goubanjia.com/free/gwgn/index.shtml",
-            "http://www.goubanjia.com/free/gwpt/index.shtml"
-        ];
-
-        $this->grabProcess($urls, "#list table tr", function ($tr) {
-            $ip_port = "";
-            $tr->find('td:eq(0)')->children()->map(function ($item) use (&$ip_port) {
-                if (!str_contains($item->attr('style'), ["none"]) && !$item->hasClass('port')) {
-                    $ip_port .= $item->text();
-                }
-            });
-            $ip = str_replace("..", ".", $ip_port);
-            $port = $tr->find('td:eq(0) .port:eq(0)')->text();
-            $anonymity = $tr->find('td:eq(1) a:eq(0)')->text() == "高匿" ? 2 : 1;
-            $protocol = strtolower($tr->find('td:eq(2) a:eq(0)')->text());
-            return [$ip, $port, $anonymity, $protocol];
-        });
-    }
-
-
-    /**
-     * SixSixIp
-     *
-     * @author jiangxianli
-     * @created_at 2017-12-25 16:34:02
-     */
-    public function grabSixSixIp()
-    {
-        $urls = [
-            "http://www.66ip.cn/1.html",
-            "http://www.66ip.cn/2.html",
-            "http://www.66ip.cn/3.html",
-            "http://www.66ip.cn/4.html",
-            "http://www.66ip.cn/5.html",
-            "http://www.66ip.cn/6.html",
-        ];
-
-        $this->grabProcess($urls, "#main table tr", function ($tr) {
-            $ip = $tr->find('td:eq(0)')->text();
-            $port = $tr->find('td:eq(1)')->text();
-            $anonymity = 2;
-            $protocol = 'http';
-            return [$ip, $port, $anonymity, $protocol];
-        });
-
-    }
-
-    /**
-     * 云代理
-     *
-     * @author jiangxianli
-     * @created_at 2017-12-25 18:01:44
-     */
-    public function grabYunDaiLi()
-    {
-        $urls = [
-            "http://www.yun-daili.com/free.asp?stype=1&page=1",
-            "http://www.yun-daili.com/free.asp?stype=1&page=2",
-            "http://www.yun-daili.com/free.asp?stype=2&page=1",
-            "http://www.yun-daili.com/free.asp?stype=2&page=2",
-            "http://www.yun-daili.com/free.asp?stype=3&page=1",
-            "http://www.yun-daili.com/free.asp?stype=3&page=2",
-            "http://www.yun-daili.com/free.asp?stype=4&page=1",
-            "http://www.yun-daili.com/free.asp?stype=4&page=2",
-        ];
-
-        $this->grabProcess($urls, "#main table tr", function ($tr) {
-            $ip = $tr->find('td:eq(0)')->text();
-            $port = $tr->find('td:eq(1)')->text();
-            $anonymity = 2;
-            $protocol = $tr->find('td:eq(3)')->text() == "HTTP代理" ? "http" : "https";
-            return [$ip, $port, $anonymity, $protocol];
-        });
-
-    }
-
-
-    /**
-     * Data5U
-     *
-     * @author jiangxianli
-     * @created_at 2017-12-25 18:01:44
-     */
-    public function grabData5U()
-    {
-        $urls = [
-            "http://www.data5u.com/free/index.shtml",
-            "http://www.data5u.com/free/gngn/index.shtml",
-            "http://www.data5u.com/free/gnpt/index.shtml",
-            "http://www.data5u.com/free/gwgn/index.shtml",
-            "http://www.data5u.com/free/gwpt/index.shtml"
-        ];
-
-        $this->grabProcess($urls, "ul.l2", function ($tr) {
-            $ip = $tr->find('li:eq(0)')->text();
-            $port = $tr->find('li:eq(1)')->text();
-            $anonymity = $tr->find('li:eq(2)')->text() == '高匿' ? 2 : 1;
-            $protocol = $tr->find('li:eq(3)')->text();
-            return [$ip, $port, $anonymity, $protocol];
-        });
-    }
-
-    /**
      * IP3366
      *
      * @author jiangxianli
@@ -329,34 +169,38 @@ class ProxyIpBusiness
 
     }
 
+
     /**
-     * PCDaiLi
+     * IP3366
      *
      * @author jiangxianli
-     * @created_at 2017-12-25 16:34:02
+     * @created_at 2017-12-25 18:01:44
      */
-    public function grabPCDaiLi()
+    public function grab89Ip()
     {
         $urls = [
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=1",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=2",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=1&page=3",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=1",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=2",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=2&page=3",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=1",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=2",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=3&page=3",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=1",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=2",
-            "http://www.pcdaili.com/index.php?m=daili&a=free&type=4&page=3",
+            "http://www.89ip.cn/index_1.html",
+            "http://www.89ip.cn/index_2.html",
+            "http://www.89ip.cn/index_3.html",
+            "http://www.89ip.cn/index_4.html",
+            "http://www.89ip.cn/index_5.html",
+            "http://www.89ip.cn/index_6.html",
+            "http://www.89ip.cn/index_7.html",
+            "http://www.89ip.cn/index_8.html",
+            "http://www.89ip.cn/index_9.html",
+            "http://www.89ip.cn/index_10.html",
+            "http://www.89ip.cn/index_11.html",
+            "http://www.89ip.cn/index_12.html",
+            "http://www.89ip.cn/index_13.html",
+            "http://www.89ip.cn/index_14.html",
+            "http://www.89ip.cn/index_15.html",
         ];
 
-        $this->grabProcess($urls, "table tr", function ($tr) {
+        $this->grabProcess($urls, ".layui-table table tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
-            $anonymity = str_contains($tr->find('td:eq(2)')->text(), ["高匿"]) ? 2 : 1;
-            $protocol = strtolower($tr->find('td:eq(3)')->text());
+            $anonymity = 2;
+            $protocol = "http";
             return [$ip, $port, $anonymity, $protocol];
         });
     }

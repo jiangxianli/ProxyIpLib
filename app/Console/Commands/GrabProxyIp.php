@@ -52,27 +52,12 @@ class GrabProxyIp extends Command
         switch ($this->argument('origin')) {
             case 'kuidaili':
                 $this->proxy_ip_business->grabKuaiDaiLi();
-                break;
-            case 'xicidaili':
-                $this->proxy_ip_business->grabXiCiDaiLi();
-                break;
-            case 'goubanjia':
-                $this->proxy_ip_business->grabGouBanJia();
-                return;
-            case 'sixsixip':
-                $this->proxy_ip_business->grabSixSixIp();
-                return;
-            case 'yundaili':
-                $this->proxy_ip_business->grabYunDaiLi();
-                return;
-            case 'data5u':
-                $this->proxy_ip_business->grabData5U();
                 return;
             case 'ip3366':
                 $this->proxy_ip_business->grabIp3366();
                 return;
-            case 'pcdaili':
-                $this->proxy_ip_business->grabPCDaiLi();
+            case '89ip':
+                $this->proxy_ip_business->grab89Ip();
                 return;
         }
     }

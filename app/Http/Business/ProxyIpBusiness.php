@@ -169,7 +169,6 @@ class ProxyIpBusiness
 
     }
 
-
     /**
      * IP3366
      *
@@ -196,7 +195,7 @@ class ProxyIpBusiness
             "http://www.89ip.cn/index_15.html",
         ];
 
-        $this->grabProcess($urls, ".layui-table table tr", function ($tr) {
+        $this->grabProcess($urls, "table.layui-table tbody tr", function ($tr) {
             $ip = $tr->find('td:eq(0)')->text();
             $port = $tr->find('td:eq(1)')->text();
             $anonymity = 2;

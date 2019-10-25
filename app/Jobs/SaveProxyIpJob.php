@@ -63,6 +63,17 @@ class SaveProxyIpJob extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        $redis = app('redis');
+
+        $ip_cache_map = "proxy_ips:add-ip-cache-map";
+
+        $cache_key = sprintf("%s://%s:%s", $this->protocol, $this->ip, $this->port);
+        //获取已抓取次数
+        $ip_cache_times = $redis->hget($ip_cache_map, $cache_key);
+        if (!empty($ip_cache_times) && $ip_cache_times >= 10) {
+            return;
+        }
+
         try {
             //速度检测
             $proxy_ip_business->ipSpeedCheck($this->ip, $this->port, $this->protocol);
@@ -79,5 +90,9 @@ class SaveProxyIpJob extends Job
                 'error_msg'  => method_exists($exception, 'formatError') ? $exception->formatError() : $exception->getMessage(),
             ]);
         }
+
+        $redis->hset($ip_cache_map, $cache_key, empty($ip_cache_times) ? 1 : $ip_cache_times + 1);
+
+        sleep(5);
     }
 }

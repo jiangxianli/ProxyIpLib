@@ -81,11 +81,11 @@
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问地址</label>
-                            <input class="form-control" id="web-link" value="https://www.jiangxianli.com">
+                            <input class="form-control" id="web-link" value="http://www.baidu.com">
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问结果</label>
-                            <iframe class="form-control" id="proxy-iframe" style="min-height: 300px;" ></iframe>
+                            <iframe class="form-control" id="proxy-iframe" style="min-height: 300px;" name="proxy-iframe"></iframe>
                         </div>
                     </form>
                 </div>
@@ -137,6 +137,7 @@
                 var webLink = $('#web-link').val()
                 $('#proxy-ip-address').val(ipAddress);
                 var src = '/api/web-request-speed?protocol=' + protocol + '&ip=' + ip + '&port=' + port + '&web_link=' + encodeURIComponent(webLink);
+                $('#proxy-iframe').contents().find("html").html("");
                 $('#proxy-iframe').attr('src', src)
 
             });

@@ -455,16 +455,23 @@ class ProxyIpBusiness
         //开始请求毫秒
         $begin_seconds = Helper::mSecondTime();
 
-        $urls = $this->getWebUrls();
-
-        //代理请求
-        $client = new Client();
-        $client->request('GET', $urls[random_int(0, count($urls) - 1)], [
-            'proxy'   => [
-                $protocol => "$protocol://$ip:$port"
+        $url = "http://www.baidu.com";
+        //
+        $options = [
+            'headers' => [
+                'Referer'                   => $url,
+                'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                'Upgrade-Insecure-Requests' => "1",
+                'Host'                      => parse_url($url, PHP_URL_HOST),
+                'DNT'                       => "1",
             ],
-            'timeout' => $this->time_out
-        ]);
+            'timeout' => $this->time_out,
+            'proxy'   => "$protocol://$ip:$port"
+        ];
+
+        //抓取网页内容
+        $ql = QueryList::get($url, [], $options);
 
         $end_seconds = Helper::mSecondTime();
 
@@ -523,21 +530,14 @@ class ProxyIpBusiness
     public function getNowValidateOneProxyIp()
     {
         $condition = [
-            'limit'      => 100,
+//            'limit'      => 100,
             'order_by'   => 'validated_at',
-            'order_rule' => 'desc'
+            'order_rule' => 'desc',
+            'first'      => 'true'
         ];
-        $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
-        foreach ($proxy_ips as $proxy_ip) {
-            try {
-                $this->ipSpeedCheck($proxy_ip->ip, $proxy_ip->port, $proxy_ip->protocol);
+        $proxy_ip = $this->proxy_ip_dao->getProxyIpList($condition);
 
-                return $proxy_ip;
-
-            } catch (\Exception $exception) {
-
-            }
-        }
+        return $proxy_ip;
     }
 
     /**
@@ -591,21 +591,10 @@ class ProxyIpBusiness
     {
         return [
             "http://www.sina.com.cn/",
-            "http://www.sohu.com/",
-            "http://www.ifeng.com/",
-            "http://www.qq.com/",
-            "https://www.baidu.com/",
             "http://www.163.com/",
-            "https://www.jd.com",
-            "https://www.taobao.com/",
-            "https://www.autohome.com.cn/",
-            "http://www.eastmoney.com/",
-            "https://www.yhd.com/",
             "http://game.2345.com/",
-            "https://www.qunar.com/",
             "http://email.163.com/",
             "http://www.youku.com/",
-            "https://www.qidian.com/",
             "http://www.xxsy.net/",
             "http://www.sznews.com/",
             "http://www.dayoo.com/",
@@ -613,19 +602,10 @@ class ProxyIpBusiness
             "http://www.infzm.com/",
             "http://www.southcn.com/",
             "http://www.gdtv.cn/",
-            "https://www.douban.com/",
-            "https://www.tianyancha.com/",
-            "https://open.163.com/",
             "http://lady.163.com/",
             "http://guangzhou.baixing.com/",
             "http://www.xiaozhu.com/",
             "http://www.jiayuan.com/",
-            "http://mobile.pconline.com.cn/",
-            "https://www.ithome.com/",
-            "https://www.kaola.com/",
-            "https://www.qidian.com/",
-            "https://www.duitang.com/",
-            "https://www.guokr.com/",
         ];
     }
 }

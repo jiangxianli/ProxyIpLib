@@ -66,5 +66,7 @@ class ProxyIpLocationJob extends Job
                 'error_msg'  => method_exists($exception, 'formatError') ? $exception->formatError() : $exception->getMessage(),
             ]);
         }
+
+        sleep(1);
     }
 }

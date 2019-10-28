@@ -254,8 +254,10 @@ class ProxyIpBusiness
             'speed'        => $speed,
             'validated_at' => Carbon::now(),
         ];
-        $this->proxy_ip_dao->addProxyIp($ip_data);
+        $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);
         app("Logger")->info("新IP入库成功", $ip_data);
+
+        dispatch(new ProxyIpLocationJob($proxy_ip->toArray()));
     }
 
     /**

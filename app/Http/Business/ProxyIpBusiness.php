@@ -205,6 +205,31 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function xiLaIp()
+    {
+        $urls = [
+            "http://www.xiladaili.com/gaoni/",
+            "http://www.xiladaili.com/gaoni/2/",
+            "http://www.xiladaili.com/gaoni/3/",
+            "http://www.xiladaili.com/putong/",
+            "http://www.xiladaili.com/putong/2/",
+            "http://www.xiladaili.com/putong/3/",
+        ];
+
+        $this->grabProcess($urls, "table.fl-table tbody tr", function ($tr) {
+            list($ip, $port) = explode(":", $tr->find('td:eq(0)')->text());
+            $protocol = str_contains($tr->find('td:eq(1)')->text(), "HTTPS") ? "https" : "http";
+            $anonymity = str_contains($tr->find('td:eq(1)')->text(), "透明") ? 1 : 2;
+
+            var_dump([$ip, $port, $anonymity, $protocol]);
+            return [$ip, $port, $anonymity, $protocol];
+        });
+    }
+
+    /**
      * 定时清理
      *
      * @author jiangxianli

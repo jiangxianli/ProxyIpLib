@@ -105,7 +105,7 @@ class Helper
         //小时
         $hour = ($distance % 86400) > 0 ? intval(($distance % 86400) / 3600) : 0;
         //
-        $minutes = ($distance % 3600) > 0 ? intval(($distance % 3600)) / 60 : 0;
+        $minutes = ($distance % 3600) > 0 ? intval(($distance % 3600) / 60) : 0;
         //秒
         $seconds = $distance % 60;
 

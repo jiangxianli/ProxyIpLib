@@ -2,6 +2,8 @@
 
 namespace App\Http\Common;
 
+use Carbon\Carbon;
+
 class Helper
 {
     /**
@@ -84,6 +86,38 @@ class Helper
         }
 
         return $flag;
+    }
+
+    /**
+     * 时间格式化显示
+     *
+     * @param $time
+     * @return string
+     * @author jiangxianli
+     * @created_at 2019-10-28 16:31
+     */
+    public static function formatDateDay($time)
+    {
+        $distance = Carbon::now()->diffInSeconds($time);
+
+        //天
+        $day = intval($distance / 86400);
+        //小时
+        $hour = ($distance % 86400) > 0 ? intval(($distance % 86400) / 3600) : 0;
+        //
+        $minutes = ($distance % 3600) > 0 ? intval(($distance % 3600)) / 60 : 0;
+        //秒
+        $seconds = $distance % 60;
+
+        if ($day > 0) {
+            return $day . "天" . $hour . "小时";
+        } else if ($hour > 0) {
+            return $hour . "小时" . $minutes . "分钟";
+        } else if ($minutes > 0) {
+            return $minutes . "分钟" . $seconds . "秒";
+        } else {
+            return $seconds . "秒";
+        }
     }
 
 }

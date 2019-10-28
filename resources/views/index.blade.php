@@ -21,6 +21,7 @@
                             <th>所属国</th>
                             <th>运营商</th>
                             <th>响应速度</th>
+                            <th>存活时间</th>
                             <th>最后验证时间</th>
                             <th></th>
                         </tr>
@@ -37,6 +38,7 @@
                                 <td>{{ $proxy_ip->country }}</td>
                                 <td>{{ $proxy_ip->isp }}</td>
                                 <td>{{ \App\Http\Common\Helper::formatSpeed($proxy_ip->speed) }}</td>
+                                <td>{{ \App\Http\Common\Helper::formatDateDay($proxy_ip->created_at) }}</td>
                                 <td>{{ $proxy_ip->validated_at }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-copy"

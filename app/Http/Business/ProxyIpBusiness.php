@@ -214,9 +214,15 @@ class ProxyIpBusiness
             "http://www.xiladaili.com/gaoni/",
             "http://www.xiladaili.com/gaoni/2/",
             "http://www.xiladaili.com/gaoni/3/",
+            "http://www.xiladaili.com/gaoni/4/",
+            "http://www.xiladaili.com/gaoni/5/",
+            "http://www.xiladaili.com/gaoni/6/",
             "http://www.xiladaili.com/putong/",
             "http://www.xiladaili.com/putong/2/",
             "http://www.xiladaili.com/putong/3/",
+            "http://www.xiladaili.com/putong/4/",
+            "http://www.xiladaili.com/putong/5/",
+            "http://www.xiladaili.com/putong/6/",
         ];
 
         $this->grabProcess($urls, "table.fl-table tbody tr", function ($tr) {

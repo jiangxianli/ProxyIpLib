@@ -65,7 +65,7 @@
             <!-- /.box -->
 
             <div class="row">
-                <p class="text-danger">&nbsp;&nbsp;&nbsp;&nbsp;代理IP采集于网络，请勿用于非法途径，违者后果自负！</p>
+                <p class="text-danger">&nbsp;&nbsp;&nbsp;&nbsp;警告:代理IP采集于网络，仅供个人学习使用。请勿用于非法途径，违者后果自负！</p>
             </div>
         </div>
     </div>

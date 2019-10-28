@@ -12,7 +12,7 @@ class ClearProxyIpJob extends Job
      *
      * @var string|null
      */
-    public $queue = "ip-location";
+    public $queue = "clear-ip";
 
     /**
      * 透明度

@@ -39,8 +39,8 @@ class ProxyIpLocationJob extends Job
     {
         //检查是否已经有IP地址
         $ip = $proxy_ip_business->getProxyIpList([
-            'id'    => $this->proxy_ip['id'],
-            'first' => 'true'
+            'unique_id' => $this->proxy_ip['unique_id'],
+            'first'     => 'true'
         ]);
         if ($ip && !empty($ip->ip_address)) {
             return;

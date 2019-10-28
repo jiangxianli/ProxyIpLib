@@ -404,7 +404,6 @@ class ProxyIpBusiness
     public function getNowValidateOneProxyIp()
     {
         $condition = [
-//            'limit'      => 100,
             'order_by'   => 'validated_at',
             'order_rule' => 'desc',
             'first'      => 'true'

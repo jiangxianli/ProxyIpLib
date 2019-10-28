@@ -40,8 +40,17 @@ class ProxyIpDao
             $proxy_ip->where('unique_id', $condition['unique_id']);
         }
 
+        //国家查询
+        if (!empty($condition['country'])) {
+            $proxy_ip->whereIn('country', explode(",", $condition['country']));
+        }
+        //ISP查询
+        if (!empty($condition['isp'])) {
+            $proxy_ip->whereIn('isp', explode(",", $condition['isp']));
+        }
+        //
         if (isset($condition['order_by']) && isset($condition['order_rule'])) {
-            $proxy_ip->orderBy($condition['order_by'], $condition['order_rule']);
+            $proxy_ip->orderBy($condition['order_by'], strtoupper($condition['order_rule']) == "DESC" ? 'desc' : 'asc');
         }
 
         if (isset($condition['all']) && $condition['all'] == 'true') {

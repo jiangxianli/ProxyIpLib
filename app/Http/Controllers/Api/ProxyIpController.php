@@ -37,7 +37,9 @@ class ProxyIpController extends Controller
      */
     public function getProxyIpList(Request $request, ProxyIpBusiness $proxy_ip_business)
     {
-        $condition = $request->all();
+        $condition = $request->only([
+            'page', 'country', 'isp', 'order_by', 'order_rule'
+        ]);
 
         $proxy_ips = $proxy_ip_business->getProxyIpList($condition);
 

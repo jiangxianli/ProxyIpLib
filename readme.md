@@ -1,12 +1,20 @@
 # 免费代理IP库
 
 ### 警告
-代理IP采集于网络，请勿用于非法途径，违者后果自负！
+代理IP采集于网络，仅供个人学习使用。请勿用于非法途径，违者后果自负！
 
 ### 获取一个验证通过的代理IP
-```shell
-curl http://ip.jiangxianli.com/api/proxy_ip
-```
+* URL: http://ip.jiangxianli.com/api/proxy_ip
+* 请求参数
+
+| 参数名 | 数据类型 | 必传 | 说明 | 例子 |
+| :---|:---| :---| :--- | :--- |
+|page|int|N|第几页|1|
+|country|string|N|所属国|中国,美国|
+|isp|string|N|ISP|电信,阿里云|
+|order_by|string|N|排序字段|speed:响应速度,validated_at:最新校验时间 created_at:存活时间|
+|order_rule|string|N|排序方向|DESC:降序 ASC:升序|
+* 响应数据
 ```json
 {
     "code":0,
@@ -28,9 +36,17 @@ curl http://ip.jiangxianli.com/api/proxy_ip
 ```
 
 ### 获取代理IP列表
-```shell
-curl http://ip.jiangxianli.com/api/proxy_ips
-```
+* URL: http://ip.jiangxianli.com/api/proxy_ips
+* 请求参数
+
+| 参数名 | 数据类型 | 必传 | 说明 | 例子 |
+| :---|:---| :---| :--- | :--- |
+|page|int|N|第几页|1|
+|country|string|N|所属国|中国,美国|
+|isp|string|N|ISP|电信,阿里云|
+|order_by|string|N|排序字段|speed:响应速度,validated_at:最新校验时间 created_at:存活时间|
+|order_rule|string|N|排序方向|DESC:降序 ASC:升序|
+* 响应数据
 ```json
 {
     "code":0,
@@ -63,96 +79,15 @@ curl http://ip.jiangxianli.com/api/proxy_ips
                 "validated_at":"2017-12-25 15:10:04",
                 "created_at":"2017-12-25 14:38:14",
                 "updated_at":"2017-12-25 15:10:04"
-            },
-            {
-                "unique_id":"ff48808450a09d3c6bba79c5e666af1c",
-                "ip":"121.232.145.120",
-                "port":"9000",
-                "ip_address":"江苏省 镇江市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"电信",
-                "speed":367,
-                "validated_at":"2017-12-25 15:10:35",
-                "created_at":"2017-12-25 15:10:35",
-                "updated_at":"2017-12-25 15:10:35"
-            },
-            {
-                "unique_id":"1138678d206cf4ebb1642ad50fb812d6",
-                "ip":"119.5.1.17",
-                "port":"22",
-                "ip_address":"四川省 南充市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"联通",
-                "speed":371,
-                "validated_at":"2017-12-25 15:10:04",
-                "created_at":"2017-12-25 14:37:00",
-                "updated_at":"2017-12-25 15:10:04"
-            },
-            {
-                "unique_id":"a42f199a1eafc5fa8933d12c673d0004",
-                "ip":"118.193.107.80",
-                "port":"80",
-                "ip_address":"北京市 北京市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"电信",
-                "speed":376,
-                "validated_at":"2017-12-25 15:11:05",
-                "created_at":"2017-12-25 15:11:05",
-                "updated_at":"2017-12-25 15:11:05"
-            },
-            {
-                "unique_id":"64d321f9e61251fde6aa0a92bdbbdc62",
-                "ip":"121.232.147.143",
-                "port":"9000",
-                "ip_address":"江苏省 镇江市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"电信",
-                "speed":413,
-                "validated_at":"2017-12-25 15:10:02",
-                "created_at":"2017-12-25 14:33:15",
-                "updated_at":"2017-12-25 15:10:02"
-            },
-            {
-                "unique_id":"4fa2a5e616a6ae0dc7935fd5db02a314",
-                "ip":"119.5.0.20",
-                "port":"22",
-                "ip_address":"四川省 南充市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"联通",
-                "speed":571,
-                "validated_at":"2017-12-25 15:10:03",
-                "created_at":"2017-12-25 14:31:44",
-                "updated_at":"2017-12-25 15:10:03"
-            },
-            {
-                "unique_id":"499b0d5cc43fd3a82d1c1d63fccbc045",
-                "ip":"180.118.128.247",
-                "port":"9000",
-                "ip_address":"江苏省 镇江市",
-                "anonymity":0,
-                "protocol":"http",
-                "isp":"电信",
-                "speed":1131,
-                "validated_at":"2017-12-25 15:10:04",
-                "created_at":"2017-12-25 14:32:15",
-                "updated_at":"2017-12-25 15:10:04"
             }
         ],
-        "first_page_url":"http://ip.jiangxianli.com/api/proxy_ips?page=1",
-        "from":1,
         "last_page":1,
-        "last_page_url":"http://ip.jiangxianli.com/api/proxy_ips?page=1",
-        "next_page_url":null,
-        "path":"http://ip.jiangxianli.com/api/proxy_ips",
         "per_page":15,
-        "prev_page_url":null,
         "to":8,
         "total":8
     }
 }
 ```
+
+## 访问频率限制
+请注意访问频率以及防止无效页的数据获取。多次违规操作访问将被限制IP访问。如需解除IP请在修正操作后，ISSUE中申请解除限制。

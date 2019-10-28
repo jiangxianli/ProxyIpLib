@@ -17,6 +17,7 @@ class CreateProxyIpsTable extends Migration
             $table->string('unique_id', 32);
             $table->string('ip', 15)->comment('IP地址');
             $table->string('port', 5)->comment('端口');
+            $table->string('country', 20)->comment('国家');
             $table->string('ip_address', 100)->comment('IP定位地址');
             $table->tinyInteger('anonymity')->default(1)->comment('匿名度 1:透明 2:高匿');
             $table->enum('protocol', ['http', 'https'])->comment('协议');

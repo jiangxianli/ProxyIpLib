@@ -20,6 +20,7 @@ class ProxyIp extends Model
      */
     protected $fillable = [
         'unique_id',
+        'country',
         'ip_address',
         'ip',
         'port',

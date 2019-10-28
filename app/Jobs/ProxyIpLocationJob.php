@@ -66,6 +66,7 @@ class ProxyIpLocationJob extends Job
             //更新数据IP定位信息
             $proxy_ip_business->updateProxyIp($this->proxy_ip['unique_id'], [
                 'isp'        => $ip_location['isp'],
+                'country'    => $ip_location['country'],
                 'ip_address' => $ip_location['country'] . ' ' . $ip_location['region'] . ' ' . $ip_location['city']
             ]);
 

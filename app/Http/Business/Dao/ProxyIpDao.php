@@ -36,6 +36,10 @@ class ProxyIpDao
     {
         $proxy_ip = app('ProxyIpModel')->select($columns);
 
+        if (!empty($condition['id'])) {
+            $proxy_ip->where('id', $condition['id']);
+        }
+
         if (isset($condition['order_by']) && isset($condition['order_rule'])) {
             $proxy_ip->orderBy($condition['order_by'], $condition['order_rule']);
         }

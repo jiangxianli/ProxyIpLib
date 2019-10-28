@@ -27,6 +27,7 @@ class ProxyIpLocationJob extends Job
     public function __construct(array $proxy_ip)
     {
         $this->proxy_ip = $proxy_ip;
+        $this->delay(3);
     }
 
     /**
@@ -36,6 +37,15 @@ class ProxyIpLocationJob extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        //检查是否已经有IP地址
+        $ip = $proxy_ip_business->getProxyIpList([
+            'id'    => $this->proxy_ip['id'],
+            'first' => 'true'
+        ]);
+        if ($ip && !empty($ip->ip_address)) {
+            return;
+        }
+
         //实例化Redis
         $redis = app('redis');
 

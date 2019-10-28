@@ -223,8 +223,6 @@ class ProxyIpBusiness
             list($ip, $port) = explode(":", $tr->find('td:eq(0)')->text());
             $protocol = str_contains($tr->find('td:eq(1)')->text(), "HTTPS") ? "https" : "http";
             $anonymity = str_contains($tr->find('td:eq(1)')->text(), "透明") ? 1 : 2;
-
-            var_dump([$ip, $port, $anonymity, $protocol]);
             return [$ip, $port, $anonymity, $protocol];
         });
     }

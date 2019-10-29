@@ -38,6 +38,15 @@ class ClearProxyIpJob extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        //检查是否存在
+        $ip = $proxy_ip_business->getProxyIpList([
+            'unique_id' => $this->proxy_ip['unique_id'],
+            'first'     => 'true'
+        ]);
+        if (!$ip) {
+            return;
+        }
+
         try {
             //测速及可用性检查
             $speed = $proxy_ip_business->ipSpeedCheck($this->proxy_ip['ip'], $this->proxy_ip['port'], $this->proxy_ip['protocol']);

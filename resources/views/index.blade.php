@@ -5,7 +5,10 @@
         <div class="center-block" style="width: 80%">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">免费代理IP库</h3>
+                    <div class="center-block" style="width: 300px">
+                        <h3 class="box-title"><a href="https://github.com/jiangxianli/ProxyIpLib">高可用全球免费代理IP库</a><br></h3>
+                    </div>
+                    <p class="text-danger">警告:代理IP采集于网络，仅供个人学习使用。请勿用于非法途径，违者后果自负！</p>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive no-padding ">

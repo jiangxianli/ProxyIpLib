@@ -47,6 +47,16 @@ class ClearProxyIpJob extends Job
             return;
         }
 
+        $redis = app('redis');
+        $ip_cache_map = "proxy_ips:clear-ip-cache-map";
+        $cache_key = sprintf("%s://%s:%s", $this->proxy_ip['protocol'], $this->proxy_ip['ip'], $this->proxy_ip['port']);
+        //获取已失败次数
+        $ip_cache_times = $redis->hget($ip_cache_map, $cache_key);
+        if (!empty($ip_cache_times) && $ip_cache_times >= 3) {
+            $proxy_ip_business->deleteProxyIp($this->proxy_ip['unique_id']);
+            return;
+        }
+
         try {
             //测速及可用性检查
             $speed = $proxy_ip_business->ipSpeedCheck($this->proxy_ip['ip'], $this->proxy_ip['port'], $this->proxy_ip['protocol']);
@@ -55,8 +65,11 @@ class ClearProxyIpJob extends Job
                 'speed'        => $speed,
                 'validated_at' => Carbon::now(),
             ]);
+            $redis->hset($ip_cache_map, $cache_key, 0);
         } catch (\Exception $exception) {
-            $proxy_ip_business->deleteProxyIp($this->proxy_ip['unique_id']);
+            $redis->hset($ip_cache_map, $cache_key, empty($ip_cache_times) ? 1 : $ip_cache_times + 1);
         }
+
+        sleep(1);
     }
 }

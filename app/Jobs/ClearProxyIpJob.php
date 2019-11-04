@@ -22,12 +22,18 @@ class ClearProxyIpJob extends Job
     private $proxy_ip;
 
     /**
+     * @var
+     */
+    private $expired_at ;
+
+    /**
      * ProxyIpLocationJob constructor.
      * @param array $proxy_ip
      */
     public function __construct(array $proxy_ip)
     {
         $this->proxy_ip = $proxy_ip;
+        $this->expired_at = time() + 120;
     }
 
     /**
@@ -38,6 +44,11 @@ class ClearProxyIpJob extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        //超时
+        if ($this->expired_at <= time()) {
+            return;
+        }
+
         //检查是否存在
         $ip = $proxy_ip_business->getProxyIpList([
             'unique_id' => $this->proxy_ip['unique_id'],

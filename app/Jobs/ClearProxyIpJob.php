@@ -70,6 +70,6 @@ class ClearProxyIpJob extends Job
             $redis->hset($ip_cache_map, $cache_key, empty($ip_cache_times) ? 1 : $ip_cache_times + 1);
         }
 
-        sleep(1);
+        usleep(0.2 * 1000 * 1000);
     }
 }

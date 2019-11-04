@@ -48,6 +48,10 @@ class ProxyIpDao
         if (!empty($condition['isp'])) {
             $proxy_ip->whereIn('isp', explode(",", $condition['isp']));
         }
+        //ISP查询
+        if (!empty($condition['lt_validated_at'])) {
+            $proxy_ip->where('validated_at', '<=', $condition['lt_validated_at']);
+        }
         //
         if (isset($condition['order_by']) && isset($condition['order_rule'])) {
             $proxy_ip->orderBy($condition['order_by'], strtoupper($condition['order_rule']) == "DESC" ? 'desc' : 'asc');

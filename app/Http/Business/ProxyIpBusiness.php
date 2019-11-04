@@ -243,7 +243,8 @@ class ProxyIpBusiness
     public function timerClearProxyIp()
     {
         $condition = [
-            'all' => 'true'
+            'lt_validated_at' => Carbon::now()->subMinutes(3)->format("Y-m-d H:i:s"),
+            'all'             => 'true'
         ];
         $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
 

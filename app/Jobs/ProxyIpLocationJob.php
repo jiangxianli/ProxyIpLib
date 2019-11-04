@@ -78,6 +78,6 @@ class ProxyIpLocationJob extends Job
             ]);
         }
 
-        sleep(1);
+        usleep(0.1 * 1000 * 1000);
     }
 }

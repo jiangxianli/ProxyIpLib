@@ -84,7 +84,10 @@
                     <form>
                         <div class="form-group">
                             <label for="recipient-name" class="control-label">代理地址</label>
-                            <input type="text" class="form-control" id="proxy-ip-address">
+                            <input type="text" class="form-control" id="proxy-ip-address" readonly>
+                            <input type="hidden" class="form-control" id="proxy-ip" >
+                            <input type="hidden" class="form-control" id="proxy-port" >
+                            <input type="hidden" class="form-control" id="proxy-protocol" >
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问地址</label>
@@ -93,6 +96,9 @@
                         <div class="form-group">
                             <label for="message-text" class="control-label">访问结果</label>
                             <iframe class="form-control" id="proxy-iframe" style="min-height: 300px;" name="proxy-iframe"></iframe>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" value="测速" class="btn btn-primary self-btn-speed">测速</button>
                         </div>
                     </form>
                 </div>
@@ -135,14 +141,27 @@
             $('.btn-speed').click(function () {
                 loadModal = true;
                 $('#modal-speed').modal({
-                    'backdrop': false,
+                    'backdrop': false
                 });
-                var protocol = $(this).attr('data-protocol')
-                var ip = $(this).attr('data-ip')
-                var port = $(this).attr('data-port')
-                var ipAddress = $(this).attr('data-url')
+                var protocol = $(this).attr('data-protocol');
+                var ip = $(this).attr('data-ip');
+                var port = $(this).attr('data-port');
+                var ipAddress = $(this).attr('data-url');
                 var webLink = $('#web-link').val()
                 $('#proxy-ip-address').val(ipAddress);
+                $("#proxy-ip").val(ip);
+                $("#proxy-port").val(port);
+                $("#proxy-protocol").val(protocol);
+                var src = '/api/web-request-speed?protocol=' + protocol + '&ip=' + ip + '&port=' + port + '&web_link=' + encodeURIComponent(webLink);
+                $('#proxy-iframe').contents().find("html").html("");
+                $('#proxy-iframe').attr('src', src)
+            });
+
+            $('.self-btn-speed').click(function () {
+                var protocol = $("#proxy-protocol").val();
+                var ip = $("#proxy-ip").val();
+                var port = $("#proxy-port").val();
+                var webLink = $('#web-link').val();
                 var src = '/api/web-request-speed?protocol=' + protocol + '&ip=' + ip + '&port=' + port + '&web_link=' + encodeURIComponent(webLink);
                 $('#proxy-iframe').contents().find("html").html("");
                 $('#proxy-iframe').attr('src', src)

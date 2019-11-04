@@ -52,10 +52,11 @@ class ProxyIpBusiness
      * @param $urls
      * @param $table_selector
      * @param $map_func
+     * @param bool $user_proxy
      * @author jiangxianli
      * @created_at 2017-12-28 14:42:03
      */
-    protected function grabProcess($urls, $table_selector, $map_func)
+    protected function grabProcess($urls, $table_selector, $map_func, $user_proxy = false)
     {
         //遍历URL
         foreach ($urls as $url) {
@@ -78,10 +79,10 @@ class ProxyIpBusiness
             ];
 
             //使用代理IP抓取
-//            $proxy_ip = $this->getNowValidateOneProxyIp();
-//            if ($proxy_ip) {
-//                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
-//            }
+            if ($user_proxy) {
+                $proxy_ip = $this->getNowValidateOneProxyIp();
+                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+            }
 
             //抓取网页内容
             $ql = QueryList::get($url, [], $options);
@@ -230,7 +231,7 @@ class ProxyIpBusiness
             $protocol = str_contains($tr->find('td:eq(1)')->text(), "HTTPS") ? "https" : "http";
             $anonymity = str_contains($tr->find('td:eq(1)')->text(), "透明") ? 1 : 2;
             return [$ip, $port, $anonymity, $protocol];
-        });
+        }, true);
     }
 
     /**

@@ -253,7 +253,7 @@ class ProxyIpBusiness
             "http://blog.emailtry.com/index/10",
         ];
 
-        $this->grabProcess($urls, "table.proxy-table1 tr", function ($tr) {
+        $this->grabProcess($urls, "table#proxy-table1>tr", function ($tr) {
             list($ip, $port) = explode(":", $tr->find('td:eq(0)')->text());
             $protocol = "http";
             $anonymity = 2;

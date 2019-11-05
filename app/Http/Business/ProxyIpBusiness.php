@@ -262,6 +262,34 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function qinghuaIp()
+    {
+        $urls = [
+            "http://www.qinghuadaili.com/free/1/",
+            "http://www.qinghuadaili.com/free/2/",
+            "http://www.qinghuadaili.com/free/3/",
+            "http://www.qinghuadaili.com/free/4/",
+            "http://www.qinghuadaili.com/free/5/",
+            "http://www.qinghuadaili.com/free/6/",
+            "http://www.qinghuadaili.com/free/7/",
+            "http://www.qinghuadaili.com/free/8/",
+            "http://www.qinghuadaili.com/free/9/",
+            "http://www.qinghuadaili.com/free/10/",
+        ];
+
+        $this->grabProcess($urls, ".container-fluid table tbody tr", function ($tr) {
+            $ip = trim($tr->find('td:eq(0)')->text());
+            $port = trim($tr->find('td:eq(1)')->text());
+            $anonymity = str_contains($tr->find('td:eq(2)')->text(), "高匿") ? 2 : 1;
+            $protocol = str_contains($tr->find('td:eq(3)')->text(), "HTTPS") ? "https" : "http";
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
      * 定时清理
      *
      * @author jiangxianli
@@ -270,9 +298,9 @@ class ProxyIpBusiness
     public function timerClearProxyIp()
     {
         $condition = [
-            'order_by'        => 'validated_at',
-            'order_rule'      => 'asc',
-            'all'             => 'true'
+            'order_by'   => 'validated_at',
+            'order_rule' => 'asc',
+            'all'        => 'true'
         ];
         $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
 

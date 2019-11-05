@@ -404,10 +404,20 @@ class ProxyIpBusiness
 
         //抓取网页内容
         $ql = QueryList::get($url, [], $options);
+        //获取标题
+        $title = $ql->find("title")->eq(0)->text();
+        if (empty($title) || !str_contains($title, "百度一下")) {
+            throw new JsonException(20000);
+        }
 
         $end_seconds = Helper::mSecondTime();
+        //总用时 (大于)
+        $total_use = intval($end_seconds - $begin_seconds);
+        if ($total_use > 2000) {
+            throw new JsonException(20001);
+        }
 
-        return intval($end_seconds - $begin_seconds);
+        return $total_use;
     }
 
     /**

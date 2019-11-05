@@ -235,6 +235,33 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function emailtryIp()
+    {
+        $urls = [
+            "http://blog.emailtry.com/index/1",
+            "http://blog.emailtry.com/index/2",
+            "http://blog.emailtry.com/index/3",
+            "http://blog.emailtry.com/index/4",
+            "http://blog.emailtry.com/index/5",
+            "http://blog.emailtry.com/index/6",
+            "http://blog.emailtry.com/index/7",
+            "http://blog.emailtry.com/index/8",
+            "http://blog.emailtry.com/index/9",
+            "http://blog.emailtry.com/index/10",
+        ];
+
+        $this->grabProcess($urls, "table.proxy-table1 tr", function ($tr) {
+            list($ip, $port) = explode(":", $tr->find('td:eq(0)')->text());
+            $protocol = "http";
+            $anonymity = 2;
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
      * 定时清理
      *
      * @author jiangxianli

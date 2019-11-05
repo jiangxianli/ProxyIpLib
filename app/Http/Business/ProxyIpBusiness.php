@@ -243,7 +243,6 @@ class ProxyIpBusiness
     public function timerClearProxyIp()
     {
         $condition = [
-            'lt_validated_at' => Carbon::now()->subMinutes(3)->format("Y-m-d H:i:s"),
             'order_by'        => 'validated_at',
             'order_rule'      => 'asc',
             'all'             => 'true'

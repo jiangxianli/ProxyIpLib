@@ -18,16 +18,29 @@
         .ad-area .layui-card{
             border: 1px solid #e6e6e6;
         }
-        .layui-footer {
-            position: relative;
+        .content-footer {
+            background: #eee;
+            height: 44px;
+            line-height: 44px;
+            padding: 0 15px;;
         }
     </style>
+
+    <!-- 百度统计 -->
+    {{--<script>--}}
+        {{--var _hmt = _hmt || [];--}}
+        {{--(function() {--}}
+            {{--var hm = document.createElement("script");--}}
+            {{--hm.src = "https://hm.baidu.com/hm.js?b72418f3b1d81bbcf8f99e6eb5d4e0c3";--}}
+            {{--var s = document.getElementsByTagName("script")[0];--}}
+            {{--s.parentNode.insertBefore(hm, s);--}}
+        {{--})();--}}
+    {{--</script>--}}
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">高可用全球免费代理IP库</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item">
                 <a href="javascript:;">协议</a>
@@ -147,20 +160,19 @@
         </div>
     </div>
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
+    <div class="content-footer">
+        Copyright © 2019 高可用全球免费代理IP库
     </div>
 </div>
 <script src="/layui/layui.all.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script>
-    //JavaScript代码区域
-    // layui.use('element', function(){
-    //     var element = layui.element;
-    //
-    // });
+    // JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
 
     //页面参数
     var pagePrams = {
@@ -169,7 +181,7 @@
     //页面配置
     var pageConfig = {
         autoRefresh: true,
-        refreshIntervalTime: 1500,
+        refreshIntervalTime: 5000,
     };
 
     //组装链接参数
@@ -187,7 +199,7 @@
     //初始化自动刷新
     function initAutoRefresh() {
         window.setInterval(function () {
-            if (pageConfig.autoRefresh) {
+            if (!pageConfig.autoRefresh) {
                 return;
             }
             refreshPageAction();
@@ -233,7 +245,6 @@
             $('#proxy-iframe').attr('src', src)
         }
         $('.btn-speed').on('click', function () {
-            loadModal = true;
             $('#proxy-ip-address').val($(this).attr('data-url'));
             $("#proxy-ip").val($(this).attr('data-ip'));
             $("#proxy-port").val($(this).attr('data-port'));
@@ -251,11 +262,9 @@
                 success: function (index, layero) {
                     pageConfig.autoRefresh = false;
                     ipSpeed();
-                    return true;
                 },
                 cancel: function (index, layero) {
                     pageConfig.autoRefresh = true;
-                    return true;
                 }
             });
         });

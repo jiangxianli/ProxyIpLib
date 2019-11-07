@@ -24,6 +24,21 @@
             line-height: 44px;
             padding: 0 15px;;
         }
+        .layui-card-body {
+            position: relative;
+        }
+        #f_f1{
+            display: none;
+        }
+        .ad-card {
+            width: 46%;
+            padding:1%;
+            display: inline-block;
+        }
+        .ad-card img {
+            width: 98%;
+            height: 98%;
+        }
     </style>
 
     <!-- 百度统计 -->
@@ -76,7 +91,7 @@
     </div>
 
     <div class="layui-row layui-col-space1">
-        <div class="layui-col-md8 ip-tables">
+        <div class="layui-col-md9 ip-tables">
             <div class="layui-form">
                 <table class="layui-table">
                     <thead>
@@ -120,13 +135,28 @@
 
             <div id="paginate"></div>
         </div>
-        <div class="layui-col-md4 ad-area">
+        <div class="layui-col-md3 ad-area">
             <div class="layui-card">
                 <div class="layui-card-header">网站公告</div>
                 <div class="layui-card-body">
                     <p  style="color:#FF5722">代理IP均采集于网络，仅供学习使用。使用后不能保证数据安全性，重要数据传输请谨慎使用。请勿用于非法途径，后果自负！</p>
                     <hr class="layui-bg-cyan">
                     <p style="color:#1E9FFF">本站访问量并发比较大，麻烦采集页面时控制一下访问频率。</p>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">广告</div>
+                <div class="layui-card-body">
+                    <p  >服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
+                    <hr class="layui-bg-cyan">
+                    <div class="ad-1">
+                        <script src="http://wm.lrswl.com/page/?s=304315"></script>
+                    </div>
+                    <div id="ad-1-image" class="ad-card"></div>
+                    <p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>
+                    <hr class="layui-bg-cyan">
+                    <div class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153840.png"></div>
+                    <div  class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153858.png"></div>
                 </div>
             </div>
         </div>
@@ -160,9 +190,7 @@
         </div>
     </div>
 
-    <div class="content-footer">
-        Copyright © 2019 高可用全球免费代理IP库
-    </div>
+    <div class="content-footer"> Copyright © 2019 高可用全球免费代理IP库</div>
 </div>
 <script src="/layui/layui.all.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -180,7 +208,7 @@
     };
     //页面配置
     var pageConfig = {
-        autoRefresh: true,
+        autoRefresh: false,
         refreshIntervalTime: 5000,
     };
 
@@ -268,6 +296,8 @@
                 }
             });
         });
+
+        $("#ad-1-image").html($("#f_f1").html())
     });
 </script>
 </body>

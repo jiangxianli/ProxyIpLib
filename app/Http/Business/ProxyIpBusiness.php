@@ -549,4 +549,25 @@ class ProxyIpBusiness
             "http://www.jiayuan.com/",
         ];
     }
+
+    /**
+     * @param array $condition
+     * @return array
+     * @author jiangxianli
+     * @created_at 2019-11-07 15:53
+     */
+    public function indexPage(array $condition)
+    {
+        //IP 列表
+        $condition['order_by'] = 'validated_at';
+        $condition['order_rule'] = 'desc';
+        $proxy_ips = $this->getProxyIpList($condition);
+
+        //国家列表
+        $countries = $this->proxy_ip_dao->allCountryList();
+        //运营商列表
+        $isp = $this->proxy_ip_dao->allIspList();
+
+        return compact('proxy_ips', 'countries', 'isp');
+    }
 }

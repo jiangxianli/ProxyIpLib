@@ -44,6 +44,14 @@ class ProxyIpDao
         if (!empty($condition['country'])) {
             $proxy_ip->whereIn('country', explode(",", $condition['country']));
         }
+        //协议查询
+        if (!empty($condition['protocol'])) {
+            $proxy_ip->where('protocol', $condition['protocol']);
+        }
+        //透明度查询
+        if (!empty($condition['anonymity'])) {
+            $proxy_ip->where('anonymity', $condition['anonymity']);
+        }
         //ISP查询
         if (!empty($condition['isp'])) {
             $proxy_ip->whereIn('isp', explode(",", $condition['isp']));
@@ -183,5 +191,29 @@ class ProxyIpDao
         $proxy_ips = app('ProxyIpModel')->where('ip_address', '')->orWhereNull('ip_address')->get();
 
         return $proxy_ips->toArray();
+    }
+
+    /**
+     * 地区列表
+     *
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2019-11-07 15:50
+     */
+    public function allCountryList()
+    {
+        return app('ProxyIpModel')->select("country")->groupBy("country")->pluck('country');
+    }
+
+    /**
+     * ISP列表
+     *
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2019-11-07 15:50
+     */
+    public function allIspList()
+    {
+        return app('ProxyIpModel')->select("isp")->groupBy("isp")->pluck('isp');
     }
 }

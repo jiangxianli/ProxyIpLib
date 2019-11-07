@@ -11,4 +11,4 @@
 |
 */
 
-$router->get('/', 'ProxyIpController@index');
+$router->get('/', ['as' => 'web.index', 'uses' => 'ProxyIpController@index']);

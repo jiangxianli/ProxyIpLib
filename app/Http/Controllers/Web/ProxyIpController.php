@@ -20,11 +20,9 @@ class ProxyIpController extends Controller
     public function index(Request $request, ProxyIpBusiness $proxy_ip_business)
     {
         $condition = $request->all();
-        $condition['order_by'] = 'validated_at';
-        $condition['order_rule'] = 'desc';
 
-        $proxy_ips = $proxy_ip_business->getProxyIpList($condition);
+        $response = $proxy_ip_business->indexPage($condition);
 
-        return view('index', compact('proxy_ips'));
+        return view('index', $response);
     }
 }

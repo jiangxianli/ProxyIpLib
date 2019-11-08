@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="免费代理IP,代理IP,高匿IP,优质IP,全球免费代理"/>
+    <meta name="description" content="全球免费代理IP库，高可用IP，精心筛选优质IP,2s必达"/>
     <title>高可用全球免费代理IP库</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <style>
@@ -208,8 +210,8 @@
     };
     //页面配置
     var pageConfig = {
-        autoRefresh: false,
-        refreshIntervalTime: 5000,
+        autoRefresh: true,
+        refreshIntervalTime: 10000,
     };
 
     //组装链接参数

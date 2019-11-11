@@ -44,15 +44,15 @@
     </style>
 
     <!-- 百度统计 -->
-    {{--<script>--}}
-        {{--var _hmt = _hmt || [];--}}
-        {{--(function() {--}}
-            {{--var hm = document.createElement("script");--}}
-            {{--hm.src = "https://hm.baidu.com/hm.js?b72418f3b1d81bbcf8f99e6eb5d4e0c3";--}}
-            {{--var s = document.getElementsByTagName("script")[0];--}}
-            {{--s.parentNode.insertBefore(hm, s);--}}
-        {{--})();--}}
-    {{--</script>--}}
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?b72418f3b1d81bbcf8f99e6eb5d4e0c3";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">

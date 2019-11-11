@@ -298,7 +298,7 @@
                 type: 1,
                 title: "IP测速",
                 area: ['840px', '640px'],
-                shadeClose: true, //点击遮罩关闭
+                shadeClose: false, //点击遮罩关闭
                 content: $('#modal-speed'),
                 btn: ['立即测速'],
                 yes: function () {

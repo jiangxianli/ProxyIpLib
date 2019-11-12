@@ -18,6 +18,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
+        '5b154887902198b16314243c6e0e3e19' => __DIR__ . '/..' . '/pguardiario/phpuri/phpuri.php',
         'bee9632da3ca00a99623b9c35d0c4f8b' => __DIR__ . '/..' . '/laravel/lumen-framework/src/helpers.php',
     );
 
@@ -48,6 +49,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         ),
         'Q' => 
         array (
+            'QL\\Ext\\' => 7,
             'QL\\' => 3,
         ),
         'P' => 
@@ -192,6 +194,10 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'QL\\Ext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jaeger/querylist-absolute-url',
         ),
         'QL\\' => 
         array (

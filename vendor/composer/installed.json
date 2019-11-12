@@ -2113,6 +2113,54 @@
         ]
     },
     {
+        "name": "jaeger/querylist-absolute-url",
+        "version": "4.0.1",
+        "version_normalized": "4.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jae-jae/QueryList-AbsoluteUrl.git",
+            "reference": "0c7a5677ccfca959ee353cbc3b19472dc9e9739f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jae-jae/QueryList-AbsoluteUrl/zipball/0c7a5677ccfca959ee353cbc3b19472dc9e9739f",
+            "reference": "0c7a5677ccfca959ee353cbc3b19472dc9e9739f",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "pguardiario/phpuri": "^1.0",
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "jaeger/querylist": "dev-master"
+        },
+        "time": "2017-12-22T07:36:53+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "QL\\Ext\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jaeger",
+                "email": "JaegerCode@gmail.com"
+            }
+        ],
+        "description": "QueryList Plugin: Converting relative urls to absolute.QueryList插件:转换URL相对路径到绝对路径."
+    },
+    {
         "name": "kylekatarnls/update-helper",
         "version": "1.2.0",
         "version_normalized": "1.2.0.0",
@@ -2790,6 +2838,38 @@
             "pseudorandom",
             "random"
         ]
+    },
+    {
+        "name": "pguardiario/phpuri",
+        "version": "1.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/monkeysuffrage/phpuri.git",
+            "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/monkeysuffrage/phpuri/zipball/ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
+            "reference": "ad0a5ec033fe616cfef55578b9c7f2458be8fbfc",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "time": "2015-05-24T09:13:17+00:00",
+        "type": "project",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "phpuri.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "description": "A php library for converting relative urls to absolute."
     },
     {
         "name": "phar-io/manifest",

@@ -68,6 +68,9 @@ class GrabProxyIp extends Command
             case 'qinghua':
                 $this->proxy_ip_business->qinghuaIp();
                 return;
+            case 'xsdaili':
+                $this->proxy_ip_business->xsdailiIp();
+                return;
         }
     }
 }

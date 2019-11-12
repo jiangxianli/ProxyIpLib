@@ -10,7 +10,8 @@
         "vlucas/phpdotenv": "~2.2",
         "guzzlehttp/guzzle": "^6.3",
         "jaeger/querylist": "^4.0",
-        "illuminate/redis": "5.5.*"
+        "illuminate/redis": "5.5.*",
+        "jaeger/querylist-absolute-url": "^4.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

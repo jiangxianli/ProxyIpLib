@@ -10,6 +10,7 @@ use App\Jobs\ProxyIpLocationJob;
 use App\Jobs\SaveProxyIpJob;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use QL\Ext\AbsoluteUrl;
 use QL\QueryList;
 
 class ProxyIpBusiness
@@ -61,42 +62,57 @@ class ProxyIpBusiness
         //遍历URL
         foreach ($urls as $url) {
 
-            //记录抓取的URL
-            app("Logger")->info("抓取URL", [$url]);
-            //获取URL 域名
-            $host = parse_url($url, PHP_URL_HOST);
-            //
-            $options = [
-                'headers' => [
-                    'Referer'                   => "http://$host/",
-                    'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
-                    'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                    'Upgrade-Insecure-Requests' => "1",
-                    'Host'                      => $host,
-                    'DNT'                       => "1",
-                ],
-                'timeout' => $this->time_out
-            ];
+            try {
+                //记录抓取的URL
+                app("Logger")->info("抓取URL", [$url]);
+                //获取URL 域名
+                $host = parse_url($url, PHP_URL_HOST);
+                //
+                $options = [
+                    'headers' => [
+                        'Referer'                   => "http://$host/",
+                        'User-Agent'                => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.3 Safari/537.36",
+                        'Accept'                    => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                        'Upgrade-Insecure-Requests' => "1",
+                        'Host'                      => $host,
+                        'DNT'                       => "1",
+                    ],
+                    'timeout' => $this->time_out
+                ];
 
-            //使用代理IP抓取
-            if ($user_proxy) {
-                $proxy_ip = $this->getNowValidateOneProxyIp();
-                $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
-            }
+                //使用代理IP抓取
+                if ($user_proxy) {
+                    $proxy_ip = $this->getNowValidateOneProxyIp();
+                    $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+                }
 
-            //抓取网页内容
-            $ql = QueryList::get($url, [], $options);
-            //选中数据列表Table
-            $table = $ql->find($table_selector);
-            //遍历数据列
-            $table->map(function ($tr) use ($map_func) {
-                //获取IP、端口、透明度、协议
-                list($ip, $port, $anonymity, $protocol) = call_user_func_array($map_func, [$tr]);
+                //抓取网页内容
+                $ql = QueryList::get($url, [], $options);
+                //选中数据列表Table
+                $table = $ql->find($table_selector);
+                //遍历数据列
+                $table->map(function ($tr) use ($map_func) {
+                    $ip = call_user_func_array($map_func, [$tr]);
+                    var_dump($ip);
+                    $rows = count($ip) == count($ip, 1) ? [$ip] : $ip;
+                    foreach ($rows as $row) {
+                        //获取IP、端口、透明度、协议
+                        list($ip, $port, $anonymity, $protocol) = $row;
+                        //日志记录
+                        app("Logger")->info("提取到IP", [sprintf("%s://%s:%s", $protocol, $ip, $port)]);
+                        //放入队列处理
+                        dispatch(new SaveProxyIpJob($ip, $port, $protocol, $anonymity));
+                    }
+                });
+            } catch (\Exception $exception) {
                 //日志记录
-                app("Logger")->info("提取到IP", [sprintf("%s://%s:%s", $protocol, $ip, $port)]);
-                //放入队列处理
-                dispatch(new SaveProxyIpJob($ip, $port, $protocol, $anonymity));
-            });
+                app("Logger")->error("抓取URL错误", [
+                    'url'         => $url,
+                    'error_code'  => $exception->getCode(),
+                    'error_msg'   => $exception->getMessage(),
+                    'error_trace' => $exception->getTraceAsString(),
+                ]);
+            }
 
             //延迟10秒抓取下一个网页
             sleep(10);
@@ -287,6 +303,33 @@ class ProxyIpBusiness
             $protocol = str_contains($tr->find('td:eq(3)')->text(), "HTTPS") ? "https" : "http";
             return [$ip, $port, $anonymity, $protocol];
         }, true);
+    }
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function xsdailiIp()
+    {
+        $ql = QueryList::getInstance();
+        $ql->use(AbsoluteUrl::class);
+        $ql->use(AbsoluteUrl::class, 'absoluteUrl', 'absoluteUrlHelper');
+        $page_url = sprintf("http://www.xsdaili.com/dayProxy/%d/%d/1.html", date("Y"), date("m"));
+        $urls = $ql->get($page_url)->absoluteUrl('http://www.xsdaili.com')->find('.title a')->attrs('href');
+
+        $this->grabProcess($urls, ".cont", function ($tr) {
+            $rows = [];
+            $pattern = "/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,4}@(HTTPS|HTTP)#/";
+            if (preg_match_all($pattern, $tr->htmls(), $matches)) {
+                foreach ($matches[0] as $item) {
+                    $ip = substr($item, 0, strrpos($item, ":"));
+                    $port = substr($item, strrpos($item, ":") + 1, strrpos($item, "@") - strrpos($item, ":") - 1);
+                    $protocol = substr($item, strrpos($item, "@") + 1, strrpos($item, "#") - strrpos($item, "@") - 1);
+                    $rows[] = [$ip, $port, 2, strtolower($protocol)];
+                }
+            }
+            return $rows;
+        }, false);
     }
 
     /**

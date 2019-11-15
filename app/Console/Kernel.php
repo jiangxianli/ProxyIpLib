@@ -42,5 +42,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip emailtry')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip qinghua')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip xsdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip kxdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
     }
 }

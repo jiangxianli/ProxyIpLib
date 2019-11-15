@@ -146,7 +146,7 @@ class ProxyIpBusiness
             $anonymity = $tr->find('td:eq(2)')->text() == "高匿名" ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
-        });
+        },true);
     }
 
     /**
@@ -182,7 +182,7 @@ class ProxyIpBusiness
             $anonymity = str_contains($tr->find('td:eq(2)')->text(), ["高匿"]) ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
-        });
+        },true);
 
     }
 
@@ -218,7 +218,7 @@ class ProxyIpBusiness
             $anonymity = 2;
             $protocol = "http";
             return [$ip, $port, $anonymity, $protocol];
-        });
+        },true);
     }
 
     /**

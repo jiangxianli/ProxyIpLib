@@ -41,6 +41,9 @@
             width: 98%;
             height: 98%;
         }
+        .layui-logo a{
+            color: #009688;
+        }
     </style>
 
     <!-- 百度统计 -->
@@ -72,7 +75,7 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">高可用全球免费代理IP库</div>
+        <div class="layui-logo"><a href="{{ route('web.index') }}">高可用全球免费代理IP库</a></div>
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item">
                 <a href="javascript:;">协议</a>

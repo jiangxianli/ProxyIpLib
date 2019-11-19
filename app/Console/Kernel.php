@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ClearCacheKeyEveryDay;
 use App\Console\Commands\GrabProxyIp;
 use App\Console\Commands\HotIpByHours;
 use App\Console\Commands\ProxyIpLocation;
@@ -25,6 +26,8 @@ class Kernel extends ConsoleKernel
         ProxyIpLocation::class,
         //
         HotIpByHours::class,
+        //
+        ClearCacheKeyEveryDay::class,
     ];
 
     /**
@@ -47,5 +50,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip xsdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip kxdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:command:clear-cache-key-every-day')->mondays()->withoutOverlapping()->runInBackground();
     }
 }

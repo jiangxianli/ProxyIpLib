@@ -494,7 +494,7 @@ class ProxyIpBusiness
         $end_seconds = Helper::mSecondTime();
         //总用时 (大于)
         $total_use = intval($end_seconds - $begin_seconds);
-        if ($total_use > 2000) {
+        if ($total_use > 5000) {
             throw new JsonException(20001);
         }
 

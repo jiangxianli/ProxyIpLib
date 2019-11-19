@@ -3,6 +3,7 @@
 namespace App\Http\Business;
 
 use App\Exceptions\JsonException;
+use App\Http\Business\Dao\BlogDao;
 use App\Http\Business\Dao\ProxyIpDao;
 use App\Http\Common\Helper;
 use App\Jobs\ClearProxyIpJob;
@@ -23,6 +24,11 @@ class ProxyIpBusiness
     private $proxy_ip_dao;
 
     /**
+     * @var BlogDao
+     */
+    private $blog_dao;
+
+    /**
      * 请求超时时间
      *
      * @var
@@ -41,10 +47,12 @@ class ProxyIpBusiness
      *
      * ProxyIpBusiness constructor.
      * @param ProxyIpDao $proxy_ip_dao
+     * @param BlogDao $blog_dao
      */
-    public function __construct(ProxyIpDao $proxy_ip_dao)
+    public function __construct(ProxyIpDao $proxy_ip_dao, BlogDao $blog_dao)
     {
         $this->proxy_ip_dao = $proxy_ip_dao;
+        $this->blog_dao = $blog_dao;
     }
 
     /**
@@ -146,7 +154,7 @@ class ProxyIpBusiness
             $anonymity = $tr->find('td:eq(2)')->text() == "高匿名" ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
-        },true);
+        }, true);
     }
 
     /**
@@ -182,7 +190,7 @@ class ProxyIpBusiness
             $anonymity = str_contains($tr->find('td:eq(2)')->text(), ["高匿"]) ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
-        },true);
+        }, true);
 
     }
 
@@ -218,7 +226,7 @@ class ProxyIpBusiness
             $anonymity = 2;
             $protocol = "http";
             return [$ip, $port, $anonymity, $protocol];
-        },true);
+        }, true);
     }
 
     /**
@@ -359,7 +367,7 @@ class ProxyIpBusiness
                 }
             }
             return $rows;
-        }, false);
+        }, true);
     }
 
     /**
@@ -642,5 +650,70 @@ class ProxyIpBusiness
         $isp = $this->proxy_ip_dao->allIspList();
 
         return compact('proxy_ips', 'countries', 'isp');
+    }
+
+    /**
+     * 每小时热门IP
+     *
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2019-11-19 14:34
+     */
+    public function initHourBlog()
+    {
+        $condition = [
+            'order_by'   => 'validated_at',
+            'order_rule' => 'desc',
+            'limit'      => 50
+        ];
+        $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition, ['ip', 'port', 'protocol', 'country', 'anonymity', 'ip_address', 'isp'])->toArray();
+
+        $store_data = [
+            'date_time' => date("YmdH"),
+            'content'   => json_encode($proxy_ips)
+        ];
+        $this->blog_dao->addBlog($store_data);
+    }
+
+    /**
+     * @param array $condition
+     * @return array
+     * @author jiangxianli
+     * @created_at 2019-11-07 15:53
+     */
+    public function blogIndexPage(array $condition)
+    {
+        $condition['page_size'] = 15;
+        $condition['order_by'] = 'date_time';
+        $condition['order_rule'] = 'desc';
+
+        $blogs = $this->blog_dao->getBlogList($condition);
+        //国家列表
+        $countries = $this->proxy_ip_dao->allCountryList();
+        //运营商列表
+        $isp = $this->proxy_ip_dao->allIspList();
+
+        return compact('blogs', 'countries', 'isp');
+    }
+
+    /**
+     * @param $blog_id
+     * @return array
+     * @author jiangxianli
+     * @created_at 2019-11-19 15:08
+     */
+    public function blogDetailPage($blog_id)
+    {
+        $condition = [
+            'id' => $blog_id,
+            'first' => 'true'
+        ];
+        $blog = $this->blog_dao->getBlogList($condition);
+        //国家列表
+        $countries = $this->proxy_ip_dao->allCountryList();
+        //运营商列表
+        $isp = $this->proxy_ip_dao->allIspList();
+
+        return compact('blog', 'countries', 'isp');
     }
 }

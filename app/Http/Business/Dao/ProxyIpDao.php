@@ -69,6 +69,8 @@ class ProxyIpDao
             $proxy_ip = $proxy_ip->get();
         } else if (isset($condition['first']) && $condition['first'] == 'true') {
             $proxy_ip = $proxy_ip->first();
+        } else if (isset($condition['limit'])) {
+            $proxy_ip = $proxy_ip->take($condition['limit'])->get();
         } else {
             $page_size = array_get($condition, 'page_size', 15);
             $proxy_ip = $proxy_ip->paginate($page_size);

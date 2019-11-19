@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\GrabProxyIp;
+use App\Console\Commands\HotIpByHours;
 use App\Console\Commands\ProxyIpLocation;
 use App\Console\Commands\TimerClearProxyIp;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,6 +23,8 @@ class Kernel extends ConsoleKernel
         TimerClearProxyIp::class,
         //
         ProxyIpLocation::class,
+        //
+        HotIpByHours::class,
     ];
 
     /**
@@ -43,5 +46,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip qinghua')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip xsdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip kxdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping()->runInBackground();
     }
 }

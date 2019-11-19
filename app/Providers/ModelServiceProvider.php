@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Model\Blog;
 use App\Model\ProxyIp;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +37,8 @@ class ModelServiceProvider extends ServiceProvider
     {
         //代理IP模型
         $this->app->bind('ProxyIpModel', ProxyIp::class);
+        //文章模型
+        $this->app->bind('BlogModel', Blog::class);
     }
 
 
@@ -49,7 +52,8 @@ class ModelServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'ProxyIpModel'
+            'ProxyIpModel',
+            'BlogModel',
         ];
     }
 

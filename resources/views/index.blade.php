@@ -104,6 +104,9 @@
                     @endforeach
                 </dl>
             </li>
+            <li class="layui-nav-item">
+                <a href="{{ route('blog.index') }}">每小时热门IP</a>
+            </li>
         </ul>
     </div>
 

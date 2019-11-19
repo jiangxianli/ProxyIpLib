@@ -29,6 +29,9 @@ class BlogDao
     {
         $proxy_ip = app('BlogModel')->select($columns);
 
+        if (!empty($condition['id'])) {
+            $proxy_ip->where('id', $condition['id']);
+        }
         //
         if (isset($condition['order_by']) && isset($condition['order_rule'])) {
             $proxy_ip->orderBy($condition['order_by'], strtoupper($condition['order_rule']) == "DESC" ? 'desc' : 'asc');

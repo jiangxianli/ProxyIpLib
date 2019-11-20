@@ -87,7 +87,7 @@
         </ul>
     </div>
 
-    <div class="layui-row layui-col-space1">
+    <div class="layui-row ">
         <div class="container-wrap">
             <div class="container">
                 <div class="contar-wrap">

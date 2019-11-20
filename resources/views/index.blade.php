@@ -113,7 +113,7 @@
         </ul>
     </div>
 
-    <div class="layui-row layui-col-space1">
+    <div class="layui-row">
         <div class="layui-col-md9 ip-tables">
             <div class="layui-form">
                 <table class="layui-table">

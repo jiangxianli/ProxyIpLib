@@ -190,7 +190,7 @@ body{
 .lay-blog .container .count .layblog-this{color: #FF5722 !important;}
 
 /* start container */
-.lay-blog .container-wrap{margin:0px auto 0;min-height:100%;padding:10px 0 160px 0;box-sizing: border-box;}
+.lay-blog .container-wrap{margin:0px auto 0;min-height:100%;padding:10px 0 10px 0;box-sizing: border-box;}
 .lay-blog .container{width:1020px;margin:0 auto;}
 .lay-blog .container h4{margin-bottom: 15px; line-height: 70px;background: #fff;font-size:16px;}
 .lay-blog .container h4 p{padding-left:40px;color:#666666;}

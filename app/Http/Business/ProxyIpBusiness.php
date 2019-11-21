@@ -101,7 +101,6 @@ class ProxyIpBusiness
                 //遍历数据列
                 $table->map(function ($tr) use ($map_func) {
                     $ip = call_user_func_array($map_func, [$tr]);
-                    var_dump($ip);
                     $rows = count($ip) == count($ip, 1) ? [$ip] : $ip;
                     foreach ($rows as $row) {
                         //获取IP、端口、透明度、协议
@@ -339,6 +338,43 @@ class ProxyIpBusiness
             $port = trim($tr->find('td:eq(1)')->text());
             $anonymity = str_contains($tr->find('td:eq(2)')->text(), "高匿") ? 2 : 1;
             $protocol = str_contains($tr->find('td:eq(3)')->text(), "HTTPS") ? "https" : "http";
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function nimaIp()
+    {
+        $urls = [
+            "http://www.nimadaili.com/putong/",
+            "http://www.nimadaili.com/putong/2/",
+            "http://www.nimadaili.com/putong/3/",
+            "http://www.nimadaili.com/putong/4/",
+            "http://www.nimadaili.com/putong/5/",
+            "http://www.nimadaili.com/gaoni/1/",
+            "http://www.nimadaili.com/gaoni/2/",
+            "http://www.nimadaili.com/gaoni/3/",
+            "http://www.nimadaili.com/gaoni/4/",
+            "http://www.nimadaili.com/gaoni/5/",
+            "http://www.nimadaili.com/http/1/",
+            "http://www.nimadaili.com/http/2/",
+            "http://www.nimadaili.com/http/3/",
+            "http://www.nimadaili.com/http/4/",
+            "http://www.nimadaili.com/http/5/",
+            "http://www.nimadaili.com/https/1/",
+            "http://www.nimadaili.com/https/2/",
+            "http://www.nimadaili.com/https/3/",
+            "http://www.nimadaili.com/https/4/",
+            "http://www.nimadaili.com/https/5/",
+        ];
+
+        $this->grabProcess($urls, "table.fl-table tbody tr", function ($tr) {
+            list($ip, $port) = explode(":", $tr->find('td:eq(0)')->text());
+            $protocol = str_contains($tr->find('td:eq(1)')->text(), "HTTPS") ? "https" : "http";
+            $anonymity = str_contains($tr->find('td:eq(1)')->text(), "普通") ? 1 : 2;
             return [$ip, $port, $anonymity, $protocol];
         }, true);
     }

@@ -74,6 +74,9 @@ class GrabProxyIp extends Command
             case 'kxdaili':
                 $this->proxy_ip_business->kxdailiIp();
                 return;
+            case 'nima':
+                $this->proxy_ip_business->nimaIp();
+                return;
         }
     }
 }

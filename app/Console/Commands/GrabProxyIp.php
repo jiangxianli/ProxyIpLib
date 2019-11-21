@@ -77,6 +77,9 @@ class GrabProxyIp extends Command
             case 'nima':
                 $this->proxy_ip_business->nimaIp();
                 return;
+            case 'super':
+                $this->proxy_ip_business->superIp();
+                return;
         }
     }
 }

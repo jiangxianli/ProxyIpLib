@@ -45,11 +45,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip ip3366')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip 89ip')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip xila')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip emailtry')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip emailtry')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip qinghua')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip xsdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip kxdaili')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip nima')->everyFifteenMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip xsdaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip kxdaili')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip nima')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:grab-proxy-ip super')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping()->runInBackground();
         $schedule->command('command:command:clear-cache-key-every-day')->mondays()->withoutOverlapping()->runInBackground();
     }

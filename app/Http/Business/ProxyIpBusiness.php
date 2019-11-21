@@ -383,6 +383,34 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2019-10-28 14:31
      */
+    public function superIp()
+    {
+        $urls = [
+            "http://www.superfastip.com/welcome/freeip/1",
+            "http://www.superfastip.com/welcome/freeip/2",
+            "http://www.superfastip.com/welcome/freeip/3",
+            "http://www.superfastip.com/welcome/freeip/4",
+            "http://www.superfastip.com/welcome/freeip/5",
+            "http://www.superfastip.com/welcome/freeip/6",
+            "http://www.superfastip.com/welcome/freeip/7",
+            "http://www.superfastip.com/welcome/freeip/8",
+            "http://www.superfastip.com/welcome/freeip/9",
+            "http://www.superfastip.com/welcome/freeip/10",
+        ];
+
+        $this->grabProcess($urls, "table tbody tr", function ($tr) {
+            $ip = trim($tr->find('td:eq(0)')->text());
+            $port = trim($tr->find('td:eq(1)')->text());
+            $anonymity = 2;
+            $protocol = str_contains($tr->find('td:eq(3)')->text(), "HTTPS") ? "https" : "http";
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
     public function xsdailiIp()
     {
         $ql = QueryList::getInstance();

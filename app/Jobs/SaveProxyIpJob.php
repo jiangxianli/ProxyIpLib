@@ -42,14 +42,23 @@ class SaveProxyIpJob extends Job
     private $anonymity;
 
     /**
+     * 来源站点
+     *
+     * @var
+     */
+    private $host;
+
+    /**
      * SaveProxyIpJob constructor.
+     * @param $host
      * @param $ip
      * @param $port
      * @param $protocol
      * @param $anonymity
      */
-    public function __construct($ip, $port, $protocol, $anonymity)
+    public function __construct($host, $ip, $port, $protocol, $anonymity)
     {
+        $this->host = $host;
         $this->ip = $ip;
         $this->port = $port;
         $this->protocol = $protocol;
@@ -78,10 +87,11 @@ class SaveProxyIpJob extends Job
             //速度检测
             $proxy_ip_business->ipSpeedCheck($this->ip, $this->port, $this->protocol);
             //添加 代理IP
-            $proxy_ip_business->addProxyIp($this->ip, $this->port, $this->protocol, $this->anonymity);
+            $proxy_ip_business->addProxyIp($this->host, $this->ip, $this->port, $this->protocol, $this->anonymity);
 
         } catch (\Exception $exception) {
             app("Logger")->error("代理IP入库失败", [
+                'host'       => $this->host,
                 'ip'         => $this->ip,
                 'port'       => $this->port,
                 'protocol'   => $this->protocol,

@@ -99,7 +99,7 @@ class ProxyIpBusiness
                 //选中数据列表Table
                 $table = $ql->find($table_selector);
                 //遍历数据列
-                $table->map(function ($tr) use ($map_func) {
+                $table->map(function ($tr) use ($map_func, $host) {
                     $ip = call_user_func_array($map_func, [$tr]);
                     $rows = count($ip) == count($ip, 1) ? [$ip] : $ip;
                     foreach ($rows as $row) {
@@ -108,7 +108,7 @@ class ProxyIpBusiness
                         //日志记录
                         app("Logger")->info("提取到IP", [sprintf("%s://%s:%s", $protocol, $ip, $port)]);
                         //放入队列处理
-                        dispatch(new SaveProxyIpJob($ip, $port, $protocol, $anonymity));
+                        dispatch(new SaveProxyIpJob($host, $ip, $port, $protocol, $anonymity));
                     }
                 });
             } catch (\Exception $exception) {
@@ -429,6 +429,7 @@ class ProxyIpBusiness
     /**
      * 添加代理IP
      *
+     * @param $host
      * @param $ip
      * @param $port
      * @param $protocol
@@ -437,7 +438,7 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2017-12-22 16:52:09
      */
-    public function addProxyIp($ip, $port, $protocol, $anonymity)
+    public function addProxyIp($host, $ip, $port, $protocol, $anonymity)
     {
         //查询IP唯一性
         $proxy_ip = $this->proxy_ip_dao->findUniqueProxyIp($ip, $port, $protocol);
@@ -459,7 +460,7 @@ class ProxyIpBusiness
             'validated_at' => Carbon::now(),
         ];
         $proxy_ip = $this->proxy_ip_dao->addProxyIp($ip_data);
-        app("Logger")->info("新IP入库成功", $ip_data);
+        app("Logger")->info("新IP入库成功", [$host, $ip_data]);
 
         dispatch(new ProxyIpLocationJob($proxy_ip->toArray()));
     }
@@ -741,7 +742,7 @@ class ProxyIpBusiness
     public function blogDetailPage($blog_id)
     {
         $condition = [
-            'id' => $blog_id,
+            'id'    => $blog_id,
             'first' => 'true'
         ];
         $blog = $this->blog_dao->getBlogList($condition);

@@ -65,6 +65,7 @@ class ClearProxyIpJob extends Job
         $ip_cache_times = $redis->hget($ip_cache_map, $cache_key);
         if (!empty($ip_cache_times) && $ip_cache_times >= 2) {
             $proxy_ip_business->deleteProxyIp($this->proxy_ip['unique_id']);
+            $redis->hset($ip_cache_map, $cache_key, 0);
             return;
         }
 

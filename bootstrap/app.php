@@ -48,6 +48,8 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+$app->configure('site');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

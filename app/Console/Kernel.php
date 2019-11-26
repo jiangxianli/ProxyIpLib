@@ -39,19 +39,19 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        $schedule->command('command:timer-clear-proxy-ip')->everyMinute()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:proxy-ip-location')->everyMinute()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip 89ip')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip xila')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip emailtry')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip qinghua')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip xsdaili')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip kxdaili')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:grab-proxy-ip super')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00")->withoutOverlapping()->runInBackground();
+        $schedule->command('command:timer-clear-proxy-ip')->everyMinute()->withoutOverlapping();
+        $schedule->command('command:proxy-ip-location')->everyMinute()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip 89ip')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip xila')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip emailtry')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip qinghua')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip xsdaili')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip kxdaili')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:grab-proxy-ip super')->everyTenMinutes()->withoutOverlapping();
+        $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping();
+        $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00")->withoutOverlapping();
     }
 }

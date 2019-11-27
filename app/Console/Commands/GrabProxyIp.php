@@ -49,37 +49,6 @@ class GrabProxyIp extends Command
     {
         Helper::logFlag(str_replace(" {origin}", "-" . $this->argument('origin'), $this->signature));
 
-        switch ($this->argument('origin')) {
-            case 'kuidaili':
-                $this->proxy_ip_business->grabKuaiDaiLi();
-                return;
-            case 'ip3366':
-                $this->proxy_ip_business->grabIp3366();
-                return;
-            case '89ip':
-                $this->proxy_ip_business->grab89Ip();
-                return;
-            case 'xila':
-                $this->proxy_ip_business->xiLaIp();
-                return;
-            case 'emailtry':
-                $this->proxy_ip_business->emailtryIp();
-                return;
-            case 'qinghua':
-                $this->proxy_ip_business->qinghuaIp();
-                return;
-            case 'xsdaili':
-                $this->proxy_ip_business->xsdailiIp();
-                return;
-            case 'kxdaili':
-                $this->proxy_ip_business->kxdailiIp();
-                return;
-            case 'nima':
-                $this->proxy_ip_business->nimaIp();
-                return;
-            case 'super':
-                $this->proxy_ip_business->superIp();
-                return;
-        }
+        dispatch(new \App\Jobs\GrabProxyIp($this->argument('origin')));
     }
 }

@@ -1,16 +1,16 @@
 <!-- 百度统计 -->
 <script>
     var _hmt = _hmt || [];
-    (function () {
+    (function() {
         var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?b72418f3b1d81bbcf8f99e6eb5d4e0c3";
+        hm.src = "https://hm.baidu.com/hm.js?1052d8ac368319bb9bdf3cb9c2769b4f";
         var s = document.getElementsByTagName("script")[0];
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
 <!-- 百度 自动收录推送 -->
 <script>
-    (function () {
+    (function(){
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];
         if (curProtocol === 'https') {

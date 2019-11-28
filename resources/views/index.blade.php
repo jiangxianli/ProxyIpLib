@@ -148,13 +148,13 @@
                     <p  >服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
                     <hr class="layui-bg-cyan">
                     <div class="ad-1">
-                        <script id="w2898_10493">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10493&sign=6ce945a0452b80260344eb5ff68cf3c5";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10493"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
+                        <script id="w2898_10499">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10499&sign=7f9da9ccbae8754980c1c4cc0a5cd8e0";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10499"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
                     </div>
-                    <div id="ad-1-image" class="ad-card"></div>
-                    <p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>
-                    <hr class="layui-bg-cyan">
-                    <div class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153840.png"></div>
-                    <div  class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153858.png"></div>
+                    {{--<div id="ad-1-image" class="ad-card"></div>--}}
+                    {{--<p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>--}}
+                    {{--<hr class="layui-bg-cyan">--}}
+                    {{--<div class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153840.png"></div>--}}
+                    {{--<div  class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153858.png"></div>--}}
                 </div>
             </div>
         </div>

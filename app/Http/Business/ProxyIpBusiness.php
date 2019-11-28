@@ -111,6 +111,9 @@ class ProxyIpBusiness
                         dispatch(new SaveProxyIpJob($host, $ip, $port, $protocol, $anonymity));
                     }
                 });
+
+                unset($ql, $table);
+
             } catch (\Exception $exception) {
                 //日志记录
                 app("Logger")->error("抓取URL错误", [
@@ -552,6 +555,9 @@ class ProxyIpBusiness
         $ql = QueryList::get($url, [], $options);
         //获取标题
         $title = $ql->find("title")->eq(0)->text();
+
+        unset($ql);
+
         if (empty($title) || !str_contains($title, "百度一下")) {
             throw new JsonException(20000);
         }

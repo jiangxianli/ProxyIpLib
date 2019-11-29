@@ -83,5 +83,7 @@ class ClearProxyIpJob extends Job
         }
 
         usleep(0.2 * 1000 * 1000);
+
+        $this->delete();
     }
 }

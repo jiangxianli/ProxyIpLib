@@ -68,5 +68,7 @@ class GrabProxyIp extends Job
                 $proxy_ip_business->superIp();
                 return;
         }
+
+        $this->delete();
     }
 }

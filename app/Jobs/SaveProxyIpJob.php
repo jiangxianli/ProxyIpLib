@@ -49,6 +49,11 @@ class SaveProxyIpJob extends Job
     private $host;
 
     /**
+     * @var
+     */
+    private $expired_at;
+
+    /**
      * SaveProxyIpJob constructor.
      * @param $host
      * @param $ip
@@ -63,6 +68,7 @@ class SaveProxyIpJob extends Job
         $this->port = $port;
         $this->protocol = $protocol;
         $this->anonymity = $anonymity;
+        $this->expired_at = time() + 60 * 10;
     }
 
     /**
@@ -72,6 +78,10 @@ class SaveProxyIpJob extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        if ($this->expired_at < time()) {
+            return;
+        }
+
         $redis = app('redis');
 
         $ip_cache_map = "proxy_ips:add-ip-cache-map";

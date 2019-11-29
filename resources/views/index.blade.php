@@ -150,6 +150,10 @@
                     <div class="ad-1">
                         <script id="w2898_10499">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10499&sign=7f9da9ccbae8754980c1c4cc0a5cd8e0";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10499"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
                     </div>
+                    <hr class="layui-bg-cyan">
+                    <div class="ad-2">
+                        <script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
+                    </div>
                     {{--<div id="ad-1-image" class="ad-card"></div>--}}
                     {{--<p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>--}}
                     {{--<hr class="layui-bg-cyan">--}}

@@ -207,6 +207,10 @@
     //页面参数
     var pagePrams = {
         page: "{{ $proxy_ips->currentPage() }}",
+        protocol: "{{ isset($_GET['protocol']) ? $_GET['protocol'] : "" }}",
+        anonymity: "{{ isset($_GET['anonymity']) ? $_GET['anonymity'] : "" }}",
+        country: "{{ isset($_GET['country']) ? $_GET['country'] : "" }}",
+        isp: "{{ isset($_GET['isp']) ? $_GET['isp'] : "" }}",
     };
     //页面配置
     var pageConfig = {
@@ -218,7 +222,9 @@
     function makeUrlParams(obj) {
         var params = [];
         for (let key in obj) {
-            params.push(key + '=' + obj[key])
+            if(obj[key] != ""){
+                params.push(key + '=' + obj[key])
+            }
         }
         return params.join("&")
     }

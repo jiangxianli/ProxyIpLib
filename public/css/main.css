@@ -190,7 +190,13 @@ body{
 .lay-blog .container .count .layblog-this{color: #FF5722 !important;}
 
 /* start container */
-.lay-blog .container-wrap{margin:0px auto 0;min-height:100%;padding:10px 0 10px 0;box-sizing: border-box;}
+.lay-blog .container-wrap {
+	/*margin: 0px auto 0;*/
+	float: right;
+	min-height: 100%;
+	padding: 20px 60px 10px 0;
+	box-sizing: border-box;
+}
 .lay-blog .container{width:1020px;margin:0 auto;}
 .lay-blog .container h4{margin-bottom: 15px; line-height: 70px;background: #fff;font-size:16px;}
 .lay-blog .container h4 p{padding-left:40px;color:#666666;}
@@ -308,3 +314,44 @@ body{
     cursor: pointer;
 }
 /*end comment*/
+
+.ip-tables {
+	padding-left: 20px;
+	margin-top: 10px;
+}
+
+.ad-area {
+	float: right;
+	margin-top: 20px;
+	padding: 0px 20px 0px 20px;
+}
+
+.ad-area .ad-content {
+	position: relative;
+	display: block;
+}
+
+.ad-area .layui-card {
+	border: 1px solid #e6e6e6;
+}
+
+.content-footer {
+	background: #eee;
+	height: 44px;
+	line-height: 44px;
+	padding: 0 15px;;
+}
+
+.layui-card-body {
+	position: relative;
+	font-size: 0.8rem;
+}
+
+.ad-card img {
+	width: 98%;
+	height: 98%;
+}
+
+.layui-logo a {
+	color: #009688;
+}

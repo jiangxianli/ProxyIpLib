@@ -7,44 +7,7 @@
     <meta name="description" content="全球免费代理IP库，高可用IP，精心筛选优质IP,5s必达"/>
     <title>高可用全球免费代理IP库</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
-    <style>
-        .ip-tables{
-            padding-left: 20px;
-            margin-top:10px;
-        }
-        .ad-area{
-            float:right;
-            margin-top:20px;
-            padding: 0px 20px 0px 20px;
-        }
-        .ad-area .layui-card{
-            border: 1px solid #e6e6e6;
-        }
-        .content-footer {
-            background: #eee;
-            height: 44px;
-            line-height: 44px;
-            padding: 0 15px;;
-        }
-        .layui-card-body {
-            position: relative;
-        }
-        #f_f1{
-            display: none;
-        }
-        .ad-card {
-            width: 46%;
-            padding:1%;
-            display: inline-block;
-        }
-        .ad-card img {
-            width: 98%;
-            height: 98%;
-        }
-        .layui-logo a{
-            color: #009688;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/main.css">
     @include('layout.common_js')
 </head>
 <body class="layui-layout-body">
@@ -147,13 +110,16 @@
                 <div class="layui-card-body">
                     <p  >服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
                     <hr class="layui-bg-cyan">
-                    <div class="ad-1">
-                        <script id="w2898_10499">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10499&sign=7f9da9ccbae8754980c1c4cc0a5cd8e0";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10499"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
+                    @foreach($ads as $ad)
+                    <div class="ad-content">
+                        {!! $ad->ad_content !!}
                     </div>
                     <hr class="layui-bg-cyan">
-                    <div class="ad-2">
-                        <script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>
-                    </div>
+                    @endforeach
+                    {{--<hr class="layui-bg-cyan">--}}
+                    {{--<div class="ad-2">--}}
+                        {{--<script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>--}}
+                    {{--</div>--}}
                     {{--<div id="ad-1-image" class="ad-card"></div>--}}
                     {{--<p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>--}}
                     {{--<hr class="layui-bg-cyan">--}}
@@ -192,7 +158,7 @@
         </div>
     </div>
 
-    <div class="content-footer"> Copyright © 2019 高可用全球免费代理IP库</div>
+    {{--<div class="content-footer"> Copyright © 2019 高可用全球免费代理IP库</div>--}}
 </div>
 <script src="/layui/layui.all.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

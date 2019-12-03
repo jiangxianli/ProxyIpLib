@@ -14,6 +14,7 @@ return array(
     'CallbackParameterToReference' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackReturnReference' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CallbackReturnValue' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
+    'CreateAdsTable' => $baseDir . '/database/migrations/2019_12_03_144237_create_ads_table.php',
     'CreateBlogTable' => $baseDir . '/database/migrations/2019_11_19_134043_create_blog_table.php',
     'CreateProxyIpsTable' => $baseDir . '/database/migrations/2017_12_22_065148_create_proxy_ips_table.php',
     'DOMDocumentWrapper' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',

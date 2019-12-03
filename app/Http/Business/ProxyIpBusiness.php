@@ -3,6 +3,7 @@
 namespace App\Http\Business;
 
 use App\Exceptions\JsonException;
+use App\Http\Business\Dao\AdDao;
 use App\Http\Business\Dao\BlogDao;
 use App\Http\Business\Dao\ProxyIpDao;
 use App\Http\Common\Helper;
@@ -29,6 +30,11 @@ class ProxyIpBusiness
     private $blog_dao;
 
     /**
+     * @var AdDao
+     */
+    private $ad_dao;
+
+    /**
      * 请求超时时间
      *
      * @var
@@ -48,11 +54,13 @@ class ProxyIpBusiness
      * ProxyIpBusiness constructor.
      * @param ProxyIpDao $proxy_ip_dao
      * @param BlogDao $blog_dao
+     * @param AdDao $ad_dao
      */
-    public function __construct(ProxyIpDao $proxy_ip_dao, BlogDao $blog_dao)
+    public function __construct(ProxyIpDao $proxy_ip_dao, BlogDao $blog_dao, AdDao $ad_dao)
     {
         $this->proxy_ip_dao = $proxy_ip_dao;
         $this->blog_dao = $blog_dao;
+        $this->ad_dao = $ad_dao;
     }
 
     /**
@@ -719,8 +727,14 @@ class ProxyIpBusiness
         $countries = $this->proxy_ip_dao->allCountryList();
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
+        //广告
+        $ads = $this->ad_dao->getAdList([
+            'area'    => 'web_index',
+            'limit'   => 2,
+            'is_show' => "yes",
+        ]);
 
-        return compact('proxy_ips', 'countries', 'isp');
+        return compact('proxy_ips', 'countries', 'isp', 'ads');
     }
 
     /**
@@ -763,8 +777,14 @@ class ProxyIpBusiness
         $countries = $this->proxy_ip_dao->allCountryList();
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
+        //广告
+        $ads = $this->ad_dao->getAdList([
+            'area'    => 'blog_index',
+            'limit'   => 2,
+            'is_show' => "yes",
+        ]);
 
-        return compact('blogs', 'countries', 'isp');
+        return compact('blogs', 'countries', 'isp', 'ads');
     }
 
     /**
@@ -784,7 +804,13 @@ class ProxyIpBusiness
         $countries = $this->proxy_ip_dao->allCountryList();
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
+        //广告
+        $ads = $this->ad_dao->getAdList([
+            'area'    => 'blog_detail',
+            'limit'   => 2,
+            'is_show' => "yes",
+        ]);
 
-        return compact('blog', 'countries', 'isp');
+        return compact('blog', 'countries', 'isp', 'ads');
     }
 }

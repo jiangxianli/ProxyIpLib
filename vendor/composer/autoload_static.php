@@ -427,6 +427,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'CallbackParameterToReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'CallbackReturnReference' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
         'CallbackReturnValue' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'CreateAdsTable' => __DIR__ . '/../..' . '/database/migrations/2019_12_03_144237_create_ads_table.php',
         'CreateBlogTable' => __DIR__ . '/../..' . '/database/migrations/2019_11_19_134043_create_blog_table.php',
         'CreateProxyIpsTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_22_065148_create_proxy_ips_table.php',
         'DOMDocumentWrapper' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Business\ProxyIpBusiness;
+use App\Http\Business\SiteMapBusiness;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -40,5 +41,25 @@ class BlogController extends Controller
         $response = $proxy_ip_business->blogDetailPage($blog_id);
 
         return view('blog.detail', $response);
+    }
+
+    /**
+     * 站点地图
+     *
+     * @param Request $request
+     * @param SiteMapBusiness $site_map_business
+     * @return \Illuminate\View\View
+     * @author jiangxianli
+     * @created_at 2019-12-03 11:10
+     */
+    public function siteMap(Request $request, SiteMapBusiness $site_map_business)
+    {
+
+        $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
+            $response = $site_map_business->generateSiteMap();
+            return view('sitemap', $response)->render();
+        });
+
+        return response($view)->header('Content-Type', 'text/xml');
     }
 }

@@ -17,3 +17,5 @@ $router->get('/blog.html', ['as' => 'blog.index', 'uses' => 'BlogController@inde
 
 $router->get('/blog/{blog_id:[0-9]+}.html', ['as' => 'blog.detail', 'uses' => 'BlogController@detail']);
 
+$router->get('sitemap.xml', ['as' => 'sitemap.index', 'uses' => 'BlogController@siteMap']);
+

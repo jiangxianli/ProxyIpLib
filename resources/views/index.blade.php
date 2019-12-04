@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/main.css">
     @include('layout.common_js')
 </head>
-<body class="layui-layout-body">
+<body >
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo"><a href="{{ route('web.index') }}">高可用全球免费代理IP库</a></div>

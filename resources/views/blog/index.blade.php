@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/css/main.css">
     @include('layout.common_js')
 </head>
-<body class="lay-blog layui-layout-body">
+<body class="lay-blog">
 <div class="layui-layout layui-layout-admin">
 
     @include("layout.header")

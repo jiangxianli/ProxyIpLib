@@ -52,7 +52,7 @@ class BlogController extends Controller
      * @author jiangxianli
      * @created_at 2019-12-03 11:10
      */
-    public function siteMap(Request $request, SiteMapBusiness $site_map_business)
+    public function siteMapXml(Request $request, SiteMapBusiness $site_map_business)
     {
 
         $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
@@ -61,5 +61,34 @@ class BlogController extends Controller
         });
 
         return response($view)->header('Content-Type', 'text/xml');
+    }
+
+    /**
+     * 站点地图
+     *
+     * @param Request $request
+     * @param SiteMapBusiness $site_map_business
+     * @return \Illuminate\View\View
+     * @author jiangxianli
+     * @created_at 2019-12-03 11:10
+     */
+    public function siteMapTxt(Request $request, SiteMapBusiness $site_map_business)
+    {
+        $data = $site_map_business->generateSiteMap();
+
+        $links = [];
+        $links[] = route('web.index', [], false);
+        foreach ($data['countries'] as $item) {
+            $links[] = route('web.index', ['country' => $item], false);
+        }
+        foreach ($data['isp'] as $item) {
+            $links[] = route('web.index', ['isp' => $item], false);
+        }
+        $links[] = route('blog.index', [], false);
+        foreach ($data['blogs'] as $blog) {
+            $links[] = route('blog.detail', ['blog_id' => $blog->id], false);
+        }
+
+        return response(implode("\n", $links))->header('Content-Type', 'text/plain');
     }
 }

@@ -180,7 +180,7 @@
     };
     //页面配置
     var pageConfig = {
-        autoRefresh: false,
+        autoRefresh: true,
         refreshIntervalTime: 10000,
     };
 

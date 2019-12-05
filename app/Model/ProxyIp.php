@@ -28,5 +28,6 @@ class ProxyIp extends Model
         'speed',
         'isp',
         'validated_at',
+        'protocol'
     ];
 }

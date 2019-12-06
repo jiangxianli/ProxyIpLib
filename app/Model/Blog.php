@@ -43,7 +43,7 @@ class Blog extends Model
      */
     public function getContentHtmlAttribute()
     {
-        $arr = json_decode($this->attributes['content'], true);
+        $arr = (array)json_decode($this->attributes['content'], true);
 
         return implode(" <br>", array_map(function ($item) {
             return sprintf(

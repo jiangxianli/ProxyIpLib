@@ -51,7 +51,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip kxdaili')->everyTenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip super')->everyTenMinutes()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:hot-ip-by-hours')->hourly()->withoutOverlapping()->runInBackground();
         $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00")->withoutOverlapping()->runInBackground();
+        $schedule->command('command:hot-ip-by-hours')->hourly();
     }
 }

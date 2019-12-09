@@ -21,12 +21,18 @@ class GrabProxyIp extends Job
     private $origin;
 
     /**
+     * @var
+     */
+    private $expired_at;
+
+    /**
      * GrabProxyIp constructor.
      * @param $origin
      */
     public function __construct($origin)
     {
         $this->origin = $origin;
+        $this->expired_at = time() + 5 * 60;
     }
 
     /**
@@ -36,6 +42,11 @@ class GrabProxyIp extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
+        //超时
+        if ($this->expired_at <= time()) {
+            return;
+        }
+
         switch ($this->origin) {
             case 'kuidaili':
                 $proxy_ip_business->grabKuaiDaiLi();

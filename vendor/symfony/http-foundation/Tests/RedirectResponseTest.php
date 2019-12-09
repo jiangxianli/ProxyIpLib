@@ -20,22 +20,19 @@ class RedirectResponseTest extends TestCase
     {
         $response = new RedirectResponse('foo.bar');
 
-        $this->assertEquals(1, preg_match(
-            '#<meta http-equiv="refresh" content="\d+;url=foo\.bar" />#',
-            preg_replace(['/\s+/', '/\'/'], [' ', '"'], $response->getContent())
-        ));
+        $this->assertRegExp('#<meta http-equiv="refresh" content="\d+;url=\'foo\.bar\'" />#', preg_replace('/\s+/', ' ', $response->getContent()));
     }
 
     public function testRedirectResponseConstructorNullUrl()
     {
         $this->expectException('InvalidArgumentException');
-        $response = new RedirectResponse(null);
+        new RedirectResponse(null);
     }
 
     public function testRedirectResponseConstructorWrongStatusCode()
     {
         $this->expectException('InvalidArgumentException');
-        $response = new RedirectResponse('foo.bar', 404);
+        new RedirectResponse('foo.bar', 404);
     }
 
     public function testGenerateLocationHeader()

@@ -59,7 +59,7 @@ final class LegacyEventDispatcherProxy implements EventDispatcherInterface
 
         if (\is_object($event)) {
             $eventName = $eventName ?? \get_class($event);
-        } elseif (\is_string($event) && (null === $eventName || $eventName instanceof Event)) {
+        } elseif (\is_string($event) && (null === $eventName || $eventName instanceof ContractsEvent || $eventName instanceof Event)) {
             @trigger_error(sprintf('Calling the "%s::dispatch()" method with the event name as the first argument is deprecated since Symfony 4.3, pass it as the second argument and provide the event object as the first argument instead.', ContractsEventDispatcherInterface::class), E_USER_DEPRECATED);
             $swap = $event;
             $event = $eventName ?? new Event();
@@ -116,7 +116,7 @@ final class LegacyEventDispatcherProxy implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListeners($eventName = null)
+    public function getListeners($eventName = null): array
     {
         return $this->dispatcher->getListeners($eventName);
     }
@@ -124,7 +124,7 @@ final class LegacyEventDispatcherProxy implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function getListenerPriority($eventName, $listener)
+    public function getListenerPriority($eventName, $listener): ?int
     {
         return $this->dispatcher->getListenerPriority($eventName, $listener);
     }
@@ -132,7 +132,7 @@ final class LegacyEventDispatcherProxy implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function hasListeners($eventName = null)
+    public function hasListeners($eventName = null): bool
     {
         return $this->dispatcher->hasListeners($eventName);
     }

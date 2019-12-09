@@ -2,12 +2,15 @@
 
 namespace Doctrine\Instantiator;
 
+use ArrayIterator;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use Exception;
 use ReflectionClass;
 use ReflectionException;
+use Serializable;
 use function class_exists;
+use function is_subclass_of;
 use function restore_error_handler;
 use function set_error_handler;
 use function sprintf;
@@ -94,7 +97,7 @@ final class Instantiator implements InstantiatorInterface
 
         $serializedString = sprintf(
             '%s:%d:"%s":0:{}',
-            self::SERIALIZATION_FORMAT_AVOID_UNSERIALIZER,
+            is_subclass_of($className, Serializable::class) ? self::SERIALIZATION_FORMAT_USE_UNSERIALIZER : self::SERIALIZATION_FORMAT_AVOID_UNSERIALIZER,
             strlen($className),
             $className
         );
@@ -107,12 +110,10 @@ final class Instantiator implements InstantiatorInterface
     }
 
     /**
-     * @param string $className
-     *
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
-    private function getReflectionClass($className) : ReflectionClass
+    private function getReflectionClass(string $className) : ReflectionClass
     {
         if (! class_exists($className)) {
             throw InvalidArgumentException::fromNonExistingClass($className);
@@ -132,7 +133,7 @@ final class Instantiator implements InstantiatorInterface
      */
     private function checkIfUnSerializationIsSupported(ReflectionClass $reflectionClass, string $serializedString) : void
     {
-        set_error_handler(static function ($code, $message, $file, $line) use ($reflectionClass, & $error) : void {
+        set_error_handler(static function (int $code, string $message, string $file, int $line) use ($reflectionClass, &$error) : bool {
             $error = UnexpectedValueException::fromUncleanUnSerialization(
                 $reflectionClass,
                 $message,
@@ -140,6 +141,8 @@ final class Instantiator implements InstantiatorInterface
                 $file,
                 $line
             );
+
+            return true;
         });
 
         try {
@@ -193,6 +196,8 @@ final class Instantiator implements InstantiatorInterface
      */
     private function isSafeToClone(ReflectionClass $reflection) : bool
     {
-        return $reflection->isCloneable() && ! $reflection->hasMethod('__clone');
+        return $reflection->isCloneable()
+            && ! $reflection->hasMethod('__clone')
+            && ! $reflection->isSubclassOf(ArrayIterator::class);
     }
 }

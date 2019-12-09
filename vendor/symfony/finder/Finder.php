@@ -541,7 +541,8 @@ class Finder implements \IteratorAggregate, \Countable
         foreach ((array) $dirs as $dir) {
             if (is_dir($dir)) {
                 $resolvedDirs[] = $this->normalizeDir($dir);
-            } elseif ($glob = glob($dir, (\defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR)) {
+            } elseif ($glob = glob($dir, (\defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR | GLOB_NOSORT)) {
+                sort($glob);
                 $resolvedDirs = array_merge($resolvedDirs, array_map([$this, 'normalizeDir'], $glob));
             } else {
                 throw new \InvalidArgumentException(sprintf('The "%s" directory does not exist.', $dir));
@@ -735,7 +736,7 @@ class Finder implements \IteratorAggregate, \Countable
     /**
      * Normalizes given directory names by removing trailing slashes.
      *
-     * Excluding: (s)ftp:// wrapper
+     * Excluding: (s)ftp:// or ssh2.(s)ftp:// wrapper
      *
      * @param string $dir
      *
@@ -745,7 +746,7 @@ class Finder implements \IteratorAggregate, \Countable
     {
         $dir = rtrim($dir, '/'.\DIRECTORY_SEPARATOR);
 
-        if (preg_match('#^s?ftp://#', $dir)) {
+        if (preg_match('#^(ssh2\.)?s?ftp://#', $dir)) {
             $dir .= '/';
         }
 

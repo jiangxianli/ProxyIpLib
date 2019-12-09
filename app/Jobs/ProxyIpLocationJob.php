@@ -89,7 +89,7 @@ class ProxyIpLocationJob extends Job
             ]);
         }
 
-        usleep(0.1 * 1000 * 1000);
+        sleep(1);
 
         $this->delete();
     }

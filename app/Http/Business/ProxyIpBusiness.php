@@ -515,10 +515,15 @@ class ProxyIpBusiness
      */
     public function ipLocation($ip)
     {
+        //每次请求间隔一秒
+        sleep(1);
+
         //API 地址
         $api = "http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip;
+        $client = new Client();
+        $request = $client->request("GET", $api);
         //响应json数据
-        $json = file_get_contents($api);
+        $json = $request->getBody()->getContents();
         //转数组格式
         $data = (array)json_decode($json, true);
 

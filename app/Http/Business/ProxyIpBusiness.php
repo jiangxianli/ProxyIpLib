@@ -116,7 +116,7 @@ class ProxyIpBusiness
                         //获取IP、端口、透明度、协议
                         list($ip, $port, $anonymity, $protocol) = $row;
                         //日志记录
-                        app("Logger")->info("提取到IP", [sprintf("%s://%s:%s", $protocol, $ip, $port)]);
+                        app("Logger")->info("提取到IP", [$host, sprintf("%s://%s:%s", $protocol, $ip, $port)]);
                         //放入队列处理
                         dispatch(new SaveProxyIpJob($host, $ip, $port, $protocol, $anonymity));
                     }

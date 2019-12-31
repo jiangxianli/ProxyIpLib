@@ -57,7 +57,7 @@ class BlogController extends Controller
 
         $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
             $response = $site_map_business->generateSiteMap();
-            return view('sitemap', $response)->render();
+            return view('sitemap.xml', $response)->render();
         });
 
         return response($view)->header('Content-Type', 'text/xml');
@@ -90,5 +90,24 @@ class BlogController extends Controller
         }
 
         return response(implode("\n", $links))->header('Content-Type', 'text/plain');
+    }
+
+    /**
+     * 站点地图
+     *
+     * @param Request $request
+     * @param SiteMapBusiness $site_map_business
+     * @return \Illuminate\View\View
+     * @author jiangxianli
+     * @created_at 2019-12-03 11:10
+     */
+    public function siteMapHtml(Request $request, SiteMapBusiness $site_map_business)
+    {
+        $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
+            $response = $site_map_business->generateSiteMap();
+            return view('sitemap.html', $response)->render();
+        });
+
+        return response($view)->header('Content-Type', 'text/html');
     }
 }

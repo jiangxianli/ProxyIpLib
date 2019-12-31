@@ -55,7 +55,7 @@ class BlogController extends Controller
     public function siteMapXml(Request $request, SiteMapBusiness $site_map_business)
     {
 
-        $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
+        $view = app('cache')->remember("generated.sitemap.xml", 60, function () use ($site_map_business) {
             $response = $site_map_business->generateSiteMap();
             return view('sitemap.xml', $response)->render();
         });
@@ -103,7 +103,7 @@ class BlogController extends Controller
      */
     public function siteMapHtml(Request $request, SiteMapBusiness $site_map_business)
     {
-        $view = app('cache')->remember("generated.sitemap", 60, function () use ($site_map_business) {
+        $view = app('cache')->remember("generated.sitemap.html", 60, function () use ($site_map_business) {
             $response = $site_map_business->generateSiteMap();
             return view('sitemap.html', $response)->render();
         });

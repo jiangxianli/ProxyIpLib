@@ -42,10 +42,18 @@ class GrabProxyIp extends Job
      */
     public function handle(ProxyIpBusiness $proxy_ip_business)
     {
-        //超时
-        if ($this->expired_at <= time()) {
+
+        //实例化Redis
+        $redis = app('redis');
+
+        $grab_key = "proxy_ips:grab_flag:" . $this->origin;
+        //正在抓取中
+        if ($redis->exists($grab_key)) {
             return;
         }
+
+        $redis->set($grab_key, time());
+        $redis->expireAt($grab_key, time() + 300);
 
         switch ($this->origin) {
             case 'kuidaili':

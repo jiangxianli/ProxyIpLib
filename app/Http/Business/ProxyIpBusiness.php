@@ -99,7 +99,9 @@ class ProxyIpBusiness
                 //使用代理IP抓取
                 if ($user_proxy) {
                     $proxy_ip = $this->getNowValidateOneProxyIp();
-                    $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+                    if ($proxy_ip) {
+                        $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+                    }
                 }
 
                 //抓取网页内容

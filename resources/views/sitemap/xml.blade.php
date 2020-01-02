@@ -8,7 +8,7 @@
     </url>
     @foreach($countries as $item)
         <url>
-            <loc>{{ route('web.index',['country' => $item],false) }}</loc>
+            <loc>{{ route("web.country",['area' => $item,'country' => $item],false) }}</loc>
             <lastmod>{{ \Carbon\Carbon::now()->format("Y-m-d") }}</lastmod>
             <changefreq>hourly</changefreq>
             <priority>0.9</priority>

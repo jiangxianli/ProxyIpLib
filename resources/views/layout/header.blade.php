@@ -19,7 +19,7 @@
             <a href="javascript:;">地区</a>
             <dl class="layui-nav-child">
                 @foreach($countries as $value)
-                    <dd><a href="{{ route("web.index",['country' => $value]) }}">{{ $value }}</a></dd>
+                    <dd><a href="{{ route("web.country",['area' => $value,'country' => $value]) }}">{{ $value }}</a></dd>
                 @endforeach
             </dl>
         </li>

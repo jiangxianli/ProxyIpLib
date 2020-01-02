@@ -79,7 +79,7 @@ class BlogController extends Controller
         $links = [];
         $links[] = route('web.index', [], false);
         foreach ($data['countries'] as $item) {
-            $links[] = route('web.index', ['country' => $item], false);
+            $links[] = route("web.country",['area' => $item,'country' => $item], false);
         }
         foreach ($data['isp'] as $item) {
             $links[] = route('web.index', ['isp' => $item], false);

@@ -14,7 +14,7 @@
 <ul>
     <li><a href="{{route('web.index',[])}}">全球免费代理IP库</a></li>
     @foreach($countries as $item)
-        <li><a href="{{ route('web.index',['country' => $item]) }}">{{ $item }} 免费代理IP</a></li>
+        <li><a href="{{ route("web.country",['area' => $item,'country' => $item]) }}">{{ $item }} 免费代理IP</a></li>
     @endforeach
     @foreach($isp as $item)
         <li><a href="{{ route('web.index',['isp' => $item]) }}">{{ $item }} 免费代理IP</a></li>

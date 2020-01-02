@@ -13,6 +13,9 @@
 
 $router->get('/', ['as' => 'web.index', 'uses' => 'ProxyIpController@index']);
 
+
+$router->get('/country/{area}', ['as' => 'web.country', 'uses' => 'ProxyIpController@index']);
+
 $router->get('/blog.html', ['as' => 'blog.index', 'uses' => 'BlogController@index']);
 
 $router->get('/blog/{blog_id:[0-9]+}.html', ['as' => 'blog.detail', 'uses' => 'BlogController@detail']);

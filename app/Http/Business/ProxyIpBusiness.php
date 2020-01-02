@@ -277,16 +277,16 @@ class ProxyIpBusiness
     public function emailtryIp()
     {
         $urls = [
-            "http://blog.emailtry.com/index/1",
-            "http://blog.emailtry.com/index/2",
-            "http://blog.emailtry.com/index/3",
-            "http://blog.emailtry.com/index/4",
-            "http://blog.emailtry.com/index/5",
-            "http://blog.emailtry.com/index/6",
-            "http://blog.emailtry.com/index/7",
-            "http://blog.emailtry.com/index/8",
-            "http://blog.emailtry.com/index/9",
-            "http://blog.emailtry.com/index/10",
+            "http://emailtry.com/index/1",
+            "http://emailtry.com/index/2",
+            "http://emailtry.com/index/3",
+            "http://emailtry.com/index/4",
+            "http://emailtry.com/index/5",
+            "http://emailtry.com/index/6",
+            "http://emailtry.com/index/7",
+            "http://emailtry.com/index/8",
+            "http://emailtry.com/index/9",
+            "http://emailtry.com/index/10",
         ];
 
         $this->grabProcess($urls, "table#proxy-table1>tr", function ($tr) {

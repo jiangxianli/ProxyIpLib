@@ -29,7 +29,7 @@ html,body{
 	height: 100%;
 }
 body{
-	font-size: 1.2rem;
+	font-size: 0.8rem;
 	line-height: 1.5;
 	background: #f2f2f2;
 }
@@ -354,4 +354,15 @@ body{
 
 .layui-logo a {
 	color: #009688;
+}
+
+.content-footer {
+	background: #23262E;
+	color: white;
+}
+.content-footer em{
+	padding-right: 20px;
+}
+.content-footer a{
+	color:white;
 }

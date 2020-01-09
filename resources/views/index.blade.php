@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    {{--<div class="content-footer"> Copyright © 2019 高可用全球免费代理IP库</div>--}}
+    @include("layout.footer")
 </div>
 <script src="/layui/layui.all.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

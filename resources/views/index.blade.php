@@ -145,7 +145,7 @@
     //页面配置
     var pageConfig = {
         autoRefresh: true,
-        refreshIntervalTime: 10000,
+        refreshIntervalTime: 30000,
     };
 
     //组装链接参数

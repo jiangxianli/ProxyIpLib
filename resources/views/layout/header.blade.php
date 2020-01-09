@@ -34,5 +34,8 @@
         <li class="layui-nav-item">
             <a href="{{ route('blog.index') }}">每小时热门IP</a>
         </li>
+        <li class="layui-nav-item">
+            <a href="https://github.com/jiangxianli/ProxyIpLib#%E5%85%8D%E8%B4%B9%E4%BB%A3%E7%90%86ip%E5%BA%93">IP提取教程</a>
+        </li>
     </ul>
 </div>

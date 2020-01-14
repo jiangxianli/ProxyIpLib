@@ -374,4 +374,5 @@ body{
 	display: block;
 	float: left;
 	width: 110px;
+	overflow: hidden;
 }

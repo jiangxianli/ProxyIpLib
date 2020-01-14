@@ -19,7 +19,7 @@
             <a href="javascript:;">地区</a>
             <dl class="layui-nav-child multi-rows">
                 @foreach($countries as $value)
-                    <dd><a href="{{ route("web.country",['area' => $value,'country' => $value]) }}">{{ $value }}</a></dd>
+                    <dd title="{{ $value }}"><a href="{{ route("web.country",['area' => $value,'country' => $value]) }}">{{ $value }}</a></dd>
                 @endforeach
             </dl>
         </li>
@@ -27,7 +27,7 @@
             <a href="javascript:;">运营商</a>
             <dl class="layui-nav-child multi-rows">
                 @foreach($isp as $value)
-                    <dd><a href="{{ route("web.index",['isp' => $value]) }}">{{ $value }}</a></dd>
+                    <dd title="{{ $value }}"><a href="{{ route("web.index",['isp' => $value]) }}">{{ $value }}</a></dd>
                 @endforeach
             </dl>
         </li>

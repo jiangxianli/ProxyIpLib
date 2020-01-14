@@ -366,3 +366,12 @@ body{
 .content-footer a{
 	color:white;
 }
+
+.layui-nav-item .multi-rows{
+	width:440px;
+}
+.layui-nav-item .multi-rows dd{
+	display: block;
+	float: left;
+	width: 110px;
+}

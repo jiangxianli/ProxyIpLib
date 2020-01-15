@@ -447,6 +447,37 @@ class ProxyIpBusiness
         }, true);
     }
 
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function xiciIp()
+    {
+        $urls = [
+            "https://www.xicidaili.com/nn/",
+            "https://www.xicidaili.com/nn/2",
+            "https://www.xicidaili.com/nn/3",
+            "https://www.xicidaili.com/nt/",
+            "https://www.xicidaili.com/nt/2",
+            "https://www.xicidaili.com/nt/3",
+            "https://www.xicidaili.com/wn/",
+            "https://www.xicidaili.com/wn/2",
+            "https://www.xicidaili.com/wn/3",
+            "https://www.xicidaili.com/wt/",
+            "https://www.xicidaili.com/wt/2",
+            "https://www.xicidaili.com/wt/3",
+        ];
+
+        $this->grabProcess($urls, "#ip_list tr", function ($tr) {
+            $ip = trim($tr->find('td:eq(1)')->text());
+            $port = trim($tr->find('td:eq(2)')->text());
+            $anonymity = str_contains($tr->find('td:eq(4)')->text(), "高匿") ? 2 : 1;
+            $protocol = str_contains($tr->find('td:eq(5)')->text(), "HTTPS") ? "https" : "http";
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
     /**
      * 定时清理
      *

@@ -6,6 +6,7 @@ use App\Console\Commands\ClearCacheKeyEveryDay;
 use App\Console\Commands\GrabProxyIp;
 use App\Console\Commands\HotIpByHours;
 use App\Console\Commands\ProxyIpLocation;
+use App\Console\Commands\Test;
 use App\Console\Commands\TimerClearProxyIp;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
@@ -28,6 +29,8 @@ class Kernel extends ConsoleKernel
         HotIpByHours::class,
         //
         ClearCacheKeyEveryDay::class,
+        //
+        Test::class,
     ];
 
     /**

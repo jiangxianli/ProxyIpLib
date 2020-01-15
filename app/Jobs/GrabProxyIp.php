@@ -86,6 +86,9 @@ class GrabProxyIp extends Job
             case 'super':
                 $proxy_ip_business->superIp();
                 return;
+            case 'xici':
+                $proxy_ip_business->xiciIp();
+                return;
         }
 
         $this->delete();

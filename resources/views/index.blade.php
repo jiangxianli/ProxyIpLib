@@ -87,8 +87,10 @@
                     {{--<div id="ad-1-image" class="ad-card"></div>--}}
                     <p  >本项目已坚持无偿运行2年，您也可以直接小额支付支持鼓励下呗~</p>
                     <hr class="layui-bg-cyan">
-                    <div class="ad-card"><img src="/wechat-pay.png"></div>
-                    <div  class="ad-card"><img src="/ali-pay.png"></div>
+                    <div class="ad-card">
+                        <img src="/wechat-pay.png"class="ad-img">
+                        <img src="/ali-pay.png" class="ad-img">
+                    </div>
                 </div>
             </div>
         </div>

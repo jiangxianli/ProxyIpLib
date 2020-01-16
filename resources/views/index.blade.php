@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="keywords" content="免费代理IP,代理IP,高匿IP,优质IP,全球免费代理"/>
     <meta name="description" content="全球免费代理IP库，高可用IP，精心筛选优质IP,5s必达"/>
-    <title>高可用全球免费代理IP库</title>
+    <title>{{ $title }}高可用全球免费代理IP库</title>
     <link rel="stylesheet" href="/layui/css/layui.css">
     <link rel="stylesheet" href="/css/main.css">
     @include('layout.common_js')
 </head>
-<body >
+<body>
 <div class="layui-layout layui-layout-admin">
 
     @include("layout.header")
@@ -48,8 +48,15 @@
                             <td>{{ \App\Http\Common\Helper::formatDateDay($proxy_ip->created_at) }}</td>
                             <td>{{ $proxy_ip->validated_at }}</td>
                             <td>
-                                <button class="layui-btn layui-btn-sm btn-copy" data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}" data-unique-id="{{ $proxy_ip->unique_id }}">复制</button>
-                                <button class="layui-btn layui-btn-sm btn-speed " data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}" data-protocol="{{ $proxy_ip->protocol }}" data-ip="{{ $proxy_ip->ip }}" data-port="{{ $proxy_ip->port }}"  data-unique-id="{{ $proxy_ip->unique_id }}">测速</button>
+                                <button class="layui-btn layui-btn-sm btn-copy"
+                                        data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
+                                        data-unique-id="{{ $proxy_ip->unique_id }}">复制
+                                </button>
+                                <button class="layui-btn layui-btn-sm btn-speed "
+                                        data-url="{{ sprintf("%s://%s:%s",$proxy_ip->protocol,$proxy_ip->ip,$proxy_ip->port) }}"
+                                        data-protocol="{{ $proxy_ip->protocol }}" data-ip="{{ $proxy_ip->ip }}"
+                                        data-port="{{ $proxy_ip->port }}" data-unique-id="{{ $proxy_ip->unique_id }}">测速
+                                </button>
                             </td>
                         </tr>
                     @endforeach
@@ -64,7 +71,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">网站公告</div>
                 <div class="layui-card-body">
-                    <p  style="color:#FF5722">代理IP均采集于网络，仅供学习使用。使用后不能保证数据安全性，重要数据传输请谨慎使用。请勿用于非法途径，后果自负！</p>
+                    <p style="color:#FF5722">代理IP均采集于网络，仅供学习使用。使用后不能保证数据安全性，重要数据传输请谨慎使用。请勿用于非法途径，后果自负！</p>
                     <hr class="layui-bg-cyan">
                     <p style="color:#1E9FFF">本站访问量并发比较大，麻烦采集页面时控制一下访问频率。</p>
                 </div>
@@ -72,23 +79,23 @@
             <div class="layui-card">
                 <div class="layui-card-header">广告</div>
                 <div class="layui-card-body">
-                    <p  >服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
+                    <p>服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
                     <hr class="layui-bg-cyan">
                     @foreach($ads as $ad)
-                    <div class="ad-content">
-                        {!! $ad->ad_content !!}
-                    </div>
-                    <hr class="layui-bg-cyan">
+                        <div class="ad-content">
+                            {!! $ad->ad_content !!}
+                        </div>
+                        <hr class="layui-bg-cyan">
                     @endforeach
                     {{--<hr class="layui-bg-cyan">--}}
                     {{--<div class="ad-2">--}}
-                        {{--<script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>--}}
+                    {{--<script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>--}}
                     {{--</div>--}}
                     {{--<div id="ad-1-image" class="ad-card"></div>--}}
-                    <p  >本项目已坚持无偿运行2年，您也可以直接小额支付支持鼓励下呗~</p>
+                    <p>本项目已坚持无偿运行2年，您也可以直接小额支付支持鼓励下呗~</p>
                     <hr class="layui-bg-cyan">
                     <div class="ad-card">
-                        <img src="/wechat-pay.png"class="ad-img">
+                        <img src="/wechat-pay.png" class="ad-img">
                         <img src="/ali-pay.png" class="ad-img">
                     </div>
                 </div>
@@ -104,9 +111,9 @@
                     <div class="layui-input-block">
                         <input type="text" class="layui-input" id="proxy-ip-address" readonly>
                     </div>
-                    <input type="hidden" class="form-control" id="proxy-ip" >
-                    <input type="hidden" class="form-control" id="proxy-port" >
-                    <input type="hidden" class="form-control" id="proxy-protocol" >
+                    <input type="hidden" class="form-control" id="proxy-ip">
+                    <input type="hidden" class="form-control" id="proxy-port">
+                    <input type="hidden" class="form-control" id="proxy-protocol">
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label for="message-text" class="layui-form-label">访问地址</label>
@@ -117,7 +124,8 @@
                 <div class="layui-form-item layui-form-text">
                     <label for="message-text" class="layui-form-label">访问结果</label>
                     <div class="layui-input-block">
-                        <iframe class="layui-textarea" id="proxy-iframe" style="min-height: 300px;" name="proxy-iframe"></iframe>
+                        <iframe class="layui-textarea" id="proxy-iframe" style="min-height: 300px;"
+                                name="proxy-iframe"></iframe>
                     </div>
                 </div>
             </form>
@@ -131,7 +139,7 @@
 <script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script>
     // JavaScript代码区域
-    layui.use('element', function(){
+    layui.use('element', function () {
         var element = layui.element;
 
     });
@@ -154,16 +162,18 @@
     function makeUrlParams(obj) {
         var params = [];
         for (let key in obj) {
-            if(obj[key] != ""){
+            if (obj[key] != "") {
                 params.push(key + '=' + obj[key])
             }
         }
         return params.join("&")
     }
+
     //刷新页面
     function refreshPageAction() {
         window.location.href = "/?" + encodeURI(makeUrlParams(pagePrams))
     }
+
     //初始化自动刷新
     function initAutoRefresh() {
         window.setInterval(function () {
@@ -212,6 +222,7 @@
             $('#proxy-iframe').contents().find("html").html("");
             $('#proxy-iframe').attr('src', src)
         }
+
         $('.btn-speed').on('click', function () {
             $('#proxy-ip-address').val($(this).attr('data-url'));
             $("#proxy-ip").val($(this).attr('data-ip'));

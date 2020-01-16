@@ -23,6 +23,12 @@ class ProxyIpController extends Controller
 
         $response = $proxy_ip_business->indexPage($condition);
 
-        return view('index', $response);
+        $country = $request->get("country", "");
+        $isp = $request->get("isp", "");
+
+        $title = empty($country) ? "" : $country . "代理IP-";
+        $title .= empty($isp) ? "" : $isp . "-";
+
+        return view('index', $response, compact('title'));
     }
 }

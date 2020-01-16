@@ -1,3 +1,16 @@
+1.10.1 / 2019/12/22
+===================
+
+* [fixed] identical callables no longer match as arguments (@ciaranmcnulty)
+
+1.10.0 / 2019/12/17
+===================
+
+* [added] shouldHaveBeenCalled evaluation happens later so un-stubbed calls don't throw (@elvetemedve)
+* [added] methods can now be doubled case-insensitively to match PHP semantics (@michalbundyra)
+* [fixed] reduced memory usage by optimising CachedDoubler (@DonCallisto)
+* [fixed] removed fatal error nesting level when comparing large objects (@scroach) 
+
 1.9.0 / 2019/10/03
 ==================
 

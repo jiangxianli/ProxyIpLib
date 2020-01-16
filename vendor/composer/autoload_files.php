@@ -20,4 +20,5 @@ return array(
     '253c157292f75eb38082b5acb06f3f01' => $vendorDir . '/nikic/fast-route/src/functions.php',
     '5b154887902198b16314243c6e0e3e19' => $vendorDir . '/pguardiario/phpuri/phpuri.php',
     'bee9632da3ca00a99623b9c35d0c4f8b' => $vendorDir . '/laravel/lumen-framework/src/helpers.php',
+    'a8cdcfa76f44466c21aa919ca7a5e928' => $baseDir . '/app/Http/Common/helpers.php',
 );

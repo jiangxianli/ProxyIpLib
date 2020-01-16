@@ -63,6 +63,14 @@ $app->configure('site');
 
  $app->middleware([
      App\Http\Middleware\RealIpMiddleware::class,
+
+     \RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveComments::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\TrimUrls::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveQuotes::class,
+     \RenatoMarinho\LaravelPageSpeed\Middleware\CollapseWhitespace::class,
  ]);
 
 // $app->routeMiddleware([
@@ -86,6 +94,7 @@ $app->configure('site');
 $app->register(\App\Providers\ModelServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(\App\Providers\LogProvider::class);
+$app->register(RenatoMarinho\LaravelPageSpeed\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,52 @@
+{
+  "name": "renatomarinho/laravel-page-speed",
+  "description": "Laravel Page Speed",
+  "keywords": [
+    "laravel",
+    "page speed",
+    "minify",
+    "optmize",
+    "html"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Renato Marinho",
+      "email": "renato.marinho@s2move.com"
+    }
+  ],
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0 || ^8.0",
+    "orchestra/testbench": "^3.2",
+    "squizlabs/php_codesniffer": "^2.3",
+    "mockery/mockery": ">=0.9.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "RenatoMarinho\\LaravelPageSpeed\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RenatoMarinho\\LaravelPageSpeed\\Test\\": "tests"
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+    "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "laravel": {
+      "providers": [
+        "RenatoMarinho\\LaravelPageSpeed\\ServiceProvider"
+      ]
+    }
+  }
+}

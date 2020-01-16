@@ -348,17 +348,17 @@
     },
     {
         "name": "fzaninotto/faker",
-        "version": "v1.9.0",
-        "version_normalized": "1.9.0.0",
+        "version": "v1.9.1",
+        "version_normalized": "1.9.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/fzaninotto/Faker.git",
-            "reference": "27a216cbe72327b2d6369fab721a5843be71e57d"
+            "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/27a216cbe72327b2d6369fab721a5843be71e57d",
-            "reference": "27a216cbe72327b2d6369fab721a5843be71e57d",
+            "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/fc10d778e4b84d5bd315dad194661e091d307c6f",
+            "reference": "fc10d778e4b84d5bd315dad194661e091d307c6f",
             "shasum": "",
             "mirrors": [
                 {
@@ -375,10 +375,12 @@
             "phpunit/phpunit": "^4.8.35 || ^5.7",
             "squizlabs/php_codesniffer": "^2.9.2"
         },
-        "time": "2019-11-14T13:13:06+00:00",
+        "time": "2019-12-12T13:22:17+00:00",
         "type": "library",
         "extra": {
-            "branch-alias": []
+            "branch-alias": {
+                "dev-master": "1.9-dev"
+            }
         },
         "installation-source": "dist",
         "autoload": {
@@ -404,17 +406,17 @@
     },
     {
         "name": "guzzlehttp/guzzle",
-        "version": "6.5.0",
-        "version_normalized": "6.5.0.0",
+        "version": "6.5.2",
+        "version_normalized": "6.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5"
+            "reference": "43ece0e75098b7ecd8d13918293029e555a50f82"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
-            "reference": "dbc2bc3a293ed6b1ae08a3651e2bfd213d19b6a5",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/43ece0e75098b7ecd8d13918293029e555a50f82",
+            "reference": "43ece0e75098b7ecd8d13918293029e555a50f82",
             "shasum": "",
             "mirrors": [
                 {
@@ -438,7 +440,7 @@
             "ext-intl": "Required for Internationalized Domain Name (IDN) support",
             "psr/log": "Required for using the Log middleware"
         },
-        "time": "2019-12-07T18:20:45+00:00",
+        "time": "2019-12-23T11:57:10+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2306,17 +2308,17 @@
     },
     {
         "name": "league/flysystem",
-        "version": "1.0.61",
-        "version_normalized": "1.0.61.0",
+        "version": "1.0.63",
+        "version_normalized": "1.0.63.0",
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/flysystem.git",
-            "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9"
+            "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/4fb13c01784a6c9f165a351e996871488ca2d8c9",
-            "reference": "4fb13c01784a6c9f165a351e996871488ca2d8c9",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/8132daec326565036bc8e8d1876f77ec183a7bd6",
+            "reference": "8132daec326565036bc8e8d1876f77ec183a7bd6",
             "shasum": "",
             "mirrors": [
                 {
@@ -2352,7 +2354,7 @@
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
             "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
         },
-        "time": "2019-12-08T21:46:50+00:00",
+        "time": "2020-01-04T16:30:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2471,17 +2473,17 @@
     },
     {
         "name": "monolog/monolog",
-        "version": "1.25.2",
-        "version_normalized": "1.25.2.0",
+        "version": "1.25.3",
+        "version_normalized": "1.25.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "d5e2fb341cb44f7e2ab639d12a1e5901091ec287"
+            "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/d5e2fb341cb44f7e2ab639d12a1e5901091ec287",
-            "reference": "d5e2fb341cb44f7e2ab639d12a1e5901091ec287",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fa82921994db851a8becaf3787a9e73c5976b6f1",
+            "reference": "fa82921994db851a8becaf3787a9e73c5976b6f1",
             "shasum": "",
             "mirrors": [
                 {
@@ -2523,7 +2525,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2019-11-13T10:00:05+00:00",
+        "time": "2019-12-20T14:15:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2557,17 +2559,17 @@
     },
     {
         "name": "mtdowling/cron-expression",
-        "version": "v1.2.1",
-        "version_normalized": "1.2.1.0",
+        "version": "v1.2.3",
+        "version_normalized": "1.2.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mtdowling/cron-expression.git",
-            "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad"
+            "reference": "9be552eebcc1ceec9776378f7dcc085246cacca6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/9504fa9ea681b586028adaaa0877db4aecf32bad",
-            "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad",
+            "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/9be552eebcc1ceec9776378f7dcc085246cacca6",
+            "reference": "9be552eebcc1ceec9776378f7dcc085246cacca6",
             "shasum": "",
             "mirrors": [
                 {
@@ -2582,7 +2584,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0|~5.0"
         },
-        "time": "2017-01-23T04:29:33+00:00",
+        "time": "2019-12-28T04:23:06+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2605,21 +2607,22 @@
         "keywords": [
             "cron",
             "schedule"
-        ]
+        ],
+        "abandoned": "dragonmantank/cron-expression"
     },
     {
         "name": "myclabs/deep-copy",
-        "version": "1.9.3",
-        "version_normalized": "1.9.3.0",
+        "version": "1.9.4",
+        "version_normalized": "1.9.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/myclabs/DeepCopy.git",
-            "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+            "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
-            "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+            "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
+            "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
             "shasum": "",
             "mirrors": [
                 {
@@ -2639,7 +2642,7 @@
             "doctrine/common": "^2.6",
             "phpunit/phpunit": "^7.1"
         },
-        "time": "2019-08-09T12:45:53+00:00",
+        "time": "2019-12-15T19:12:40+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -3051,17 +3054,17 @@
     },
     {
         "name": "phpdocumentor/reflection-docblock",
-        "version": "4.3.2",
-        "version_normalized": "4.3.2.0",
+        "version": "4.3.4",
+        "version_normalized": "4.3.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-            "reference": "b83ff7cfcfee7827e1e78b637a5904fe6a96698e"
+            "reference": "da3fd972d6bafd628114f7e7e036f45944b62e9c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/b83ff7cfcfee7827e1e78b637a5904fe6a96698e",
-            "reference": "b83ff7cfcfee7827e1e78b637a5904fe6a96698e",
+            "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/da3fd972d6bafd628114f7e7e036f45944b62e9c",
+            "reference": "da3fd972d6bafd628114f7e7e036f45944b62e9c",
             "shasum": "",
             "mirrors": [
                 {
@@ -3079,9 +3082,10 @@
         "require-dev": {
             "doctrine/instantiator": "^1.0.5",
             "mockery/mockery": "^1.0",
+            "phpdocumentor/type-resolver": "0.4.*",
             "phpunit/phpunit": "^6.4"
         },
-        "time": "2019-09-12T14:27:41+00:00",
+        "time": "2019-12-28T18:55:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3165,17 +3169,17 @@
     },
     {
         "name": "phpspec/prophecy",
-        "version": "1.9.0",
-        "version_normalized": "1.9.0.0",
+        "version": "1.10.1",
+        "version_normalized": "1.10.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/phpspec/prophecy.git",
-            "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203"
+            "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/phpspec/prophecy/zipball/f6811d96d97bdf400077a0cc100ae56aa32b9203",
-            "reference": "f6811d96d97bdf400077a0cc100ae56aa32b9203",
+            "url": "https://api.github.com/repos/phpspec/prophecy/zipball/cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
+            "reference": "cbe1df668b3fe136bcc909126a0f529a78d4cbbc",
             "shasum": "",
             "mirrors": [
                 {
@@ -3188,18 +3192,18 @@
             "doctrine/instantiator": "^1.0.2",
             "php": "^5.3|^7.0",
             "phpdocumentor/reflection-docblock": "^2.0|^3.0.2|^4.0|^5.0",
-            "sebastian/comparator": "^1.1|^2.0|^3.0",
+            "sebastian/comparator": "^1.2.3|^2.0|^3.0",
             "sebastian/recursion-context": "^1.0|^2.0|^3.0"
         },
         "require-dev": {
-            "phpspec/phpspec": "^2.5|^3.2",
+            "phpspec/phpspec": "^2.5 || ^3.2",
             "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5 || ^7.1"
         },
-        "time": "2019-10-03T11:07:50+00:00",
+        "time": "2019-12-22T21:05:45+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.8.x-dev"
+                "dev-master": "1.10.x-dev"
             }
         },
         "installation-source": "dist",
@@ -4070,6 +4074,71 @@
         "description": "A polyfill for getallheaders."
     },
     {
+        "name": "renatomarinho/laravel-page-speed",
+        "version": "1.8.11",
+        "version_normalized": "1.8.11.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/renatomarinho/laravel-page-speed.git",
+            "reference": "6381182828de2e0bdaa52ca132cfa2c34b8b728b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/renatomarinho/laravel-page-speed/zipball/6381182828de2e0bdaa52ca132cfa2c34b8b728b",
+            "reference": "6381182828de2e0bdaa52ca132cfa2c34b8b728b",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "illuminate/support": "5.3.* || 5.4.* || 5.5.* || 5.6.* || 5.7.* || 5.8.* || ^6.0",
+            "php": "^5.6 || ^7.0"
+        },
+        "require-dev": {
+            "mockery/mockery": ">=0.9.4",
+            "orchestra/testbench": "^3.2",
+            "phpunit/phpunit": "^5.7 || ^6.0 || ^7.0 || ^8.0",
+            "squizlabs/php_codesniffer": "^2.3"
+        },
+        "time": "2019-09-03T23:58:45+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "RenatoMarinho\\LaravelPageSpeed\\ServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "RenatoMarinho\\LaravelPageSpeed\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Renato Marinho",
+                "email": "renato.marinho@s2move.com"
+            }
+        ],
+        "description": "Laravel Page Speed",
+        "keywords": [
+            "html",
+            "laravel",
+            "minify",
+            "optmize",
+            "page speed"
+        ]
+    },
+    {
         "name": "sebastian/code-unit-reverse-lookup",
         "version": "1.0.1",
         "version_normalized": "1.0.1.0",
@@ -4862,8 +4931,8 @@
     },
     {
         "name": "symfony/event-dispatcher",
-        "version": "v4.4.1",
-        "version_normalized": "4.4.1.0",
+        "version": "v4.4.2",
+        "version_normalized": "4.4.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/event-dispatcher.git",

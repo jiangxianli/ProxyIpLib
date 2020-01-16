@@ -11,7 +11,8 @@
         "guzzlehttp/guzzle": "^6.3",
         "jaeger/querylist": "^4.0",
         "illuminate/redis": "5.5.*",
-        "jaeger/querylist-absolute-url": "^4.0"
+        "jaeger/querylist-absolute-url": "^4.0",
+        "renatomarinho/laravel-page-speed": "^1.8"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -21,7 +22,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files" : [
+            "app/Http/Common/helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

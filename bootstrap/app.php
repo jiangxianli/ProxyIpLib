@@ -49,6 +49,7 @@ $app->singleton(
 );
 
 $app->configure('site');
+$app->configure('laravel-page-speed');
 
 /*
 |--------------------------------------------------------------------------

@@ -204,7 +204,9 @@ class ProxyIpDao
      */
     public function allCountryList()
     {
-        return app('ProxyIpModel')->select("country")->groupBy("country")->pluck('country');
+        $countries = app('ProxyIpModel')->select("country")->groupBy("country")->pluck('country')->toArray();
+
+        return array_filter($countries);
     }
 
     /**
@@ -216,6 +218,8 @@ class ProxyIpDao
      */
     public function allIspList()
     {
-        return app('ProxyIpModel')->select("isp")->groupBy("isp")->pluck('isp');
+        $isp = app('ProxyIpModel')->select("isp")->groupBy("isp")->pluck('isp')->toArray();
+
+        return array_filter($isp);
     }
 }

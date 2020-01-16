@@ -75,9 +75,10 @@
         </div>
     </div>
 
-    @include("layout.footer")
-
 </div>
+
+@include("layout.footer")
+
 <script src="/layui/layui.all.js"></script>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>

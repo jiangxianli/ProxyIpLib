@@ -52,7 +52,7 @@
                 <ul>
                     @foreach ($blogs as $blog)
                     <li>
-                        <a href="{{ route('blog.detail',['blog_id'=>$blog->id]) }}">{{ date("Y年m月d日H时")}}</a>
+                        <a href="{{ route('blog.detail',['blog_id'=>$blog->id]) }}">{{ date("Y年m月d日H时",strtotime($blog['created_at']))}}</a>
                     </li>
                     @endforeach
                 </ul>

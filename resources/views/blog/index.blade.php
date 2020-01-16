@@ -82,7 +82,7 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script>
-    // JavaScript代码区域
+    /* JavaScript代码区域 */
     layui.use('element', function(){
         var element = layui.element;
 

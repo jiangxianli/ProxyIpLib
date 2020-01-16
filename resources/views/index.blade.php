@@ -138,13 +138,13 @@
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script>
-    // JavaScript代码区域
+    /*JavaScript代码区域*/
     layui.use('element', function () {
         var element = layui.element;
 
     });
 
-    //页面参数
+    /*页面参数*/
     var pagePrams = {
         page: "{{ $proxy_ips->currentPage() }}",
         protocol: "{{ isset($_GET['protocol']) ? $_GET['protocol'] : "" }}",
@@ -152,13 +152,13 @@
         country: "{{ isset($_GET['country']) ? $_GET['country'] : "" }}",
         isp: "{{ isset($_GET['isp']) ? $_GET['isp'] : "" }}",
     };
-    //页面配置
+    /*页面配置*/
     var pageConfig = {
         autoRefresh: true,
         refreshIntervalTime: 30000,
     };
 
-    //组装链接参数
+    /*组装链接参数*/
     function makeUrlParams(obj) {
         var params = [];
         for (let key in obj) {
@@ -169,12 +169,12 @@
         return params.join("&")
     }
 
-    //刷新页面
+    /*刷新页面*/
     function refreshPageAction() {
         window.location.href = "/?" + encodeURI(makeUrlParams(pagePrams))
     }
 
-    //初始化自动刷新
+    /*初始化自动刷新*/
     function initAutoRefresh() {
         window.setInterval(function () {
             if (!pageConfig.autoRefresh) {
@@ -188,7 +188,7 @@
 
         initAutoRefresh();
 
-        //分页渲染
+        /*分页渲染*/
         var laypage = layui.laypage
         laypage.render({
             elem: 'paginate',
@@ -204,7 +204,7 @@
             }
         });
 
-        //复制粘贴功能
+        /*复制粘贴功能*/
         var clipboard = new Clipboard(".btn-copy", {
             text: function (_this) {
                 return $(_this).attr('data-url');
@@ -216,7 +216,7 @@
             alert('复制失败!')
         });
 
-        //提交测速
+        /*提交测速*/
         function ipSpeed() {
             var src = '/api/web-request-speed?protocol=' + $("#proxy-protocol").val() + '&ip=' + $("#proxy-ip").val() + '&port=' + $("#proxy-port").val() + '&web_link=' + encodeURIComponent($('#web-link').val());
             $('#proxy-iframe').contents().find("html").html("");
@@ -232,7 +232,7 @@
                 type: 1,
                 title: "IP测速",
                 area: ['840px', '640px'],
-                shadeClose: false, //点击遮罩关闭
+                shadeClose: false,
                 content: $('#modal-speed'),
                 btn: ['立即测速'],
                 yes: function () {
@@ -247,8 +247,6 @@
                 }
             });
         });
-
-        // $("#ad-1-image").html($("#f_f1").html())
     });
 </script>
 </body>

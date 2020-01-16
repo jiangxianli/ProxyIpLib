@@ -103,9 +103,11 @@ class BlogController extends Controller
      */
     public function siteMapHtml(Request $request, SiteMapBusiness $site_map_business)
     {
+        $view = app('cache')->remember("generated.sitemap.html", 60, function () use ($site_map_business) {
+            $response = $site_map_business->generateSiteMap();
+            return view('sitemap.html', $response)->render();
+        });
 
-        $response = $site_map_business->generateSiteMap();
-
-        return view('sitemap.html', $response);
+        return response($view)->header('Content-Type', 'text/html');
     }
 }

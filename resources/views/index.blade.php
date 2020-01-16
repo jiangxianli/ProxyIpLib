@@ -161,18 +161,18 @@
     /*组装链接参数*/
     function makeUrlParams(obj) {
         var params = [];
-        for (let key in obj) {
+        for (var key in obj) {
             if (obj[key] != "") {
                 params.push(key + '=' + obj[key])
             }
         }
         return params.join("&")
-    }
+    };
 
     /*刷新页面*/
     function refreshPageAction() {
         window.location.href = "/?" + encodeURI(makeUrlParams(pagePrams))
-    }
+    };
 
     /*初始化自动刷新*/
     function initAutoRefresh() {
@@ -182,14 +182,14 @@
             }
             refreshPageAction();
         }, pageConfig.refreshIntervalTime);
-    }
+    };
 
     $(function () {
 
         initAutoRefresh();
 
         /*分页渲染*/
-        var laypage = layui.laypage
+        var laypage = layui.laypage;
         laypage.render({
             elem: 'paginate',
             count: "{{ $proxy_ips->total() }}",
@@ -198,7 +198,7 @@
             curr: pagePrams.page,
             jump: function (obj, first) {
                 if (!first) {
-                    pagePrams.page = obj.curr
+                    pagePrams.page = obj.curr;
                     refreshPageAction();
                 }
             }
@@ -211,17 +211,17 @@
             }
         });
         clipboard.on("success", function (t) {
-            alert('复制成功!')
+            alert('复制成功!');
         }).on("error", function (t) {
-            alert('复制失败!')
+            alert('复制失败!');
         });
 
         /*提交测速*/
         function ipSpeed() {
             var src = '/api/web-request-speed?protocol=' + $("#proxy-protocol").val() + '&ip=' + $("#proxy-ip").val() + '&port=' + $("#proxy-port").val() + '&web_link=' + encodeURIComponent($('#web-link').val());
             $('#proxy-iframe').contents().find("html").html("");
-            $('#proxy-iframe').attr('src', src)
-        }
+            $('#proxy-iframe').attr('src', src);
+        };
 
         $('.btn-speed').on('click', function () {
             $('#proxy-ip-address').val($(this).attr('data-url'));

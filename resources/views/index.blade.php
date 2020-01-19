@@ -124,8 +124,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label for="message-text" class="layui-form-label">访问结果</label>
                     <div class="layui-input-block">
-                        <iframe class="layui-textarea" id="proxy-iframe" style="min-height: 300px;"
-                                name="proxy-iframe"></iframe>
+                        <iframe  id="proxy-iframe" style="min-height: 300px;width: 100%" name="proxy-iframe"></iframe>
                     </div>
                 </div>
             </form>

@@ -548,8 +548,8 @@ class ProxyIpBusiness
      */
     public function ipLocation($ip)
     {
-        //间隔1秒请求一次
-        sleep(1);
+        //间隔10秒请求一次
+        sleep(10);
 
         $random = rand(1, 4);
 

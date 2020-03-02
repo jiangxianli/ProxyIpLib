@@ -548,9 +548,38 @@ class ProxyIpBusiness
      */
     public function ipLocation($ip)
     {
-        //每次请求间隔一秒
+        //间隔1秒请求一次
         sleep(1);
 
+        $random = rand(1, 4);
+
+        switch ($random) {
+            case 1:
+                return $this->taobaoIpLocation($ip);
+                break;
+            case  2:
+                return $this->juheIpLocation($ip);
+                break;
+            case 3:
+                return $this->apiIpLocation($ip);
+                break;
+            case 4:
+                return $this->apiIpLocation($ip);
+                break;
+        }
+    }
+
+    /**
+     * 淘宝IP库
+     *
+     * @param $ip
+     * @return mixed
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2020-03-02 13:28
+     */
+    private function taobaoIpLocation($ip)
+    {
         //API 地址
         $api = "http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip;
         $client = new Client();
@@ -565,6 +594,107 @@ class ProxyIpBusiness
         }
 
         return $data['data'];
+    }
+
+
+    /**
+     * 聚合IP库
+     *
+     * @param $ip
+     * @return mixed
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2020-03-02 13:28
+     */
+    private function juheIpLocation($ip)
+    {
+        //API 地址
+        $api = "https://apis.juhe.cn/ip/Example/query.php";
+        $client = new Client();
+        $request = $client->request("POST", $api, [
+            'form_params' => [
+                'IP' => $ip
+            ]
+        ]);
+        //响应json数据
+        $json = $request->getBody()->getContents();
+        //转数组格式
+        $data = (array)json_decode($json, true);
+
+        if (!isset($data['resultcode']) || $data['resultcode'] != 200) {
+            throw new JsonException(90000, $data);
+        }
+
+        return [
+            'country' => $data['result']['Country'],
+            'region'  => $data['result']['Province'],
+            'city'    => $data['result']['City'],
+            'isp'     => $data['result']['Isp'],
+        ];
+    }
+
+    /**
+     * 聚合IP库
+     *
+     * @param $ip
+     * @return mixed
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2020-03-02 13:28
+     */
+    private function apiIpLocation($ip)
+    {
+        //API 地址
+        $api = "http://ip-api.com/json/" . $ip . "?lang=zh-CN";
+        $client = new Client();
+        $request = $client->request("GET", $api);
+        //响应json数据
+        $json = $request->getBody()->getContents();
+        //转数组格式
+        $data = (array)json_decode($json, true);
+
+        if (!isset($data['status']) || $data['status'] != "success") {
+            throw new JsonException(90000, $data);
+        }
+
+        return [
+            'country' => $data['country'],
+            'region'  => $data['regionName'],
+            'city'    => $data['city'],
+            'isp'     => $data['isp'],
+        ];
+    }
+
+    /**
+     * 聚合IP库
+     *
+     * @param $ip
+     * @return mixed
+     * @throws JsonException
+     * @author jiangxianli
+     * @created_at 2020-03-02 13:28
+     */
+    private function tianqiIpLocation($ip)
+    {
+        //API 地址
+        $api = "http://ip.tianqiapi.com/?ip=" . $ip;
+        $client = new Client();
+        $request = $client->request("GET", $api);
+        //响应json数据
+        $json = $request->getBody()->getContents();
+        //转数组格式
+        $data = (array)json_decode($json, true);
+
+        if (!isset($data['country']) || !isset($data['ip'])) {
+            throw new JsonException(90000, $data);
+        }
+
+        return [
+            'country' => $data['country'],
+            'region'  => $data['province'],
+            'city'    => $data['city'],
+            'isp'     => $data['isp'],
+        ];
     }
 
     /**

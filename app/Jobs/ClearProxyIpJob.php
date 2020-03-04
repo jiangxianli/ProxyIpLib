@@ -24,7 +24,7 @@ class ClearProxyIpJob extends Job
     /**
      * @var
      */
-    private $expired_at ;
+    private $expired_at;
 
     /**
      * ProxyIpLocationJob constructor.
@@ -65,7 +65,7 @@ class ClearProxyIpJob extends Job
         $ip_cache_times = $redis->hget($ip_cache_map, $cache_key);
         if (!empty($ip_cache_times) && $ip_cache_times >= 2) {
             $proxy_ip_business->deleteProxyIp($this->proxy_ip['unique_id']);
-            $redis->hset($ip_cache_map, $cache_key, 0);
+            $redis->hdel($ip_cache_map, $cache_key);
             return;
         }
 
@@ -77,7 +77,7 @@ class ClearProxyIpJob extends Job
                 'speed'        => $speed,
                 'validated_at' => Carbon::now(),
             ]);
-            $redis->hset($ip_cache_map, $cache_key, 0);
+            $redis->hdel($ip_cache_map, $cache_key);
         } catch (\Exception $exception) {
             $redis->hset($ip_cache_map, $cache_key, empty($ip_cache_times) ? 1 : $ip_cache_times + 1);
         }

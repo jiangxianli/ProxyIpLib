@@ -727,12 +727,16 @@ class ProxyIpBusiness
             'proxy'   => "$protocol://$ip:$port"
         ];
 
+        $client = new Client();
+        $request = $client->request("GET", $url, $options);
+        $content = $request->getBody()->getContents();
+
         //抓取网页内容
-        $ql = QueryList::get($url, [], $options);
+        $ql = QueryList::html($content);
         //获取标题
         $title = $ql->find("title")->eq(0)->text();
-
-        unset($ql);
+        //销毁
+        $ql->destruct();
 
         if (empty($title) || !str_contains($title, "百度一下")) {
             throw new JsonException(20000);

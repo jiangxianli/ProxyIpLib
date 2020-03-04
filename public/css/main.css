@@ -536,6 +536,8 @@ body {
 
 .layui-nav-item .multi-rows {
     width: 440px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .layui-nav-item .multi-rows dd {

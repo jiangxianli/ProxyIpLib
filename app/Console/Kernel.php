@@ -42,8 +42,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        $schedule->command('command:timer-clear-proxy-ip')->everyMinute()->withoutOverlapping()->runInBackground();
-        $schedule->command('command:proxy-ip-location')->everyMinute()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:timer-clear-proxy-ip')->everyMinute();
+        $schedule->command('command:proxy-ip-location')->everyMinute();
         $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip 89ip')->everyTenMinutes();
@@ -55,7 +55,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip super')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip xici')->everyTenMinutes();
-        $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00")->withoutOverlapping()->runInBackground();
+        $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00");
         $schedule->command('command:hot-ip-by-hours')->hourly();
     }
 }

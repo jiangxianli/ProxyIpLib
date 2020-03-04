@@ -900,7 +900,7 @@ class ProxyIpBusiness
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
         //广告
-        $ads = $this->ad_dao->getAdList([
+        $ads = $this->cacheAdList([
             'area'    => 'web_index',
             'limit'   => 2,
             'is_show' => "yes",
@@ -950,7 +950,7 @@ class ProxyIpBusiness
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
         //广告
-        $ads = $this->ad_dao->getAdList([
+        $ads = $this->cacheAdList([
             'area'    => 'blog_index',
             'limit'   => 2,
             'is_show' => "yes",
@@ -977,12 +977,33 @@ class ProxyIpBusiness
         //运营商列表
         $isp = $this->proxy_ip_dao->allIspList();
         //广告
-        $ads = $this->ad_dao->getAdList([
+        $ads = $this->cacheAdList([
             'area'    => 'blog_detail',
             'limit'   => 2,
             'is_show' => "yes",
         ]);
 
         return compact('blog', 'countries', 'isp', 'ads');
+    }
+
+    /**
+     * 缓存广告
+     *
+     * @param array $condition
+     * @return mixed
+     * @author jiangxianli
+     * @created_at 2020-03-04 16:50
+     */
+    private function cacheAdList(array $condition)
+    {
+
+        $ads = app('cache')->remember("cache_ad." . md5(http_build_query($condition)), 2, function () use ($condition) {
+            //广告
+            $ads = $this->ad_dao->getAdList($condition);
+
+            return $ads;
+        });
+
+        return $ads;
     }
 }

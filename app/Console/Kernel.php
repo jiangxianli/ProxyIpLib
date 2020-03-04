@@ -42,8 +42,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        $schedule->command('command:timer-clear-proxy-ip')->everyMinute();
-        $schedule->command('command:proxy-ip-location')->everyMinute();
+        $schedule->command('command:timer-clear-proxy-ip')->everyMinute()->withoutOverlapping()->runInBackground();
+        $schedule->command('command:proxy-ip-location')->everyMinute()->withoutOverlapping()->runInBackground();
         $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip 89ip')->everyTenMinutes();

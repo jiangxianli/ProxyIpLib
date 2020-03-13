@@ -486,15 +486,26 @@ class ProxyIpBusiness
      */
     public function timerClearProxyIp()
     {
-        $condition = [
-            'order_by'   => 'validated_at',
-            'order_rule' => 'asc',
-            'all'        => 'true'
-        ];
-        $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition);
+        $page = 1;
+        $page_size = 200;
 
-        foreach ($proxy_ips as $proxy_ip) {
-            dispatch(new ClearProxyIpJob($proxy_ip->toArray()));
+        while (true) {
+
+            $condition = [
+                'order_by'   => 'validated_at',
+                'order_rule' => 'asc',
+                'page'       => $page++,
+                'page_size'  => $page_size
+            ];
+            $columns = ['unique_id', 'ip', 'port', 'protocol'];
+            $proxy_ips = $this->proxy_ip_dao->getProxyIpList($condition, $columns);
+            if ($proxy_ips->count() <= 0) {
+                break;
+            }
+
+            foreach ($proxy_ips as $proxy_ip) {
+                dispatch(new ClearProxyIpJob($proxy_ip->toArray()));
+            }
         }
     }
 

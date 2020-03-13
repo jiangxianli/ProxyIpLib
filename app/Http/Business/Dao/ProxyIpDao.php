@@ -73,7 +73,7 @@ class ProxyIpDao
             $proxy_ip = $proxy_ip->take($condition['limit'])->get();
         } else {
             $page_size = array_get($condition, 'page_size', 15);
-            $proxy_ip = $proxy_ip->paginate($page_size);
+            $proxy_ip = $proxy_ip->paginate($page_size, ['*'], 'page', !empty($condition['page']) ? $condition['page'] : null);
         }
 
         if (!empty($relatives)) {

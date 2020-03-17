@@ -4,7 +4,7 @@
 代理IP采集于网络，仅供个人学习使用。请勿用于非法途径，违者后果自负！
 
 ### 获取一个验证通过的代理IP
-* URL: https://www.freeip.top/api/proxy_ip
+* URL: https://ip.jiangxianli.com/api/proxy_ip
 * 响应数据
 ```json
 {
@@ -27,7 +27,7 @@
 ```
 
 ### 获取代理IP列表
-* URL: https://www.freeip.top/api/proxy_ips
+* URL: https://ip.jiangxianli.com/api/proxy_ips
 * 请求参数
 
 | 参数名 | 数据类型 | 必传 | 说明 | 例子 |

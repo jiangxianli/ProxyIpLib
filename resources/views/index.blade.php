@@ -247,6 +247,14 @@
                 }
             });
         });
+
+        /*广告*/
+        var adInterval = setInterval(function () {
+            if ($("#BottomMsg").size() >= 0) {
+                $("#BottomMsg").removeAttr("style");
+                clearInterval(adInterval)
+            }
+        }, 100);
     });
 </script>
 </body>

@@ -26,6 +26,13 @@ class GrabProxyIp extends Job
     private $expired_at;
 
     /**
+     * 设置最大超时时间
+     *
+     * @var int
+     */
+    public $timeout = 180;
+
+    /**
      * GrabProxyIp constructor.
      * @param $origin
      */

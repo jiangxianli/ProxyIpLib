@@ -92,11 +92,11 @@
     $(function () {
         /*广告*/
         var adInterval = setInterval(function () {
-            if ($("#BottomMsg").size() >= 0) {
-                $("#BottomMsg").removeAttr("style");
-                clearInterval(adInterval)
-            }
+            $("#BottomMsg").removeAttr("style");
         }, 100);
+        setTimeout(function(){
+            clearInterval(adInterval)
+        },6000);
     });
 </script>
 </body>

@@ -61,7 +61,6 @@ class ProxyIpBusiness
         $this->proxy_ip_dao = $proxy_ip_dao;
         $this->blog_dao = $blog_dao;
         $this->ad_dao = $ad_dao;
-        $this->time_out = config('site.speed_limit') / 1000;
     }
 
     /**
@@ -862,7 +861,7 @@ class ProxyIpBusiness
                 'Host'                      => parse_url($url, PHP_URL_HOST),
                 'DNT'                       => "1",
             ],
-            'timeout' => $this->time_out,
+            'timeout' => config('site.speed_limit') / 1000,
             'proxy'   => "$protocol://$ip:$port"
         ];
 

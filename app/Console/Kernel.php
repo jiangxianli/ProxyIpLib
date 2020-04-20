@@ -55,6 +55,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip super')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip xici')->everyTenMinutes();
+        $schedule->command('command:grab-proxy-ip foxtools')->hourly();
+        $schedule->command('command:grab-proxy-ip proxyList')->hourly();
         $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00");
         $schedule->command('command:hot-ip-by-hours')->hourly()->runInBackground();
     }

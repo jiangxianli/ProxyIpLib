@@ -97,6 +97,12 @@ class GrabProxyIp extends Job
                 case 'xici':
                     $proxy_ip_business->xiciIp();
                     return;
+                case 'foxtools':
+                    $proxy_ip_business->foxtoolsIp();
+                    return;
+                case 'proxyList':
+                    $proxy_ip_business->proxyListIp();
+                    return;
             }
 
             $this->delete();

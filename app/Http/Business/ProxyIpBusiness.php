@@ -61,6 +61,7 @@ class ProxyIpBusiness
         $this->proxy_ip_dao = $proxy_ip_dao;
         $this->blog_dao = $blog_dao;
         $this->ad_dao = $ad_dao;
+        $this->time_out = config('site.speed_limit') / 1000;
     }
 
     /**

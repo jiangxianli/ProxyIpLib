@@ -569,6 +569,8 @@ class ProxyIpBusiness
                 if (!str_contains($line, ":")) {
                     continue;
                 }
+                $line = str_replace("\r", "", $line);
+                $line = str_replace("\n", "", $line);
                 list($ip, $port) = explode(":", $line);
                 $anonymity = 1;
                 $protocol = "https";
@@ -596,12 +598,38 @@ class ProxyIpBusiness
                 if (!str_contains($line, ":")) {
                     continue;
                 }
+                $line = str_replace("\r", "", $line);
+                $line = str_replace("\n", "", $line);
                 list($ip, $port) = explode(":", $line);
                 $anonymity = 1;
                 $protocol = "http";
                 $rows[] = [$ip, $port, $anonymity, $protocol];
             }
             return $rows;
+        }, true);
+    }
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function proxylistmeIp()
+    {
+        $urls = [
+            "https://proxylist.me/?page=1",
+            "https://proxylist.me/?page=2",
+            "https://proxylist.me/?page=3",
+            "https://proxylist.me/?page=4",
+            "https://proxylist.me/?page=5",
+            "https://proxylist.me/?page=6",
+        ];
+
+        $this->grabProcess($urls, "#datatable-row-highlight tr", function ($tr) {
+            $ip = trim($tr->find('td:eq(1)')->text());
+            $port = trim($tr->find('td:eq(2)')->text());
+            $anonymity = 1;
+            $protocol = str_contains($tr->find('td:eq(4)')->text(), "https") ? "https" : "http";
+            return [$ip, $port, $anonymity, $protocol];
         }, true);
     }
 

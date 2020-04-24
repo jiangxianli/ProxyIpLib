@@ -106,6 +106,9 @@ class GrabProxyIp extends Job
                 case 'proxylistme':
                     $proxy_ip_business->proxylistmeIp();
                     return;
+                case 'checkerproxy':
+                    $proxy_ip_business->checkerproxyIp();
+                    return;
             }
 
             $this->delete();

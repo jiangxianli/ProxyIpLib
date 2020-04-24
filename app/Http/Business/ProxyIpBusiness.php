@@ -640,6 +640,31 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
+    public function checkerproxyIp()
+    {
+        $urls = [
+            "https://checkerproxy.net/api/archive/" . Carbon::today()->subDays(1)->format("Y-m-d")
+        ];
+
+        $this->grabHtmlProcess($urls, function ($html) {
+            $data = (array)json_decode($html, true);
+            $ips = array_column($data, 'addr');
+            unset($html, $data);
+            $rows = [];
+            foreach ($ips as $line) {
+                list($ip, $port) = explode(":", $line);
+                $anonymity = 1;
+                $protocol = "http";
+                $rows[] = [$ip, $port, $anonymity, $protocol];
+            }
+            return $rows;
+        }, false);
+    }
+
+    /**
      * 定时清理
      *
      * @author jiangxianli

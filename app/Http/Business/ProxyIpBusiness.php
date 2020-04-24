@@ -736,7 +736,7 @@ class ProxyIpBusiness
                 return $this->apiIpLocation($ip);
                 break;
             case 4:
-                return $this->apiIpLocation($ip);
+                return $this->tianqiIpLocation($ip);
                 break;
         }
     }

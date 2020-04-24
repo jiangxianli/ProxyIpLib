@@ -100,7 +100,7 @@ class ProxyIpBusiness
                 if ($user_proxy) {
                     $proxy_ip = $this->getNowValidateOneProxyIp();
                     if ($proxy_ip) {
-                        $options['proxy'] = $proxy_ip->ip . ":" . $proxy_ip->port;
+                        $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
                     }
                 }
 
@@ -179,7 +179,7 @@ class ProxyIpBusiness
                 if ($user_proxy) {
                     $proxy_ip = $this->getNowValidateOneProxyIp();
                     if ($proxy_ip) {
-                        $options['proxy'] = $proxy_ip->ip . ":" . $proxy_ip->port;
+                        $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
                     }
                 }
 
@@ -896,7 +896,7 @@ class ProxyIpBusiness
                 'DNT'                       => "1",
             ],
             'timeout' => config('site.speed_limit') / 1000,
-            'proxy'   => "$ip:$port"
+            'proxy'   => "$protocol://$ip:$port"
         ];
 
         $client = new Client();
@@ -1001,7 +1001,7 @@ class ProxyIpBusiness
         //代理请求
         $client = new Client();
         $response = $client->request('GET', $web_link, [
-            'proxy'   => "$ip:$port",
+            'proxy'   => "$protocol://$ip:$port",
             'timeout' => $this->time_out
         ]);
 

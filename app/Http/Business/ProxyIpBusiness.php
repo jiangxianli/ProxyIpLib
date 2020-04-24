@@ -100,12 +100,17 @@ class ProxyIpBusiness
                 if ($user_proxy) {
                     $proxy_ip = $this->getNowValidateOneProxyIp();
                     if ($proxy_ip) {
-                        $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+                        $options['proxy'] = [
+                            $proxy_ip->protocol => "tcp://" . $proxy_ip->ip . ":" . $proxy_ip->port,
+                        ];
                     }
                 }
 
+                $client = new Client();
+                $request = $client->request("GET", $url, $options);
+
                 //抓取网页内容
-                $ql = QueryList::get($url, [], $options);
+                $ql = QueryList::html($request->getBody()->getContents());
                 //选中数据列表Table
                 $table = $ql->find($table_selector);
                 //遍历数据列
@@ -176,12 +181,17 @@ class ProxyIpBusiness
                 if ($user_proxy) {
                     $proxy_ip = $this->getNowValidateOneProxyIp();
                     if ($proxy_ip) {
-                        $options['proxy'] = $proxy_ip->protocol . "://" . $proxy_ip->ip . ":" . $proxy_ip->port;
+                        $options['proxy'] = [
+                            $proxy_ip->protocol => "tcp://" . $proxy_ip->ip . ":" . $proxy_ip->port
+                        ];
                     }
                 }
 
+                $client = new Client();
+                $request = $client->request("GET", $url, $options);
+
                 //抓取网页内容
-                $ql = QueryList::get($url, [], $options);
+                $ql = QueryList::html($request->getBody()->getContents());
                 //选中数据列表Table
                 $html = $ql->getHtml();
                 //遍历数据列
@@ -890,7 +900,9 @@ class ProxyIpBusiness
                 'DNT'                       => "1",
             ],
             'timeout' => config('site.speed_limit') / 1000,
-            'proxy'   => "$protocol://$ip:$port"
+            'proxy'   => [
+                $protocol => "tcp://$ip:$port"
+            ]
         ];
 
         $client = new Client();
@@ -996,7 +1008,7 @@ class ProxyIpBusiness
         $client = new Client();
         $response = $client->request('GET', $web_link, [
             'proxy'   => [
-                $protocol => "$protocol://$ip:$port"
+                $protocol => "tcp://$ip:$port"
             ],
             'timeout' => $this->time_out
         ]);

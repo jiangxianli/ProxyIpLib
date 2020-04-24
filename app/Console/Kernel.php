@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //
-        $schedule->command('command:timer-clear-proxy-ip')->everyMinute()->runInBackground();
+        $schedule->command('command:timer-clear-proxy-ip')->everyFiveMinutes()->runInBackground();
         $schedule->command('command:proxy-ip-location')->everyMinute()->runInBackground();
         $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes();

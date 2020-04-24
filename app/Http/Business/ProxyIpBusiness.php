@@ -631,10 +631,10 @@ class ProxyIpBusiness
         ];
 
         $this->grabProcess($urls, "#datatable-row-highlight tr", function ($tr) {
-            $ip = trim($tr->find('td:eq(1)')->text());
-            $port = trim($tr->find('td:eq(2)')->text());
+            $ip = trim($tr->find('td:eq(0) a')->text());
+            $port = trim($tr->find('td:eq(1)')->text());
             $anonymity = 1;
-            $protocol = str_contains($tr->find('td:eq(4)')->text(), "https") ? "https" : "http";
+            $protocol = str_contains($tr->find('td:eq(3)')->text(), "https") ? "https" : "http";
             return [$ip, $port, $anonymity, $protocol];
         }, true);
     }

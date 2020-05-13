@@ -49,6 +49,6 @@ class Test extends Command
     {
         Helper::logFlag($this->signature);
 
-        $this->proxy_ip_business->xiciIp();
+        $this->proxy_ip_business->checkerproxyIp();
     }
 }

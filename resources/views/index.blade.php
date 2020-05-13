@@ -79,7 +79,7 @@
             <div class="layui-card">
                 <div class="layui-card-header">广告</div>
                 <div class="layui-card-body">
-                    <p>服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
+                    <p>服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！都是我从京东给你们找的实惠、高销量商品，如果需要可以点击购买！感激万分~</p>
                     <hr class="layui-bg-cyan">
                     @foreach($ads as $ad)
                         <div class="ad-content">

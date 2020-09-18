@@ -23,6 +23,9 @@ class JsonException extends Exception
         '20001' => [
             'msg' => '响应时间过长!'
         ],
+        '20002' => [
+            'msg' => 'IP定位失败!'
+        ],
 
         '90000' => [
             'msg' => '接口返回错误!'

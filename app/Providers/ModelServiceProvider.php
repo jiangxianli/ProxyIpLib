@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Model\Ad;
 use App\Model\Blog;
+use App\Model\IpLocation;
 use App\Model\ProxyIp;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,6 +43,8 @@ class ModelServiceProvider extends ServiceProvider
         $this->app->bind('BlogModel', Blog::class);
         //广告模型
         $this->app->bind('AdModel', Ad::class);
+        //IP定位模型
+        $this->app->bind('IpLocationModel', IpLocation::class);
     }
 
 

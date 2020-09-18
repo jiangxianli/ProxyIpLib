@@ -16,6 +16,7 @@ return array(
     'CallbackReturnValue' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'CreateAdsTable' => $baseDir . '/database/migrations/2019_12_03_144237_create_ads_table.php',
     'CreateBlogTable' => $baseDir . '/database/migrations/2019_11_19_134043_create_blog_table.php',
+    'CreateIpLocationTable' => $baseDir . '/database/migrations/2020_09_18_110005_create_ip_location_table.php',
     'CreateProxyIpsTable' => $baseDir . '/database/migrations/2017_12_22_065148_create_proxy_ips_table.php',
     'DOMDocumentWrapper' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',
     'DOMEvent' => $vendorDir . '/jaeger/phpquery-single/phpQuery.php',

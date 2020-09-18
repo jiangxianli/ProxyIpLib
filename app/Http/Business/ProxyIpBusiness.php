@@ -5,6 +5,7 @@ namespace App\Http\Business;
 use App\Exceptions\JsonException;
 use App\Http\Business\Dao\AdDao;
 use App\Http\Business\Dao\BlogDao;
+use App\Http\Business\Dao\IpLocationDao;
 use App\Http\Business\Dao\ProxyIpDao;
 use App\Http\Common\Helper;
 use App\Jobs\ClearProxyIpJob;
@@ -35,6 +36,11 @@ class ProxyIpBusiness
     private $ad_dao;
 
     /**
+     * @var IpLocationDao
+     */
+    private $ip_location_dao;
+
+    /**
      * 请求超时时间
      *
      * @var
@@ -55,12 +61,19 @@ class ProxyIpBusiness
      * @param ProxyIpDao $proxy_ip_dao
      * @param BlogDao $blog_dao
      * @param AdDao $ad_dao
+     * @param IpLocationDao $ip_location_dao
      */
-    public function __construct(ProxyIpDao $proxy_ip_dao, BlogDao $blog_dao, AdDao $ad_dao)
+    public function __construct(
+        ProxyIpDao $proxy_ip_dao,
+        BlogDao $blog_dao,
+        AdDao $ad_dao,
+        IpLocationDao $ip_location_dao
+    )
     {
         $this->proxy_ip_dao = $proxy_ip_dao;
         $this->blog_dao = $blog_dao;
         $this->ad_dao = $ad_dao;
+        $this->ip_location_dao = $ip_location_dao;
     }
 
     /**
@@ -77,7 +90,6 @@ class ProxyIpBusiness
     {
         //遍历URL
         foreach ($urls as $url) {
-
             try {
                 //记录抓取的URL
                 app("Logger")->info("抓取URL", [$url]);
@@ -126,7 +138,6 @@ class ProxyIpBusiness
                 });
 
                 unset($ql, $table);
-
             } catch (\Exception $exception) {
                 //日志记录
                 app("Logger")->error("抓取URL错误", [
@@ -156,7 +167,6 @@ class ProxyIpBusiness
     {
         //遍历URL
         foreach ($urls as $url) {
-
             try {
                 //记录抓取的URL
                 app("Logger")->info("抓取URL", [$url]);
@@ -203,7 +213,6 @@ class ProxyIpBusiness
                 }
 
                 unset($ql, $table);
-
             } catch (\Exception $exception) {
                 //日志记录
                 app("Logger")->error("抓取URL错误", [
@@ -283,7 +292,6 @@ class ProxyIpBusiness
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
         }, true);
-
     }
 
     /**
@@ -527,7 +535,6 @@ class ProxyIpBusiness
         }, true);
     }
 
-
     /**
      * @author jiangxianli
      * @created_at 2019-10-28 14:31
@@ -676,7 +683,6 @@ class ProxyIpBusiness
         $page_size = 200;
 
         while (true) {
-
             $condition = [
                 'order_by'   => 'validated_at',
                 'order_rule' => 'asc',
@@ -745,25 +751,47 @@ class ProxyIpBusiness
      */
     public function ipLocation($ip)
     {
+        //ip 转 数字
+        $ip_number = ip2long($ip);
+
+        //查询IP定位信息
+        $condition = [
+            'ip_number' => $ip_number,
+            'first'     => 'true'
+        ];
+        $exist = $this->ip_location_dao->getIpLocationList($condition);
+        if ($exist) {
+            return $exist->toArray();
+        }
+
         //间隔10秒请求一次
         sleep(10);
 
         $random = rand(1, 4);
 
+        $ip_data = [];
+
         switch ($random) {
             case 1:
-                return $this->taobaoIpLocation($ip);
+                $ip_data = $this->taobaoIpLocation($ip);
                 break;
             case  2:
-                return $this->juheIpLocation($ip);
+                $ip_data = $this->juheIpLocation($ip);
                 break;
             case 3:
-                return $this->apiIpLocation($ip);
+                $ip_data = $this->apiIpLocation($ip);
                 break;
             case 4:
-                return $this->tianqiIpLocation($ip);
+                $ip_data = $this->tianqiIpLocation($ip);
                 break;
         }
+
+        $ip_data['ip'] = $ip;
+        $ip_data['ip_number'] = $ip_number;
+
+        $this->ip_location_dao->addIpLocation($ip_data);
+
+        return $ip_data;
     }
 
     /**
@@ -792,7 +820,6 @@ class ProxyIpBusiness
 
         return $data['data'];
     }
-
 
     /**
      * 聚合IP库
@@ -1191,7 +1218,6 @@ class ProxyIpBusiness
      */
     private function cacheAdList(array $condition)
     {
-
         $ads = app('cache')->remember("cache_ad." . md5(http_build_query($condition)), 2, function () use ($condition) {
             //广告
             $ads = $this->ad_dao->getAdList($condition);

@@ -9,7 +9,7 @@
         "laravel/lumen-framework": "5.5.*",
         "vlucas/phpdotenv": "~2.2",
         "guzzlehttp/guzzle": "^6.3",
-        "jaeger/querylist": "^4.0",
+        "jaeger/querylist": "4.1.1",
         "illuminate/redis": "5.5.*",
         "jaeger/querylist-absolute-url": "^4.0",
         "renatomarinho/laravel-page-speed": "^1.8",

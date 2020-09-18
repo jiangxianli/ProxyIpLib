@@ -3,7 +3,7 @@
  * phpQuery is a server-side, chainable, CSS3 selector driven
  * Document Object Model (DOM) API based on jQuery JavaScript Library.
  *
- * @version 0.9.9
+ * @version 1.0.0
  * @link http://code.google.com/p/phpquery/
  * @link http://phpquery-library.blogspot.com/
  * @link http://jquery.com/
@@ -1987,9 +1987,13 @@ class phpQueryObject
 				break;
 			case 'eq':
 				$k = intval($args);
-				$this->elements = isset( $this->elements[$k] )
-					? array( $this->elements[$k] )
+				if ($k < 0) {
+				    $this->elements = array( $this->elements[count($this->elements)+$k] );
+				} else {
+				    $this->elements = isset($this->elements[$k])
+					? array($this->elements[$k])
 					: array();
+				}
 				break;
 			case 'gt':
 				$this->elements = array_slice($this->elements, $args+1);
@@ -2163,7 +2167,7 @@ class phpQueryObject
 				if (! $param)
 					break;
 					// nth-child(n+b) to nth-child(1n+b)
-				if ($param{0} == 'n')
+				if ($param[0] == 'n')
 					$param = '1'.$param;
 				// :nth-child(index/even/odd/equation)
 				if ($param == 'even' || $param == 'odd')

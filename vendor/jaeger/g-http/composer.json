@@ -1,0 +1,20 @@
+{
+    "name": "jaeger/g-http",
+    "description": "Simple Http client base on GuzzleHttp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jaeger",
+            "email": "JaegerCode@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "cache/filesystem-adapter": "^1.0"
+    },
+    "autoload":{
+        "psr-4":{
+            "Jaeger\\":"src"
+        }
+    }
+}

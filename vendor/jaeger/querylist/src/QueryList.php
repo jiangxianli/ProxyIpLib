@@ -23,7 +23,7 @@ use QL\Services\MultiRequestService;
  * Class QueryList
  * @package QL
  *
- * @method string getHtml()
+ * @method string getHtml($rel = true)
  * @method QueryList setHtml($html)
  * @method QueryList html($html)
  * @method Dom\Elements find($selector)
@@ -104,6 +104,15 @@ class QueryList
      * Destruction of resources
      */
     public function destruct()
+    {
+        unset($this->query);
+        unset($this->kernel);
+    }
+
+    /**
+     * Destroy all documents
+     */
+    public static function destructDocuments()
     {
         phpQuery::$documents = [];
     }

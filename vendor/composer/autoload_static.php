@@ -14,8 +14,11 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
@@ -36,9 +39,12 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'S' => 
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
+            'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Translation\\' => 30,
             'Symfony\\Contracts\\EventDispatcher\\' => 34,
@@ -76,6 +82,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         ),
         'L' => 
         array (
+            'League\\MimeTypeDetection\\' => 25,
             'League\\Flysystem\\' => 17,
             'Laravel\\Lumen\\' => 14,
         ),
@@ -124,6 +131,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Inflector\\' => 19,
             'Doctrine\\Common\\Inflector\\' => 26,
             'DeepCopy\\' => 9,
         ),
@@ -155,6 +163,10 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-util',
         ),
+        'Symfony\\Polyfill\\Php72\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+        ),
         'Symfony\\Polyfill\\Php70\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php70',
@@ -166,6 +178,14 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
         ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
@@ -254,6 +274,10 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'League\\MimeTypeDetection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/mime-type-detection/src',
         ),
         'League\\Flysystem\\' => 
         array (
@@ -386,6 +410,10 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
+        ),
+        'Doctrine\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
         'Doctrine\\Common\\Inflector\\' => 
         array (
@@ -528,6 +556,8 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Hamcrest\\Util' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Util.php',
         'Hamcrest\\Xml\\HasXPath' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Xml/HasXPath.php',
         'ICallbackNamed' => __DIR__ . '/..' . '/jaeger/phpquery-single/phpQuery.php',
+        'Ip2Region' => __DIR__ . '/..' . '/zoujingli/ip2region/Ip2Region.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

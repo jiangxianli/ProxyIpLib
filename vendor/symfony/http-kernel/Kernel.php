@@ -67,11 +67,11 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     private $requestStackSize = 0;
     private $resetServices = false;
 
-    const VERSION = '3.4.36';
-    const VERSION_ID = 30436;
+    const VERSION = '3.4.44';
+    const VERSION_ID = 30444;
     const MAJOR_VERSION = 3;
     const MINOR_VERSION = 4;
-    const RELEASE_VERSION = 36;
+    const RELEASE_VERSION = 44;
     const EXTRA_VERSION = '';
 
     const END_OF_MAINTENANCE = '11/2020';
@@ -236,7 +236,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         }
 
         if (!isset($this->bundleMap[$name])) {
-            throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled. Maybe you forgot to add it in the registerBundles() method of your %s.php file?', $name, \get_class($this)));
+            throw new \InvalidArgumentException(sprintf('Bundle "%s" does not exist or it is not enabled. Maybe you forgot to add it in the registerBundles() method of your "%s.php" file?', $name, static::class));
         }
 
         if (true === $first) {
@@ -493,7 +493,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         foreach ($this->registerBundles() as $bundle) {
             $name = $bundle->getName();
             if (isset($this->bundles[$name])) {
-                throw new \LogicException(sprintf('Trying to register two bundles with the same name "%s"', $name));
+                throw new \LogicException(sprintf('Trying to register two bundles with the same name "%s".', $name));
             }
             $this->bundles[$name] = $bundle;
 
@@ -583,7 +583,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         $oldContainer = null;
         if ($fresh = $cache->isFresh()) {
             // Silence E_WARNING to ignore "include" failures - don't use "@" to prevent silencing fatal errors
-            $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
+            $errorLevel = error_reporting(E_ALL ^ E_WARNING);
             $fresh = $oldContainer = false;
             try {
                 if (file_exists($cache->getPath()) && \is_object($this->container = include $cache->getPath())) {
@@ -651,7 +651,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         }
 
         if (null === $oldContainer && file_exists($cache->getPath())) {
-            $errorLevel = error_reporting(\E_ALL ^ \E_WARNING);
+            $errorLevel = error_reporting(E_ALL ^ E_WARNING);
             try {
                 $oldContainer = include $cache->getPath();
             } catch (\Throwable $e) {
@@ -762,10 +762,10 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
         foreach (['cache' => $this->warmupDir ?: $this->getCacheDir(), 'logs' => $this->getLogDir()] as $name => $dir) {
             if (!is_dir($dir)) {
                 if (false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
-                    throw new \RuntimeException(sprintf("Unable to create the %s directory (%s)\n", $name, $dir));
+                    throw new \RuntimeException(sprintf('Unable to create the "%s" directory (%s).', $name, $dir));
                 }
             } elseif (!is_writable($dir)) {
-                throw new \RuntimeException(sprintf("Unable to write in the %s directory (%s)\n", $name, $dir));
+                throw new \RuntimeException(sprintf('Unable to write in the "%s" directory (%s).', $name, $dir));
             }
         }
 

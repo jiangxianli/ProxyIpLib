@@ -205,9 +205,9 @@ class FileProfilerStorageTest extends TestCase
 
         $records = $this->storage->find('', '', 3, 'GET', $start, time() + 3 * 60);
         $this->assertCount(3, $records, '->find() returns all previously added records');
-        $this->assertEquals($records[0]['token'], 'time_2', '->find() returns records ordered by time in descendant order');
-        $this->assertEquals($records[1]['token'], 'time_1', '->find() returns records ordered by time in descendant order');
-        $this->assertEquals($records[2]['token'], 'time_0', '->find() returns records ordered by time in descendant order');
+        $this->assertEquals('time_2', $records[0]['token'], '->find() returns records ordered by time in descendant order');
+        $this->assertEquals('time_1', $records[1]['token'], '->find() returns records ordered by time in descendant order');
+        $this->assertEquals('time_0', $records[2]['token'], '->find() returns records ordered by time in descendant order');
 
         $records = $this->storage->find('', '', 3, 'GET', $start, time() + 2 * 60);
         $this->assertCount(2, $records, '->find() should return only first two of the previously added records');
@@ -293,8 +293,8 @@ class FileProfilerStorageTest extends TestCase
 
         $tokens = $this->storage->find('', '', 10, '');
         $this->assertCount(2, $tokens);
-        $this->assertContains($tokens[0]['status_code'], [200, 404]);
-        $this->assertContains($tokens[1]['status_code'], [200, 404]);
+        $this->assertContains((int) $tokens[0]['status_code'], [200, 404]);
+        $this->assertContains((int) $tokens[1]['status_code'], [200, 404]);
     }
 
     public function testMultiRowIndexFile()

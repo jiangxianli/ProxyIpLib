@@ -223,14 +223,14 @@ class ErrorHandler
             if (!\is_array($log)) {
                 $log = [$log];
             } elseif (!\array_key_exists(0, $log)) {
-                throw new \InvalidArgumentException('No logger provided');
+                throw new \InvalidArgumentException('No logger provided.');
             }
             if (null === $log[0]) {
                 $this->loggedErrors &= ~$type;
             } elseif ($log[0] instanceof LoggerInterface) {
                 $this->loggedErrors |= $type;
             } else {
-                throw new \InvalidArgumentException('Invalid logger provided');
+                throw new \InvalidArgumentException('Invalid logger provided.');
             }
             $this->loggers[$type] = $log + $prev[$type];
 
@@ -401,7 +401,7 @@ class ErrorHandler
         $scope = $this->scopedErrors & $type;
 
         if (4 < $numArgs = \func_num_args()) {
-            $context = $scope ? (func_get_arg(4) ?: []) : [];
+            $context = func_get_arg(4) ?: [];
             $backtrace = 5 < $numArgs ? func_get_arg(5) : null; // defined on HHVM
         } else {
             $context = [];
@@ -521,7 +521,7 @@ class ErrorHandler
                 $errorAsException ? ['exception' => $errorAsException] : [],
             ];
         } else {
-            if (!\defined('HHVM_VERSION')) {
+            if (\PHP_VERSION_ID < (\PHP_VERSION_ID < 70400 ? 70316 : 70404) && !\defined('HHVM_VERSION')) {
                 $currentErrorHandler = set_error_handler('var_dump');
                 restore_error_handler();
             }
@@ -533,7 +533,7 @@ class ErrorHandler
             } finally {
                 $this->isRecursive = false;
 
-                if (!\defined('HHVM_VERSION')) {
+                if (\PHP_VERSION_ID < (\PHP_VERSION_ID < 70400 ? 70316 : 70404) && !\defined('HHVM_VERSION')) {
                     set_error_handler($currentErrorHandler);
                 }
             }

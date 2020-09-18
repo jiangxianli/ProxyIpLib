@@ -440,7 +440,13 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
         $path = $base === '' ? $name : $base . $this->separator . $name;
 
         if ($type === 'dir') {
-            return compact('type', 'path');
+            $result = compact('type', 'path');
+            if ($this->enableTimestampsOnUnixListings) {
+                $timestamp = $this->normalizeUnixTimestamp($month, $day, $timeOrYear);
+                $result += compact('timestamp');
+            }
+
+            return $result;
         }
 
         $permissions = $this->normalizePermissions($permissions);
@@ -558,7 +564,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
     protected function normalizePermissions($permissions)
     {
         if (is_numeric($permissions)) {
-            return $permissions & 0777;
+            return ((int) $permissions) & 0777;
         }
 
         // remove the type identifier
@@ -639,10 +645,7 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      */
     public function getConnection()
     {
-        $tries = 0;
-
-        while ( ! $this->isConnected() && $tries < 3) {
-            $tries++;
+        if ( ! $this->isConnected()) {
             $this->disconnect();
             $this->connect();
         }
@@ -694,4 +697,9 @@ abstract class AbstractFtpAdapter extends AbstractAdapter
      * @return bool
      */
     abstract public function isConnected();
+
+    protected function escapePath($path)
+    {
+        return str_replace(['*', '[', ']'], ['\\*', '\\[', '\\]'], $path);
+    }
 }

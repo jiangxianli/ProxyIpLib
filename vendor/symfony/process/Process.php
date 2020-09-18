@@ -260,7 +260,7 @@ class Process implements \IteratorAggregate
     public function start(callable $callback = null/*, array $env = [*/)
     {
         if ($this->isRunning()) {
-            throw new RuntimeException('Process is already running');
+            throw new RuntimeException('Process is already running.');
         }
         if (2 <= \func_num_args()) {
             $env = func_get_arg(1);
@@ -336,7 +336,7 @@ class Process implements \IteratorAggregate
             @trigger_error('The provided cwd does not exist. Command is currently ran against getcwd(). This behavior is deprecated since Symfony 3.4 and will be removed in 4.0.', E_USER_DEPRECATED);
         }
 
-        $this->process = proc_open($commandline, $descriptors, $this->processPipes->pipes, $this->cwd, $envPairs, $this->options);
+        $this->process = @proc_open($commandline, $descriptors, $this->processPipes->pipes, $this->cwd, $envPairs, $this->options);
 
         if (!\is_resource($this->process)) {
             throw new RuntimeException('Unable to launch a new process.');
@@ -375,7 +375,7 @@ class Process implements \IteratorAggregate
     public function restart(callable $callback = null/*, array $env = []*/)
     {
         if ($this->isRunning()) {
-            throw new RuntimeException('Process is already running');
+            throw new RuntimeException('Process is already running.');
         }
         $env = 1 < \func_num_args() ? func_get_arg(1) : null;
 
@@ -409,7 +409,7 @@ class Process implements \IteratorAggregate
         if (null !== $callback) {
             if (!$this->processPipes->haveReadSupport()) {
                 $this->stop(0);
-                throw new \LogicException('Pass the callback to the Process::start method or enableOutput to use a callback with Process::wait');
+                throw new \LogicException('Pass the callback to the Process::start method or enableOutput to use a callback with Process::wait.');
             }
             $this->callback = $this->buildCallback($callback);
         }
@@ -1681,7 +1681,7 @@ class Process implements \IteratorAggregate
     private function requireProcessIsStarted($functionName)
     {
         if (!$this->isStarted()) {
-            throw new LogicException(sprintf('Process must be started before calling %s.', $functionName));
+            throw new LogicException(sprintf('Process must be started before calling "%s()".', $functionName));
         }
     }
 
@@ -1695,7 +1695,7 @@ class Process implements \IteratorAggregate
     private function requireProcessIsTerminated($functionName)
     {
         if (!$this->isTerminated()) {
-            throw new LogicException(sprintf('Process must be terminated before calling %s.', $functionName));
+            throw new LogicException(sprintf('Process must be terminated before calling "%s()".', $functionName));
         }
     }
 

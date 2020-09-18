@@ -38,7 +38,7 @@ class EventDispatcher implements EventDispatcherInterface
 
     public function __construct()
     {
-        if (__CLASS__ === \get_class($this)) {
+        if (__CLASS__ === static::class) {
             $this->optimized = [];
         }
     }
@@ -60,7 +60,7 @@ class EventDispatcher implements EventDispatcherInterface
             $event = $eventName ?? new Event();
             $eventName = $swap;
         } else {
-            throw new \TypeError(sprintf('Argument 1 passed to "%s::dispatch()" must be an object, %s given.', EventDispatcherInterface::class, \is_object($event) ? \get_class($event) : \gettype($event)));
+            throw new \TypeError(sprintf('Argument 1 passed to "%s::dispatch()" must be an object, "%s" given.', EventDispatcherInterface::class, \is_object($event) ? \get_class($event) : \gettype($event)));
         }
 
         if (null !== $this->optimized && null !== $eventName) {
@@ -274,7 +274,7 @@ class EventDispatcher implements EventDispatcherInterface
         $this->sorted[$eventName] = [];
 
         foreach ($this->listeners[$eventName] as &$listeners) {
-            foreach ($listeners as $k => $listener) {
+            foreach ($listeners as $k => &$listener) {
                 if (\is_array($listener) && isset($listener[0]) && $listener[0] instanceof \Closure && 2 >= \count($listener)) {
                     $listener[0] = $listener[0]();
                     $listener[1] = $listener[1] ?? '__invoke';

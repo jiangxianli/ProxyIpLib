@@ -12,7 +12,8 @@
         "jaeger/querylist": "^4.0",
         "illuminate/redis": "5.5.*",
         "jaeger/querylist-absolute-url": "^4.0",
-        "renatomarinho/laravel-page-speed": "^1.8"
+        "renatomarinho/laravel-page-speed": "^1.8",
+        "zoujingli/ip2region": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

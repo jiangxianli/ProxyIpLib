@@ -13,18 +13,26 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\Types;
 
-use phpDocumentor\Reflection\Type;
-
 /**
  * Value Object representing iterable type
+ *
+ * @psalm-immutable
  */
-final class Iterable_ implements Type
+final class Iterable_ extends AbstractList
 {
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
     public function __toString() : string
     {
-        return 'iterable';
+        if ($this->keyType) {
+            return 'iterable<' . $this->keyType . ',' . $this->valueType . '>';
+        }
+
+        if ($this->valueType instanceof Mixed_) {
+            return 'iterable';
+        }
+
+        return 'iterable<' . $this->valueType . '>';
     }
 }

@@ -7,6 +7,12 @@
         "abstraction", "s3", "ftp", "sftp", "remote", "webdav",
         "file systems", "cloud", "cloud files", "rackspace", "copy.com"
     ],
+    "funding": [
+        {
+            "type": "other",
+            "url": "https://offset.earth/frankdejonge"
+        }
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -15,12 +21,13 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "ext-fileinfo": "*"
+        "php": "^7.2.5 || ^8.0",
+        "ext-fileinfo": "*",
+        "league/mime-type-detection": "^1.3"
     },
     "require-dev": {
-        "phpspec/phpspec": "^3.4",
-        "phpunit/phpunit": "^5.7.10"
+        "phpspec/prophecy": "^1.11.1",
+        "phpunit/phpunit": "^8.5.8"
     },
     "autoload": {
         "psr-4": {
@@ -30,10 +37,7 @@
     "autoload-dev": {
         "psr-4": {
             "League\\Flysystem\\Stub\\": "stub/"
-        },
-        "files": [
-          "tests/PHPUnitHacks.php"
-        ]
+        }
     },
     "suggest": {
         "ext-fileinfo": "Required for MimeType",

@@ -576,7 +576,7 @@ class Application
 
         $exact = \in_array($namespace, $namespaces, true);
         if (\count($namespaces) > 1 && !$exact) {
-            throw new CommandNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
+            throw new CommandNotFoundException(sprintf("The namespace \"%s\" is ambiguous.\nDid you mean one of these?\n%s.", $namespace, $this->getAbbreviationSuggestions(array_values($namespaces))), array_values($namespaces));
         }
 
         return $exact ? $namespace : reset($namespaces);
@@ -606,6 +606,10 @@ class Application
                     $this->commands[$alias] = $command;
                 }
             }
+        }
+
+        if ($this->has($name)) {
+            return $this->get($name);
         }
 
         $allCommands = $this->commandLoader ? array_merge($this->commandLoader->getNames(), array_keys($this->commands)) : array_keys($this->commands);
@@ -645,8 +649,13 @@ class Application
         // filter out aliases for commands which are already on the list
         if (\count($commands) > 1) {
             $commandList = $this->commandLoader ? array_merge(array_flip($this->commandLoader->getNames()), $this->commands) : $this->commands;
-            $commands = array_unique(array_filter($commands, function ($nameOrAlias) use ($commandList, $commands, &$aliases) {
-                $commandName = $commandList[$nameOrAlias] instanceof Command ? $commandList[$nameOrAlias]->getName() : $nameOrAlias;
+            $commands = array_unique(array_filter($commands, function ($nameOrAlias) use (&$commandList, $commands, &$aliases) {
+                if (!$commandList[$nameOrAlias] instanceof Command) {
+                    $commandList[$nameOrAlias] = $this->commandLoader->get($nameOrAlias);
+                }
+
+                $commandName = $commandList[$nameOrAlias]->getName();
+
                 $aliases[$nameOrAlias] = $commandName;
 
                 return $commandName === $nameOrAlias || !\in_array($commandName, $commands);
@@ -662,10 +671,6 @@ class Application
                 $maxLen = max(Helper::strlen($abbrev), $maxLen);
             }
             $abbrevs = array_map(function ($cmd) use ($commandList, $usableWidth, $maxLen) {
-                if (!$commandList[$cmd] instanceof Command) {
-                    $commandList[$cmd] = $this->commandLoader->get($cmd);
-                }
-
                 if ($commandList[$cmd]->isHidden()) {
                     return false;
                 }
@@ -676,7 +681,7 @@ class Application
             }, array_values($commands));
             $suggestions = $this->getAbbreviationSuggestions(array_filter($abbrevs));
 
-            throw new CommandNotFoundException(sprintf("Command \"%s\" is ambiguous.\nDid you mean one of these?\n%s", $name, $suggestions), array_values($commands));
+            throw new CommandNotFoundException(sprintf("Command \"%s\" is ambiguous.\nDid you mean one of these?\n%s.", $name, $suggestions), array_values($commands));
         }
 
         return $this->get($exact ? $name : reset($commands));

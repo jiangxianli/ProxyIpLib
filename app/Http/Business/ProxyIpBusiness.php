@@ -141,10 +141,9 @@ class ProxyIpBusiness
             } catch (\Exception $exception) {
                 //日志记录
                 app("Logger")->error("抓取URL错误", [
-                    'url'         => $url,
-                    'error_code'  => $exception->getCode(),
-                    'error_msg'   => $exception->getMessage(),
-                    'error_trace' => $exception->getTraceAsString(),
+                    'url'        => $url,
+                    'error_code' => $exception->getCode(),
+                    'error_msg'  => method_exists($exception, "formatError") ? $exception->formatError() : $exception->getMessage(),
                 ]);
             }
 
@@ -218,8 +217,7 @@ class ProxyIpBusiness
                 app("Logger")->error("抓取URL错误", [
                     'url'         => $url,
                     'error_code'  => $exception->getCode(),
-                    'error_msg'   => $exception->getMessage(),
-                    'error_trace' => $exception->getTraceAsString(),
+                    'error_msg'  => method_exists($exception, "formatError") ? $exception->formatError() : $exception->getMessage(),
                 ]);
             }
 

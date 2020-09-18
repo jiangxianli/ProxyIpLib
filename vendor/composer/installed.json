@@ -6319,54 +6319,5 @@
             "check",
             "validate"
         ]
-    },
-    {
-        "name": "zoujingli/ip2region",
-        "version": "v1.0.8",
-        "version_normalized": "1.0.8.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/zoujingli/ip2region.git",
-            "reference": "d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6",
-            "reference": "d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6",
-            "shasum": "",
-            "mirrors": [
-                {
-                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                    "preferred": true
-                }
-            ]
-        },
-        "require": {
-            "php": ">=5.3"
-        },
-        "time": "2020-07-06T05:33:26+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "Ip2Region.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "Apache-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Anyon",
-                "email": "zoujingli@qq.com",
-                "homepage": "http://ctolog.com"
-            }
-        ],
-        "description": "Ip2Region for PHP",
-        "homepage": "https://github.com/zoujingli/Ip2Region",
-        "keywords": [
-            "Ip2Region"
-        ]
     }
 ]

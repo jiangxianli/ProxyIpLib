@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9c8f98f1e49c5724d2487095a9e09de9",
+    "content-hash": "20903d2fd666bad3092ea14644372ebd",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -4319,53 +4319,6 @@
                 "environment"
             ],
             "time": "2020-07-14T17:54:18+00:00"
-        },
-        {
-            "name": "zoujingli/ip2region",
-            "version": "v1.0.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zoujingli/ip2region.git",
-                "reference": "d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zoujingli/ip2region/zipball/d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6",
-                "reference": "d6be3ab9da1a1ab7e3cd51c4aa634a34de358ce6",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Ip2Region.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Anyon",
-                    "email": "zoujingli@qq.com",
-                    "homepage": "http://ctolog.com"
-                }
-            ],
-            "description": "Ip2Region for PHP",
-            "homepage": "https://github.com/zoujingli/Ip2Region",
-            "keywords": [
-                "Ip2Region"
-            ],
-            "time": "2020-07-06T05:33:26+00:00"
         }
     ],
     "packages-dev": [

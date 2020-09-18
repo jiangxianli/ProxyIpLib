@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
+class ComposerStaticInit1f959678e9dfa817df767c3cc9349f62
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -20,6 +20,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        '7ba3c774c30c8399e359b5ff7f3b943e' => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate/Support/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '5b154887902198b16314243c6e0e3e19' => __DIR__ . '/..' . '/pguardiario/phpuri/phpuri.php',
@@ -115,6 +116,7 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
             'Illuminate\\Bus\\' => 15,
             'Illuminate\\Broadcasting\\' => 24,
             'Illuminate\\Auth\\' => 16,
+            'Illuminate\\' => 11,
         ),
         'G' => 
         array (
@@ -382,6 +384,10 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
         'Illuminate\\Auth\\' => 
         array (
             0 => __DIR__ . '/..' . '/illuminate/auth',
+        ),
+        'Illuminate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tightenco/collect/src/Illuminate',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -1110,11 +1116,11 @@ class ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitb4c8e9decedb08c8afa99d67a2f9393b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1f959678e9dfa817df767c3cc9349f62::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1f959678e9dfa817df767c3cc9349f62::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit1f959678e9dfa817df767c3cc9349f62::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1f959678e9dfa817df767c3cc9349f62::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1f959678e9dfa817df767c3cc9349f62::$classMap;
 
         }, null, ClassLoader::class);
     }

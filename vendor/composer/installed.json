@@ -1742,17 +1742,17 @@
     },
     {
         "name": "illuminate/support",
-        "version": "v5.5.44",
-        "version_normalized": "5.5.44.0",
+        "version": "v5.5.34",
+        "version_normalized": "5.5.34.0",
         "source": {
             "type": "git",
             "url": "https://github.com/illuminate/support.git",
-            "reference": "5c405512d75dcaf5d37791badce02d86ed8e4bc4"
+            "reference": "139eb279bc18a1229c6c49a618d122c613edb2c7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/support/zipball/5c405512d75dcaf5d37791badce02d86ed8e4bc4",
-            "reference": "5c405512d75dcaf5d37791badce02d86ed8e4bc4",
+            "url": "https://api.github.com/repos/illuminate/support/zipball/139eb279bc18a1229c6c49a618d122c613edb2c7",
+            "reference": "139eb279bc18a1229c6c49a618d122c613edb2c7",
             "shasum": "",
             "mirrors": [
                 {
@@ -1765,18 +1765,18 @@
             "doctrine/inflector": "~1.1",
             "ext-mbstring": "*",
             "illuminate/contracts": "5.5.*",
-            "nesbot/carbon": "^1.24.1",
+            "nesbot/carbon": "^1.20",
             "php": ">=7.0"
         },
         "replace": {
-            "tightenco/collect": "<5.5.33"
+            "tightenco/collect": "self.version"
         },
         "suggest": {
-            "illuminate/filesystem": "Required to use the composer class (5.5.*).",
+            "illuminate/filesystem": "Required to use the composer class (5.2.*).",
             "symfony/process": "Required to use the composer class (~3.3).",
             "symfony/var-dumper": "Required to use the dd function (~3.3)."
         },
-        "time": "2018-08-10T19:40:01+00:00",
+        "time": "2018-02-04T20:29:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -6192,6 +6192,64 @@
             }
         ],
         "description": "A small library for converting tokenized PHP source code into XML and potentially other formats"
+    },
+    {
+        "name": "tightenco/collect",
+        "version": "v5.5.32",
+        "version_normalized": "5.5.32.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/tighten/collect.git",
+            "reference": "0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tighten/collect/zipball/0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3",
+            "reference": "0db8c8aa2aae44af756437ba6e98d9b0bd1ecec3",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~1.0",
+            "phpunit/phpunit": "~6.0"
+        },
+        "suggest": {
+            "symfony/var-dumper": "Required to prettify dd() and dump() (~3.3)."
+        },
+        "time": "2018-01-25T19:26:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/Illuminate/Support/helpers.php"
+            ],
+            "psr-4": {
+                "Illuminate\\": "src/Illuminate"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "Collect - Illuminate Collections as a separate package.",
+        "keywords": [
+            "collection",
+            "laravel"
+        ]
     },
     {
         "name": "vlucas/phpdotenv",

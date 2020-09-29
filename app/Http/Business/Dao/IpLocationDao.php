@@ -83,21 +83,8 @@ class IpLocationDao
         $model = app('IpLocationModel')->firstOrCreate([
             'ip_number' => $data['ip_number']
         ]);
-        if (isset($data['ip'])) {
-            $model->ip = $data['ip'];
-        }
-        if (isset($data['country'])) {
-            $model->country = $data['country'];
-        }
-        if (isset($data['region'])) {
-            $model->region = $data['region'];
-        }
-        if (isset($data['city'])) {
-            $model->city = $data['city'];
-        }
-        if (isset($data['isp'])) {
-            $model->isp = $data['isp'];
-        }
+
+        $model->fill($data);
         $model->save();
 
         return $model;

@@ -763,9 +763,9 @@ class ProxyIpBusiness
         }
 
         //间隔10秒请求一次
-        sleep(10);
+        sleep(30);
 
-        $random = rand(1, 4);
+        $random = rand(1, 3);
 
         $ip_data = [];
 
@@ -779,9 +779,9 @@ class ProxyIpBusiness
             case 3:
                 $ip_data = $this->apiIpLocation($ip);
                 break;
-            case 4:
-                $ip_data = $this->tianqiIpLocation($ip);
-                break;
+//            case 4:
+//                $ip_data = $this->tianqiIpLocation($ip);
+//                break;
         }
 
         $ip_data['ip'] = $ip;
@@ -804,9 +804,15 @@ class ProxyIpBusiness
     private function taobaoIpLocation($ip)
     {
         //API 地址
-        $api = "http://ip.taobao.com/service/getIpInfo.php?ip=" . $ip;
+        $api = "http://ip.taobao.com/outGetIpInfo";
         $client = new Client();
-        $request = $client->request("GET", $api);
+
+        $request = $client->request("POST", $api, [
+            'form_params' => [
+                'ip'        => $ip,
+                'accessKey' => 'alibaba-inc'
+            ]
+        ]);
         //响应json数据
         $json = $request->getBody()->getContents();
         //转数组格式
@@ -816,7 +822,12 @@ class ProxyIpBusiness
             throw new JsonException(90000, $data);
         }
 
-        return $data['data'];
+        return [
+            'country' => $data['county'],
+            'region'  => $data['region'],
+            'city'    => $data['city'],
+            'isp'     => $data['isp'],
+        ];
     }
 
     /**

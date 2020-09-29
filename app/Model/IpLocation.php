@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class IpLocation extends Model
 {
     /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'ip_number';
+
+    /**
      * 表名
      *
      * @var string

@@ -72,17 +72,32 @@ class IpLocationDao
             'ip'        => ['required'],
             'ip_number' => ['required'],
             'country'   => ['required'],
+            'region'    => ['required'],
             'isp'       => ['required'],
         ];
         $validator = app('validator')->make($data, $rule);
         if ($validator->fails()) {
             throw new JsonException(10000, $validator->messages());
         }
-
+        app("Logger")->info("新增IP定位", [$data]);
         $model = app('IpLocationModel')->firstOrCreate([
             'ip_number' => $data['ip_number']
         ]);
-        $model->fill($data);
+        if (isset($data['ip'])) {
+            $model->ip = $data['ip'];
+        }
+        if (isset($data['country'])) {
+            $model->country = $data['country'];
+        }
+        if (isset($data['region'])) {
+            $model->region = $data['region'];
+        }
+        if (isset($data['city'])) {
+            $model->city = $data['city'];
+        }
+        if (isset($data['isp'])) {
+            $model->isp = $data['isp'];
+        }
         $model->save();
 
         return $model;

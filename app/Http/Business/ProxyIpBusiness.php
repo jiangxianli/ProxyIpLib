@@ -823,10 +823,10 @@ class ProxyIpBusiness
         }
 
         return [
-            'country' => $data['county'],
-            'region'  => $data['region'],
-            'city'    => $data['city'],
-            'isp'     => $data['isp'],
+            'country' => $data['data']['country'],
+            'region'  => $data['data']['region'],
+            'city'    => $data['data']['city'],
+            'isp'     => $data['data']['isp'],
         ];
     }
 

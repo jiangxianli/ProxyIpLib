@@ -215,8 +215,8 @@ class ProxyIpBusiness
             } catch (\Exception $exception) {
                 //日志记录
                 app("Logger")->error("抓取URL错误", [
-                    'url'         => $url,
-                    'error_code'  => $exception->getCode(),
+                    'url'        => $url,
+                    'error_code' => $exception->getCode(),
                     'error_msg'  => method_exists($exception, "formatError") ? $exception->formatError() : $exception->getMessage(),
                 ]);
             }
@@ -819,7 +819,7 @@ class ProxyIpBusiness
         $data = (array)json_decode($json, true);
 
         if (!isset($data['code']) || $data['code'] != 0) {
-            throw new JsonException(90000, $data);
+            throw new JsonException(90000, [compact('api', 'json', 'data')]);
         }
 
         return [
@@ -855,7 +855,7 @@ class ProxyIpBusiness
         $data = (array)json_decode($json, true);
 
         if (!isset($data['resultcode']) || $data['resultcode'] != 200) {
-            throw new JsonException(90000, $data);
+            throw new JsonException(90000, [compact('api', 'json', 'data')]);
         }
 
         return [
@@ -887,7 +887,7 @@ class ProxyIpBusiness
         $data = (array)json_decode($json, true);
 
         if (!isset($data['status']) || $data['status'] != "success") {
-            throw new JsonException(90000, $data);
+            throw new JsonException(90000, [compact('api', 'json', 'data')]);
         }
 
         return [
@@ -919,7 +919,7 @@ class ProxyIpBusiness
         $data = (array)json_decode($json, true);
 
         if (!isset($data['country']) || !isset($data['ip'])) {
-            throw new JsonException(90000, $data);
+            throw new JsonException(90000, [compact('api', 'json', 'data')]);
         }
 
         return [

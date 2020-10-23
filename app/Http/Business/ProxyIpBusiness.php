@@ -257,6 +257,34 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2020-10-23 9:07
+     */
+    public function gra7yip()
+    {
+        $urls = [
+            "https://www.7yip.cn/free/?action=china&page=1",
+            "https://www.7yip.cn/free/?action=china&page=2",
+            "https://www.7yip.cn/free/?action=china&page=3",
+            "https://www.7yip.cn/free/?action=china&page=4",
+            "https://www.7yip.cn/free/?action=china&page=5",
+            "https://www.7yip.cn/free/?action=china&page=6",
+            "https://www.7yip.cn/free/?action=china&page=7",
+            "https://www.7yip.cn/free/?action=china&page=8",
+            "https://www.7yip.cn/free/?action=china&page=9",
+            "https://www.7yip.cn/free/?action=china&page=10",
+        ];
+
+        $this->grabProcess($urls, "#content .container table tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $anonymity = $tr->find('td:eq(2)')->text() == "高匿" ? 2 : 1;
+            $protocol = strtolower($tr->find('td:eq(3)')->text());
+            return [$ip, $port, $anonymity, $protocol];
+        }, false);
+    }
+
+    /**
      * IP3366
      *
      * @author jiangxianli

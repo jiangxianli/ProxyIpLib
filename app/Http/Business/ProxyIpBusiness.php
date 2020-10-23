@@ -281,7 +281,7 @@ class ProxyIpBusiness
             $anonymity = $tr->find('td:eq(2)')->text() == "高匿" ? 2 : 1;
             $protocol = strtolower($tr->find('td:eq(3)')->text());
             return [$ip, $port, $anonymity, $protocol];
-        }, false);
+        }, true);
     }
 
     /**

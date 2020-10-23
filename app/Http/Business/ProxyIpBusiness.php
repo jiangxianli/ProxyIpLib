@@ -285,6 +285,29 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2020-10-23 9:07
+     */
+    public function grabFreeProxy()
+    {
+        $urls = [
+            "http://free-proxy.cz/zh/proxylist/country/all/http/ping/level1/1",
+            "http://free-proxy.cz/zh/proxylist/country/all/http/ping/level1/2",
+            "http://free-proxy.cz/zh/proxylist/country/all/http/ping/level1/3",
+            "http://free-proxy.cz/zh/proxylist/country/all/http/ping/level1/4",
+            "http://free-proxy.cz/zh/proxylist/country/all/http/ping/level1/5",
+        ];
+
+        $this->grabProcess($urls, "table#proxy_list tr", function ($tr) {
+            $ip = $tr->find('td:eq(0)')->text();
+            $port = $tr->find('td:eq(1)')->text();
+            $protocol = strtolower($tr->find('td:eq(2)')->text());
+            $anonymity = $tr->find('td:eq(6)')->text() == "高匿" ? 2 : 1;
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
      * IP3366
      *
      * @author jiangxianli

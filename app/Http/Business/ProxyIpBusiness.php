@@ -323,7 +323,7 @@ class ProxyIpBusiness
             "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-6",
         ];
 
-        $this->grabProcess($urls, "#masthead table.bg tr", function ($tr) {
+        $this->grabProcess($urls, "table.bg tr", function ($tr) {
             $ip = $tr->find('td:eq(1)')->text();
             $port = $tr->find('td:eq(2)')->text();
             $protocol = "http";

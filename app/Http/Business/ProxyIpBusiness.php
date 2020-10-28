@@ -308,6 +308,31 @@ class ProxyIpBusiness
     }
 
     /**
+     * @author jiangxianli
+     * @created_at 2020-10-23 9:07
+     */
+    public function grabPlus()
+    {
+        $urls = [
+            "https://list.proxylistplus.com/update-1",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-1",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-2",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-3",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-4",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-5",
+            "https://list.proxylistplus.com/Fresh-HTTP-Proxy-List-6",
+        ];
+
+        $this->grabProcess($urls, "#masthead table.bg tr", function ($tr) {
+            $ip = $tr->find('td:eq(1)')->text();
+            $port = $tr->find('td:eq(2)')->text();
+            $protocol = "http";
+            $anonymity = $tr->find('td:eq(3)')->text() == "transparent" ? 1 : 2;
+            return [$ip, $port, $anonymity, $protocol];
+        }, true);
+    }
+
+    /**
      * IP3366
      *
      * @author jiangxianli

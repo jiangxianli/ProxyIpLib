@@ -44,24 +44,26 @@ class Kernel extends ConsoleKernel
         //
         $schedule->command('command:timer-clear-proxy-ip')->everyFiveMinutes()->runInBackground();
         $schedule->command('command:proxy-ip-location')->everyMinute()->runInBackground();
-        $schedule->command('command:grab-proxy-ip kuidaili')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip ip3366')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip 89ip')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip xila')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip emailtry')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip qinghua')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip xsdaili')->hourly();
-        $schedule->command('command:grab-proxy-ip kxdaili')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip nima')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip super')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip xici')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip foxtools')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip proxyList')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip proxylistme')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip 7yip')->everyTenMinutes();
-        $schedule->command('command:grab-proxy-ip free-proxy')->everyTenMinutes();
         $schedule->command('command:grab-proxy-ip checkerproxy')->dailyAt("02:00");
         $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00");
         $schedule->command('command:hot-ip-by-hours')->hourly()->runInBackground();
+
+        $schedule->command('command:grab-proxy-ip kuidaili')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip ip3366')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip 89ip')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip xila')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip emailtry')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip qinghua')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip xsdaili')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip kxdaili')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip nima')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip super')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip xici')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip foxtools')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip proxyList')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip proxylistme')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip 7yip')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip free-proxy')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip plus')->everyFifteenMinutes();
     }
 }

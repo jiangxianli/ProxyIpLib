@@ -86,7 +86,7 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2017-12-28 14:42:03
      */
-    protected function grabProcess($urls, $table_selector, $map_func, $user_proxy = false)
+    public function grabProcess($urls, $table_selector, $map_func, $user_proxy = false)
     {
         //遍历URL
         foreach ($urls as $url) {
@@ -105,7 +105,8 @@ class ProxyIpBusiness
                         'Host'                      => $host,
                         'DNT'                       => "1",
                     ],
-                    'timeout' => $this->time_out
+                    'timeout' => $this->time_out,
+                    'verify' => false,
                 ];
 
                 //使用代理IP抓取

@@ -613,6 +613,33 @@ class ProxyIpBusiness
      * @author jiangxianli
      * @created_at 2019-10-28 14:31
      */
+    public function coderBusyIp()
+    {
+        $ql = QueryList::getInstance();
+        $ql->use(AbsoluteUrl::class);
+        $ql->use(AbsoluteUrl::class, 'absoluteUrl', 'absoluteUrlHelper');
+        $page_url = "https://proxy.coderbusy.com/zh-hans/ops/daily.html";
+        $urls = $ql->get($page_url)->absoluteUrl('https://proxy.coderbusy.com')->find('.panel-heading a')->attrs('href');
+
+        $this->grabProcess($urls, ".panel-body", function ($tr) {
+            $rows = [];
+            $pattern = "/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,4}@(HTTPS|HTTP)#/";
+            if (preg_match_all($pattern, $tr->htmls(), $matches)) {
+                foreach ($matches[0] as $item) {
+                    $ip = substr($item, 0, strrpos($item, ":"));
+                    $port = substr($item, strrpos($item, ":") + 1, strrpos($item, "@") - strrpos($item, ":") - 1);
+                    $protocol = substr($item, strrpos($item, "@") + 1, strrpos($item, "#") - strrpos($item, "@") - 1);
+                    $rows[] = [$ip, $port, 2, strtolower($protocol)];
+                }
+            }
+            return $rows;
+        }, true);
+    }
+
+    /**
+     * @author jiangxianli
+     * @created_at 2019-10-28 14:31
+     */
     public function xiciIp()
     {
         $urls = [

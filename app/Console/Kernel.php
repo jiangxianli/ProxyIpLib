@@ -65,5 +65,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:grab-proxy-ip 7yip')->everyFifteenMinutes();
         $schedule->command('command:grab-proxy-ip free-proxy')->everyFifteenMinutes();
         $schedule->command('command:grab-proxy-ip plus')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip coder-busy')->hourly();
     }
 }

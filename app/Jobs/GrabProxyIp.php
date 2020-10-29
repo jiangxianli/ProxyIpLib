@@ -64,6 +64,8 @@ class GrabProxyIp extends Job
             $redis->expireAt($grab_key, time() + 300);
 
             switch ($this->origin) {
+                case 'coder-busy':
+                    $proxy_ip_business->coderBusyIp();
                 case 'plus':
                     $proxy_ip_business->grabPlus();
                 case 'free-proxy':

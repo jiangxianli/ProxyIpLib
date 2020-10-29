@@ -49,24 +49,6 @@ class Test extends Command
     {
         Helper::logFlag($this->signature);
 
-        $urls = [
-            "https://proxy.coderbusy.com/zh-hans/ops/daily/topics/4945422720.html"
-        ];
-        $this->proxy_ip_business->grabProcess($urls, ".panel-body", function ($tr) {
-            $rows = [];
-            $pattern = "/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,4}@(HTTPS|HTTP)#/";
-            var_dump($tr->htmls());
-            if (preg_match_all($pattern, $tr->htmls(), $matches)) {
-//                dd($matches[0]);
-                foreach ($matches[0] as $item) {
-                    $ip = substr($item, 0, strrpos($item, ":"));
-                    $port = substr($item, strrpos($item, ":") + 1, strrpos($item, "@") - strrpos($item, ":") - 1);
-                    $protocol = substr($item, strrpos($item, "@") + 1, strrpos($item, "#") - strrpos($item, "@") - 1);
-                    $rows[] = [$ip, $port, 2, strtolower($protocol)];
-                }
-            }
-            dd($rows);
-            return $rows;
-        }, false);
+        $this->proxy_ip_business->checkerproxyIp();
     }
 }

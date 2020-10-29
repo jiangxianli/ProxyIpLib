@@ -45,7 +45,7 @@ class ProxyIpBusiness
      *
      * @var
      */
-    private $time_out = 8;
+    private $time_out = 15;
 
     /**
      * 日志路径

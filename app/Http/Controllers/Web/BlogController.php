@@ -54,7 +54,6 @@ class BlogController extends Controller
      */
     public function siteMapXml(Request $request, SiteMapBusiness $site_map_business)
     {
-
         $view = app('cache')->remember("generated.sitemap.xml", 60, function () use ($site_map_business) {
             $response = $site_map_business->generateSiteMap();
             return view('sitemap.xml', $response)->render();
@@ -79,7 +78,7 @@ class BlogController extends Controller
         $links = [];
         $links[] = route('web.index', [], false);
         foreach ($data['countries'] as $item) {
-            $links[] = route("web.country",['area' => $item,'country' => $item], false);
+            $links[] = route("web.country", ['area' => $item, 'country' => $item], false);
         }
         foreach ($data['isp'] as $item) {
             $links[] = route('web.index', ['isp' => $item], false);
@@ -109,5 +108,19 @@ class BlogController extends Controller
         });
 
         return response($view)->header('Content-Type', 'text/html');
+    }
+
+    /**
+     * URL 调整
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author jiangxianli
+     * @created_at 2020-11-06 13:55
+     */
+    public function urlRedirect(Request $request)
+    {
+        $url = $request->get('url', '');
+
+        return view('url_redirect', compact('url'));
     }
 }

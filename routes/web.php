@@ -23,4 +23,5 @@ $router->get('/blog/{blog_id:[0-9]+}.html', ['as' => 'blog.detail', 'uses' => 'B
 $router->get('sitemap.xml', ['as' => 'sitemap.index', 'uses' => 'BlogController@siteMapXml']);
 $router->get('sitemap.txt', ['as' => 'sitemap.txt', 'uses' => 'BlogController@siteMapTxt']);
 $router->get('sitemap.html', ['as' => 'sitemap.html', 'uses' => 'BlogController@siteMapHtml']);
+$router->get('url.html', ['as' => 'url.html', 'uses' => 'BlogController@urlRedirect']);
 

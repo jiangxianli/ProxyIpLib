@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Http\Business\ProxyIpBusiness;
+use App\Http\Business\Spider\BaseSpider;
 
 class GrabProxyIp extends Job
 {
@@ -18,7 +18,7 @@ class GrabProxyIp extends Job
      *
      * @var
      */
-    private $origin;
+    private $spider;
 
     /**
      * @var
@@ -34,27 +34,25 @@ class GrabProxyIp extends Job
 
     /**
      * GrabProxyIp constructor.
-     * @param $origin
+     * @param BaseSpider $spider
      */
-    public function __construct($origin)
+    public function __construct(BaseSpider $spider)
     {
-        $this->origin = $origin;
+        $this->spider = $spider;
         $this->expired_at = time() + 5 * 60;
     }
 
     /**
-     * @param ProxyIpBusiness $proxy_ip_business
      * @author jiangxianli
-     * @created_at 2019-11-27 14:08
+     * @created_at 2021-03-01 16:38
      */
-    public function handle(ProxyIpBusiness $proxy_ip_business)
+    public function handle()
     {
         try {
-
             //实例化Redis
             $redis = app('redis');
 
-            $grab_key = "proxy_ips:grab_flag:" . $this->origin;
+            $grab_key = "proxy_ips:grab_flag:" . strtolower(get_class($this->spider));
             //正在抓取中
             if ($redis->exists($grab_key)) {
                 return;
@@ -63,65 +61,9 @@ class GrabProxyIp extends Job
             $redis->set($grab_key, time());
             $redis->expireAt($grab_key, time() + 300);
 
-            switch ($this->origin) {
-                case 'coder-busy':
-                    $proxy_ip_business->coderBusyIp();
-                case 'plus':
-                    $proxy_ip_business->grabPlus();
-                case 'free-proxy':
-                    $proxy_ip_business->grabFreeProxy();
-                case '7yip':
-                    $proxy_ip_business->gra7yip();
-                    return;
-                case 'kuidaili':
-                    $proxy_ip_business->grabKuaiDaiLi();
-                    return;
-                case 'ip3366':
-                    $proxy_ip_business->grabIp3366();
-                    return;
-                case '89ip':
-                    $proxy_ip_business->grab89Ip();
-                    return;
-                case 'xila':
-                    $proxy_ip_business->xiLaIp();
-                    return;
-                case 'emailtry':
-                    $proxy_ip_business->emailtryIp();
-                    return;
-                case 'qinghua':
-                    $proxy_ip_business->qinghuaIp();
-                    return;
-                case 'xsdaili':
-                    $proxy_ip_business->xsdailiIp();
-                    return;
-                case 'kxdaili':
-                    $proxy_ip_business->kxdailiIp();
-                    return;
-                case 'nima':
-                    $proxy_ip_business->nimaIp();
-                    return;
-                case 'super':
-                    $proxy_ip_business->superIp();
-                    return;
-                case 'xici':
-                    $proxy_ip_business->xiciIp();
-                    return;
-                case 'foxtools':
-                    $proxy_ip_business->foxtoolsIp();
-                    return;
-                case 'proxyList':
-                    $proxy_ip_business->proxyListIp();
-                    return;
-                case 'proxylistme':
-                    $proxy_ip_business->proxylistmeIp();
-                    return;
-                case 'checkerproxy':
-                    $proxy_ip_business->checkerproxyIp();
-                    return;
-            }
+            $this->spider->handle();
 
             $this->delete();
-
         } catch (\Exception $exception) {
             app("Logger")->error("抓取网页错误", [
                 'err_code'  => $exception->getCode(),

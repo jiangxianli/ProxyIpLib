@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Business\ProxyIpBusiness;
-use App\Http\Common\Helper;
+use App\Http\Business\CronSpider;
 use Illuminate\Console\Command;
 
 class GrabProxyIp extends Command
@@ -13,7 +12,7 @@ class GrabProxyIp extends Command
      *
      * @var string
      */
-    protected $signature = 'command:grab-proxy-ip {origin}';
+    protected $signature = 'command:grab-proxy-ip';
 
     /**
      * The console command description.
@@ -23,32 +22,23 @@ class GrabProxyIp extends Command
     protected $description = '抓取代理IP';
 
     /**
-     * 代理IP 业务
-     *
-     * @var
-     */
-    protected $proxy_ip_business;
-
-    /**
      * 构造函数
      *
      * GrabProxyIp constructor.
-     * @param ProxyIpBusiness $proxy_ip_business
      */
-    public function __construct(ProxyIpBusiness $proxy_ip_business)
+    public function __construct()
     {
         parent::__construct();
-        $this->proxy_ip_business = $proxy_ip_business;
     }
 
     /**
+     * @param CronSpider $cron_spider
+     * @throws \ReflectionException
      * @author jiangxianli
-     * @created_at 2017-12-25 08:56:47
+     * @created_at 2021-03-01 16:54
      */
-    public function handle()
+    public function handle(CronSpider $cron_spider)
     {
-        Helper::logFlag(str_replace(" {origin}", "-" . $this->argument('origin'), $this->signature));
-
-        dispatch(new \App\Jobs\GrabProxyIp($this->argument('origin')));
+        $cron_spider->cronTimer();
     }
 }

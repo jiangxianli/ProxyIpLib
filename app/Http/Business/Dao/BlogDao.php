@@ -12,7 +12,6 @@ class BlogDao
      */
     public function __construct()
     {
-
     }
 
     /**

@@ -12,7 +12,6 @@ class AdDao
      */
     public function __construct()
     {
-
     }
 
     /**

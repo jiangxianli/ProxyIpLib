@@ -70,5 +70,4 @@ class ProxyIpController extends Controller
         return $response;
     }
 
-
 }

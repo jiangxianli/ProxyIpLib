@@ -48,6 +48,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:clear-cache-key-every-day')->dailyAt("20:00");
         $schedule->command('command:hot-ip-by-hours')->hourly()->runInBackground();
 
-        $schedule->command('command:grab-proxy-ip')->everyFifteenMinutes();
+        $schedule->command('command:grab-proxy-ip')->everyThirtyMinutes();
     }
 }

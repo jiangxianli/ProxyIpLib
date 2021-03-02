@@ -20,7 +20,7 @@ class BaseSpider extends ProxyIpBusiness
     /**
      * @var bool
      */
-    protected $is_use_proxy = false;
+    protected $is_use_proxy = true;
 
     /**
      * @author jiangxianli

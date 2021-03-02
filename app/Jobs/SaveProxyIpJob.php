@@ -95,7 +95,7 @@ class SaveProxyIpJob extends Job
 
         try {
             //速度检测
-//            $proxy_ip_business->ipSpeedCheck($this->ip, $this->port, $this->protocol);
+            $proxy_ip_business->ipSpeedCheck($this->ip, $this->port, $this->protocol);
             //添加 代理IP
             $proxy_ip_business->addProxyIp($this->host, $this->ip, $this->port, $this->protocol, $this->anonymity);
 

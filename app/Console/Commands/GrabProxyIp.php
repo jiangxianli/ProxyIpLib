@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Business\CronSpider;
+use App\Http\Business\Spider\CronSpider;
 use Illuminate\Console\Command;
 
 class GrabProxyIp extends Command

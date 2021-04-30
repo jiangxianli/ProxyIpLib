@@ -42,42 +42,7 @@
             </div>
         </div>
         <div class="layui-col-md3 ad-area">
-            <div class="layui-card">
-                <div class="layui-card-header">网站公告</div>
-                <div class="layui-card-body">
-                    <p  style="color:#FF5722">代理IP均采集于网络，仅供学习使用。使用后不能保证数据安全性，重要数据传输请谨慎使用。请勿用于非法途径，后果自负！</p>
-                    <hr class="layui-bg-cyan">
-                    <p style="color:#1E9FFF">本站访问量并发比较大，麻烦采集页面时控制一下访问频率。</p>
-                </div>
-            </div>
-            <div class="layui-card">
-                <div class="layui-card-header">广告</div>
-                <div class="layui-card-body">
-                    <p  >服务器租金贵，加带宽也要钱！难以维持下去，打个广告别介意哈！麻烦动下你们发财的手点击一下广告哈。感激~</p>
-                    <hr class="layui-bg-cyan">
-                    @foreach($ads as $ad)
-                        <div class="ad-content">
-                            {!! $ad->ad_content !!}
-                        </div>
-                        <hr class="layui-bg-cyan">
-                    @endforeach
-                    <p style="color:red">帮忙关注下公众号呗，淘宝、京东商品转链下单均可高额返利！~</p>
-                    <hr class="layui-bg-cyan">
-                    <div class="ad-card">
-                        <img src="{{ asset("/images/qrcode.png") }}" >
-                        {{--<img src="/ali-pay.png" class="ad-img">--}}
-                    </div>
-                    {{--<hr class="layui-bg-cyan">--}}
-                    {{--<div class="ad-2">--}}
-                    {{--<script id="w2898_10507">(function () {var zy = document.createElement("script");var flowExchange = window.location.protocol.split(":")[0];var http = flowExchange === "https"?"https":"http";zy.src = http+"://exchange.2898.com/index/flowexchange/getGoods?id=10507&sign=c9a7c5527bca21f6ea3654c48b2fcb11";var s = document.getElementsByTagName("script");for(var i=0;i< s.length;i++){if(s[i].id){if(s[i].id == "w2898_10507"){s[i].parentNode.insertBefore(zy, s[i]);continue;}}}})();</script>--}}
-                    {{--</div>--}}
-                    {{--<div id="ad-1-image" class="ad-card"></div>--}}
-                    {{--<p  >本项目已坚持无偿运行2年，您也可以直接小额支付请我喝杯咖啡，鼓励下呗~</p>--}}
-                    {{--<hr class="layui-bg-cyan">--}}
-                    {{--<div class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153840.png"></div>--}}
-                    {{--<div  class="ad-card"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img/https://www.jiangxianli.com/wp-content/uploads/2018/06/QQ%E6%88%AA%E5%9B%BE20180628153858.png"></div>--}}
-                </div>
-            </div>
+            @include('layout.right_nav')
         </div>
     </div>
 

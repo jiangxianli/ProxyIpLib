@@ -682,6 +682,7 @@ class ProxyIpBusiness
         //IP 列表
         $condition['order_by'] = 'validated_at';
         $condition['order_rule'] = 'desc';
+        $condition['page_size'] = 13;
         $proxy_ips = $this->getProxyIpList($condition);
 
         //国家列表
@@ -694,8 +695,14 @@ class ProxyIpBusiness
             'limit'   => 2,
             'is_show' => "yes",
         ]);
+        //广告
+        $index_center_ad = $this->cacheAdList([
+            'area'    => 'web_index_center',
+            'first'   => 'true',
+            'is_show' => "yes",
+        ]);
 
-        return compact('proxy_ips', 'countries', 'isp', 'ads');
+        return compact('proxy_ips', 'countries', 'isp', 'ads','index_center_ad');
     }
 
     /**

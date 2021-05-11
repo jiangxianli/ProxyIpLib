@@ -31,11 +31,20 @@
                         <th>响应速度</th>
                         <th>存活时间</th>
                         <th>最后验证时间</th>
-                        <th></th>
+                        <th width="100"></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($proxy_ips as $key => $proxy_ip)
+                        @if($key == intval($proxy_ips->count() / 2) && $index_center_ad)
+                            <tr>
+                                <td colspan="11">
+                                    <div>
+                                        {!! $index_center_ad->ad_content !!}
+                                    </div>
+                                </td>
+                            </tr>
+                        @else
                         <tr>
                             <td>{{ $proxy_ip->ip }}</td>
                             <td>{{ $proxy_ip->port }}</td>
@@ -59,6 +68,7 @@
                                 </button>
                             </td>
                         </tr>
+                        @endif
                     @endforeach
                     </tbody>
                 </table>
@@ -154,6 +164,9 @@
     };
 
     $(function () {
+
+        $(".ad-area").css("width", "540px");
+        $(".ip-tables").css("width", $(".layui-row").innerWidth() - $(".ad-area").innerWidth() - 15);
 
         initAutoRefresh();
 

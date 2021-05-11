@@ -21,8 +21,9 @@
         <p style="color:red">帮忙关注下公众号呗，淘宝、京东商品转链下单均可高额返利！~</p>
         <hr class="layui-bg-cyan">
         <div class="ad-card">
-            <img src="{{ asset("/images/qrcode.png") }}" >
-            {{--<img src="/ali-pay.png" class="ad-img">--}}
+            <a href="https://buy.jiangxianli.com/" target="_blank">
+                <img src="{{ asset("/images/qrcode.png") }}" >
+            </a>
         </div>
     </div>
 </div>

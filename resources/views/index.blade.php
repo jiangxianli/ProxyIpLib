@@ -44,7 +44,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        @else
+                        @endif
                         <tr>
                             <td>{{ $proxy_ip->ip }}</td>
                             <td>{{ $proxy_ip->port }}</td>
@@ -68,7 +68,6 @@
                                 </button>
                             </td>
                         </tr>
-                        @endif
                     @endforeach
                     </tbody>
                 </table>

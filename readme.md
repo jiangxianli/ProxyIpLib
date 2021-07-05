@@ -82,3 +82,7 @@
 
 ## 访问频率限制
 请注意访问频率以及防止无效页的数据获取。多次违规操作访问将被限制IP访问。如需解除IP请在修正操作后，ISSUE中申请解除限制。
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/jiangxianli/ProxyIpLib.svg)](https://starchart.cc/jiangxianli/ProxyIpLib)
